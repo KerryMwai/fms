@@ -5,14 +5,16 @@ import 'package:fms/pages/crop_managemnt/harvesting/harvesting_schedule_informat
 import 'package:fms/repository/harvesting_repostory.dart';
 import 'package:fms/widgets/feed_widgets/custom_form_field.dart';
 
-class CreateHarvestSchedule extends StatefulWidget {
-  const CreateHarvestSchedule({super.key});
+class EditHarvestSchedule extends StatefulWidget {
+  final String id;
+  final HarvestingSchedule schedule;
+  const EditHarvestSchedule({super.key, required this.id, required this.schedule});
 
   @override
-  State<CreateHarvestSchedule> createState() => _CreateHarvestScheduleState();
+  State<EditHarvestSchedule> createState() => _EditHarvestScheduleState();
 }
 
-class _CreateHarvestScheduleState extends State<CreateHarvestSchedule> {
+class _EditHarvestScheduleState extends State<EditHarvestSchedule> {
   final cropname=TextEditingController();
   final cropmaturity=TextEditingController();
   final cropvariety=TextEditingController();
@@ -24,10 +26,17 @@ class _CreateHarvestScheduleState extends State<CreateHarvestSchedule> {
   @override
   Widget build(BuildContext context) {
     Size size=MediaQuery.of(context).size;
+    cropname.text=widget.schedule.crop;
+    cropmaturity.text=widget.schedule.maturitydays.toString();
+    cropvariety.text=widget.schedule.variety;
+    harvestinfactors.text=widget.schedule.harvestinfactors;
+    laborandequipmentavailability.text=widget.schedule.laborandequipmentavailability;
+    storage.text=widget.schedule.storage;
+    planadjustment.text=widget.schedule.planadjustment;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: blueGrey,
-        title: const Text("Create harvest schedule"),
+        title: const Text("Update harvest schedule"),
         centerTitle: true,
       ),
       body: Padding(padding: const EdgeInsets.all(15), child: Form(
@@ -56,9 +65,9 @@ class _CreateHarvestScheduleState extends State<CreateHarvestSchedule> {
                   ),
                   onPressed: (){
                   if(_formKey.currentState!.validate()){
-                      HarvestingRepository().addHarvestingSchedules(HarvestingSchedule(crop: cropname.text, maturitydays: int.parse(cropmaturity.text), variety: cropvariety.text, harvestinfactors: harvestinfactors.text, laborandequipmentavailability: laborandequipmentavailability.text, storage: storage.text, planadjustment: planadjustment.text).toJson()).then((value) =>ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Schedule added successfully")))).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>const HarvestingScheduleInformation())));
+                      HarvestingRepository().updateHarvestingSchedule(widget.id,HarvestingSchedule(crop: cropname.text, maturitydays: int.parse(cropmaturity.text), variety: cropvariety.text, harvestinfactors: harvestinfactors.text, laborandequipmentavailability: laborandequipmentavailability.text, storage: storage.text, planadjustment: planadjustment.text).toJson()).then((value) =>ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Schedule udated successfully")))).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>const HarvestingScheduleInformation())));
                   }
-                }, child:const Text("Create Schedule", style: TextStyle(fontSize: 18),)),)
+                }, child:const Text("Update Schedule", style: TextStyle(fontSize: 18),)),)
               ],
              ))
           ],
