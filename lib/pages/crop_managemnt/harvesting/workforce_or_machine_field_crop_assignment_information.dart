@@ -1,8 +1,12 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fms/controller/model/harvesting_model.dart';
 import 'package:fms/dammies/constants.dart';
 import 'package:fms/pages/crop_managemnt/harvesting/add_harvest_crop_field_assignment.dart';
+import 'package:fms/repository/harvesting_repostory.dart';
+import 'package:intl/intl.dart';
 class WorkforceMachineFieldCropAssignmentInformation extends StatefulWidget {
   const WorkforceMachineFieldCropAssignmentInformation({super.key});
 
@@ -61,89 +65,111 @@ class _WorkforceMachineFieldCropAssignmentInformationState extends State<Workfor
         title: const Text("Fields Assignment Information"),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: DataTable(
-          columnSpacing: 8.0,
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.black),
-          ),
-          columns: [
-            DataColumn(
-              label: Container(
-                padding: const EdgeInsets.all(8.0),
-                child: const Text(
-                  'Field/Crop Details',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: HarvestingRepository().getAllWorkforceFieldAssignmentSnapshots(),
+        builder: (context, snapshot) {
+          if(snapshot.connectionState==ConnectionState.waiting){
+            return Center( child: CircularProgressIndicator(color: green,),);
+          }
+
+          if(snapshot.hasError){
+            return Center(child: Text("An error occured", style: TextStyle(color: red),),);
+          }
+          return SingleChildScrollView(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: DataTable(
+              columnSpacing: 8.0,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black),
               ),
-            ),
-            DataColumn(
-              label: Container(
-                padding: const EdgeInsets.all(8.0),
-                child: const Text(
-                  'Workforce/Machine',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+              columns: [
+                DataColumn(
+                  label: Container(
+                    padding: const EdgeInsets.all(8.0),
+                    child: const Text(
+                      'Field/Crop Details',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            DataColumn(
-              label: Container(
-                padding: const EdgeInsets.all(8.0),
-                child: const Text(
-                  'Workload/Task Requirement',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                DataColumn(
+                  label: Container(
+                    padding: const EdgeInsets.all(8.0),
+                    child: const Text(
+                      'Workforce/Machine',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            DataColumn(
-              label: Container(
-                padding: const EdgeInsets.all(8.0),
-                child: const Text(
-                  'Timeframe',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                DataColumn(
+                  label: Container(
+                    padding: const EdgeInsets.all(8.0),
+                    child: const Text(
+                      'Workload/Task Requirement',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            DataColumn(
-              label: Container(
-                padding: const EdgeInsets.all(8.0),
-                child: const Text(
-                  'Skills',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                DataColumn(
+                  label: Container(
+                    padding: const EdgeInsets.all(8.0),
+                    child: const Text(
+                      'Timeframe',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
                 ),
-              ),
+                DataColumn(
+                  label: Container(
+                    padding: const EdgeInsets.all(8.0),
+                    child: const Text(
+                      'Skills',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              ],
+              rows: snapshot.data!.docs
+                  .map((DocumentSnapshot document){
+                    final assignment=HarvestingModel.fromJson(document.data() as Map<String, dynamic>);
+                    return  DataRow(
+                        cells: [
+                          DataCell(Container(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(assignment.crop),
+                          )),
+                          DataCell(Container(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(assignment.workforce),
+                          )),
+                          DataCell(Container(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(assignment.workload),
+                          )),
+                          DataCell(Container(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Text(DateFormat("MM").format(assignment.timefrom)),
+                                const Text(" - ", style: TextStyle(fontSize: 20),),
+                                Text(DateFormat("MM").format(assignment.timeTo)),
+                              ],
+                            ),
+                          )),
+                          DataCell(Container(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(assignment.skills),
+                          )),
+                        ],
+                      );
+                  }
+                      )
+                  .toList(),
+                ),
             ),
-          ],
-          rows: generateDummyData()
-              .map((assignment) => DataRow(
-                    cells: [
-                      DataCell(Container(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(assignment['fieldCropDetails']),
-                      )),
-                      DataCell(Container(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(assignment['workforceMachine']),
-                      )),
-                      DataCell(Container(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(assignment['workloadTaskRequirement']),
-                      )),
-                      DataCell(Container(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(assignment['timeframe']),
-                      )),
-                      DataCell(Container(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(assignment['skills']),
-                      )),
-                    ],
-                  ))
-              .toList(),
-            ),
-        ),
+          );
+        }
       ),
     floatingActionButton: FloatingActionButton(onPressed: (){
       Navigator.push(context, MaterialPageRoute(builder: (context)=>const CreateHarvestFieldCropAssignment()));

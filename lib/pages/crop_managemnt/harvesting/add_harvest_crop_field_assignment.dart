@@ -54,6 +54,10 @@ class _CreateHarvestFieldCropAssignmentState
                   controller: workforce,
                   labelText: "Workforce",
                   valitationText: "Workforce is required"),
+                   FeedFormField(
+                  controller: workload,
+                  labelText: "Workload",
+                  valitationText: "Workload is required"),
               TextFormField(
                 onTap: () async {
                   final DateTime? picked = await showDatePicker(
@@ -85,6 +89,7 @@ class _CreateHarvestFieldCropAssignmentState
                       : '',
                 ),
               ),
+              const SizedBox(height: 20,),
               TextFormField(
                 onTap: () async {
                   final DateTime? picked = await showDatePicker(
@@ -116,6 +121,7 @@ class _CreateHarvestFieldCropAssignmentState
                       : '',
                 ),
               ),
+              
               FeedFormField(
                   controller: skills,
                   labelText: "Skills",
@@ -144,6 +150,7 @@ class _CreateHarvestFieldCropAssignmentState
                                         field: field.text,
                                         crop: crop.text,
                                         workforce: workforce.text,
+                                        
                                         timefrom: timeframefrom!,
                                         timeTo: timeframeto!,
                                         skills: skills.text,

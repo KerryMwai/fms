@@ -10,7 +10,7 @@ class HarvestingModel{
   HarvestingModel( {required this.field,  required this.crop,  required this.workforce,  required this.timefrom,  required this.timeTo,  required this.skills,  required this.workload});
 
   factory HarvestingModel.fromJson(Map<String,dynamic>json){
-    return HarvestingModel(field: json['field'], crop: json['crop'], workforce: json['workforce'], timefrom: json['timefrom'], timeTo: json['timeTo'], skills: json['skills'], workload: json['workload']);
+    return HarvestingModel(field: json['field'], crop: json['crop'], workforce: json['workforce'], timefrom: json['timefrom'].toDate(), timeTo: json['timeTo'].toDate(), skills: json['skills'], workload: json['workload']);
   }
 
   Map<String, dynamic> toJson(){
