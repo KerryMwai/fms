@@ -27,6 +27,13 @@ class _EditHarvestPlanState extends State<EditHarvestPlan> {
   @override
   Widget build(BuildContext context) {
     Size size=MediaQuery.of(context).size;
+    crop.text=widget.plan.crop;
+    method.text=widget.plan.method;
+    season.text=widget.plan.season;
+    quantity.text=widget.plan.quantity.toString();
+    equipment.text=widget.plan.equipment;
+    labor.text=widget.plan.labor.toString();
+    storage.text=widget.plan.storage;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: blueGrey,
@@ -55,7 +62,7 @@ class _EditHarvestPlanState extends State<EditHarvestPlan> {
                       lastDate: DateTime(2040),
                     );
                     setState(() {
-                      harvestingdate = picked!;
+                      harvestingdate = picked ?? widget.plan.harvestingdate;
                     });
                   },
                   readOnly: true,
@@ -92,7 +99,7 @@ class _EditHarvestPlanState extends State<EditHarvestPlan> {
                   ),
                   onPressed: (){
                   if(_formKey.currentState!.validate()){
-                      HarvestingRepository().addHarvestingPlans(HarvestPlan(crop: crop.text, method: method.text, season: season.text, quantity: double.parse(quantity.text), equipment: equipment.text, labor: int.parse(labor.text), storage: storage.text, harvestingdate: harvestingdate).toJson())
+                      HarvestingRepository().updateHarvestingPlan(widget.id,HarvestPlan(crop: crop.text, method: method.text, season: season.text, quantity: double.parse(quantity.text), equipment: equipment.text, labor: int.parse(labor.text), storage: storage.text, harvestingdate: harvestingdate).toJson())
                       .then((value) =>ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Harvesting plan update successfully")))).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>const HarvestingInformation())));
                   }
                 }, child:const Text("Update Plan")),)

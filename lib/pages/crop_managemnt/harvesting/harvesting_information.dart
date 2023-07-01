@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fms/controller/model/harvest_plan_model.dart';
 import 'package:fms/dammies/constants.dart';
 import 'package:fms/pages/crop_managemnt/harvesting/create_harvest_plan.dart';
+import 'package:fms/pages/crop_managemnt/harvesting/edit_harvest_pla.dart';
 import 'package:fms/repository/harvesting_repostory.dart';
 import 'package:intl/intl.dart';
 
@@ -206,6 +207,15 @@ class _HarvestingInformationState extends State<HarvestingInformation> {
                             ),
                           ),
                         ),
+                           TableCell(
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              'Action',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                     ...snapshot.data!.docs.map((DocumentSnapshot document){
@@ -260,6 +270,25 @@ class _HarvestingInformationState extends State<HarvestingInformation> {
                               child: Text(plan.storage),
                             ),
                           ),
+                          TableCell(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  children: [
+                                    IconButton(onPressed: (){
+                                      Navigator.push(context, MaterialPageRoute(builder:(context)=>EditHarvestPlan(id: document.id, plan: plan) ));
+                                    }, icon: Icon(Icons.edit, color: green,)),
+                                    IconButton(onPressed: (){}, icon:const Icon(Icons.remove_red_eye_outlined)),
+                                    IconButton(onPressed: (){
+                                        showAlertForDeletion(document.id, plan, context);
+                                    }, icon: Icon(Icons.delete, color: red,)),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       );
                     }).toList()
@@ -276,5 +305,39 @@ class _HarvestingInformationState extends State<HarvestingInformation> {
           },
           child: const Icon(Icons.add),
         ));
+  }
+
+
+
+  Future<void> showAlertForDeletion(id, assignment, context) async {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: Text("Are you sure you want to delete ${assignment.crop}"),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text("No")),
+            const SizedBox(
+              width: 10,
+            ),
+            TextButton(
+                onPressed: () {
+                  HarvestingRepository()
+                      .deleteHarvestingPlan(id)
+                      .then((value) => Navigator.pop(context))
+                      .then((value) => ScaffoldMessenger.of(context)
+                          .showSnackBar(SnackBar(
+                              content: Text(
+                                  "${assignment.crop} deleted suuccessfully"))));
+                },
+                child: const Text("Yes"))
+          ],
+        );
+      },
+    );
   }
 }
