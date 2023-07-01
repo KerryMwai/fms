@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fms/controller/model/labor_model.dart';
 import 'package:fms/dammies/constants.dart';
 import 'package:fms/pages/crop_managemnt/labor/add_labor_infor.dart';
+import 'package:fms/pages/crop_managemnt/labor/edit_labor_infor.dart';
 import 'package:fms/repository/labor_repository.dart';
 class LaborManagementInformation extends StatefulWidget {
   const LaborManagementInformation({super.key});
@@ -64,6 +65,7 @@ class _LaborManagementInformationState extends State<LaborManagementInformation>
                   DataColumn(label: Text('Task Assignment')),
                   DataColumn(label: Text('Field Location')),
                   DataColumn(label: Text('Seasonal Demands')),
+                  DataColumn(label: Text('Action')),
                 ],
                 rows: snapshot.data!.docs
                     .map(
@@ -80,6 +82,18 @@ class _LaborManagementInformationState extends State<LaborManagementInformation>
                           DataCell(Text(data.task)),
                           DataCell(Text(data.field)),
                           DataCell(Text(data.seasonaldemand)),
+                          DataCell(
+                            Row(
+                              children: [
+                                IconButton(onPressed: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>EditLaborInformation(id: documentSnapshot.id, employee: data)));
+                                }, icon: Icon(Icons.edit, color: green,)),
+                                IconButton(onPressed: (){
+                                  showAlertForDeletion(documentSnapshot.id, data, context);
+                                }, icon: Icon(Icons.delete, color: red,))
+                              ],
+                            )
+                          ),
                         ],
                       );
                       }
@@ -94,6 +108,43 @@ class _LaborManagementInformationState extends State<LaborManagementInformation>
       floatingActionButton: FloatingActionButton(onPressed: (){
         Navigator.push(context, MaterialPageRoute(builder: (context)=>const AddLaborInformation()));
       }, child:const Icon(Icons.add),),
+    );
+  }
+
+
+
+
+
+
+  Future<void> showAlertForDeletion(id, employee, context) async {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: Text("Are you sure you want to delete ${employee.employeename}"),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text("No")),
+            const SizedBox(
+              width: 10,
+            ),
+            TextButton(
+                onPressed: () {
+                  LaborRepository()
+                      .deleteLaborInfor(id)
+                      .then((value) => Navigator.pop(context))
+                      .then((value) => ScaffoldMessenger.of(context)
+                          .showSnackBar(SnackBar(
+                              content:
+                                  Text("${employee.employeename} deleted suuccessfully"))));
+                },
+                child: const Text("Yes"))
+          ],
+        );
+      },
     );
   }
 }

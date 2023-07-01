@@ -5,14 +5,17 @@ import 'package:fms/pages/crop_managemnt/labor/labor_management_information.dart
 import 'package:fms/repository/labor_repository.dart';
 import 'package:fms/widgets/feed_widgets/custom_form_field.dart';
 
-class AddLaborInformation extends StatefulWidget {
-  const AddLaborInformation({super.key});
+class EditLaborInformation extends StatefulWidget {
+  final String id;
+  final LaborModel employee;
+  const EditLaborInformation(
+      {super.key, required this.id, required this.employee});
 
   @override
-  State<AddLaborInformation> createState() => _AddLaborInformationState();
+  State<EditLaborInformation> createState() => _EditLaborInformationState();
 }
 
-class _AddLaborInformationState extends State<AddLaborInformation> {
+class _EditLaborInformationState extends State<EditLaborInformation> {
   final employeeId = TextEditingController();
   final employeename = TextEditingController();
   final employeecontact = TextEditingController();
@@ -25,11 +28,20 @@ class _AddLaborInformationState extends State<AddLaborInformation> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    employeeId.text = widget.employee.employeeid;
+    employeename.text = widget.employee.employeename;
+    employeecontact.text = widget.employee.employeecontact;
+    role.text = widget.employee.role;
+    availability.text = widget.employee.availability;
+    schedule.text = widget.employee.schedule;
+    task.text = widget.employee.task;
+    field.text = widget.employee.field;
+    seasonalDemand.text = widget.employee.seasonaldemand;
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: blueGrey,
-        title: const Text("Add labor information"),
+        title: const Text("Edit labor information"),
         centerTitle: true,
       ),
       body: Padding(
@@ -90,18 +102,30 @@ class _AddLaborInformationState extends State<AddLaborInformation> {
                                 EdgeInsets.symmetric(horizontal: 30))),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            LaborRepository().addLaborInfor(LaborModel(employeeid: employeeId.text, employeename: employeename.text, employeecontact: employeecontact.text, role: role.text, availability: availability.text, schedule: schedule.text, task: task.text, field: field.text, seasonaldemand: seasonalDemand.text).toJson()).then(
-                                (value) => ScaffoldMessenger.of(context)
+                            LaborRepository()
+                                .updateLaborInfor(widget.id, LaborModel(
+                                        employeeid: employeeId.text,
+                                        employeename: employeename.text,
+                                        employeecontact: employeecontact.text,
+                                        role: role.text,
+                                        availability: availability.text,
+                                        schedule: schedule.text,
+                                        task: task.text,
+                                        field: field.text,
+                                        seasonaldemand: seasonalDemand.text)
+                                    .toJson())
+                                .then((value) => ScaffoldMessenger.of(context)
                                     .showSnackBar(const SnackBar(
                                         content: Text(
-                                            "Labor infor added successfully")))).then((value) => Navigator.push(
+                                            "Labor infor updated successfully"))))
+                                .then((value) => Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (ontetxt) =>
                                             const LaborManagementInformation())));
                           }
                         },
-                        child: const Text("Add labor infor")),
+                        child: const Text("Update labor infor")),
                   )
                 ],
               ))
