@@ -18,4 +18,10 @@ class HarvestingRepository{
 
   Future<void> deleteHarvestingPlan(id)=>firestore.collection("harvesting-plans").doc(id).delete();
 
+  // Harvestin schedues
+  Future<void> addHarvestingSchedules(schedule)=>firestore.collection("harvesting-schedules").add(schedule);
+  Future<void> updateHarvestingSchedule(id, schedule)=>firestore.collection("harvesting-schedules").doc(id).update(schedule);
+  Stream<QuerySnapshot> getAllharvestingSchedulesSnapshots()=>firestore.collection("harvesting-schedules").snapshots();
+  Future<void> deleteHarvestingSchedule(id)=>firestore.collection("harvesting-schedules").doc(id).delete();
+
 }
