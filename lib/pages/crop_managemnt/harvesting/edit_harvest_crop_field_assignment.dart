@@ -6,16 +6,18 @@ import 'package:fms/pages/crop_managemnt/harvesting/workforce_or_machine_field_c
 import 'package:fms/repository/harvesting_repostory.dart';
 import 'package:fms/widgets/feed_widgets/custom_form_field.dart';
 
-class CreateHarvestFieldCropAssignment extends StatefulWidget {
-  const CreateHarvestFieldCropAssignment({super.key});
+class EditHarvestFieldCropAssignment extends StatefulWidget {
+  final String id;
+  final HarvestingModel harvestdata;
+  const EditHarvestFieldCropAssignment({super.key, required this.id, required this.harvestdata});
 
   @override
-  State<CreateHarvestFieldCropAssignment> createState() =>
-      _CreateHarvestFieldCropAssignmentState();
+  State<EditHarvestFieldCropAssignment> createState() =>
+      _EditHarvestFieldCropAssignmentState();
 }
 
-class _CreateHarvestFieldCropAssignmentState
-    extends State<CreateHarvestFieldCropAssignment> {
+class _EditHarvestFieldCropAssignmentState
+    extends State<EditHarvestFieldCropAssignment> {
   final field = TextEditingController();
   final crop = TextEditingController();
   final workforce = TextEditingController();
@@ -30,10 +32,17 @@ class _CreateHarvestFieldCropAssignmentState
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    field.text=widget.harvestdata.field;
+    crop.text=widget.harvestdata.crop;
+    workforce.text=widget.harvestdata.workforce;
+    workload.text=widget.harvestdata.workload;
+    skills.text=widget.harvestdata.skills;
+    timeframefrom=widget.harvestdata.timefrom;
+    timeframeto=widget.harvestdata.timeTo;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: blueGrey,
-        title: const Text("Create Crop Field Assignment"),
+        title: const Text("Update Crop Field Assignment"),
         centerTitle: true,
       ),
       body: Padding(
@@ -146,7 +155,7 @@ class _CreateHarvestFieldCropAssignmentState
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             HarvestingRepository()
-                                .addWorkforceFieldAssignment(HarvestingModel(
+                                .updateWorkforceFieldAssignment(widget.id,HarvestingModel(
                                         field: field.text,
                                         crop: crop.text,
                                         workforce: workforce.text,
@@ -157,9 +166,9 @@ class _CreateHarvestFieldCropAssignmentState
                                         workload: workload.text)
                                     .toJson())
                                 .then((value) => ScaffoldMessenger.of(context)
-                                    .showSnackBar(const SnackBar(
+                                    .showSnackBar( SnackBar(
                                         content:
-                                            Text("Assignment successful"))))
+                                            Text("Updated ${widget.harvestdata.crop} successful"))))
                                 .then((value) => Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -167,7 +176,7 @@ class _CreateHarvestFieldCropAssignmentState
                                             const WorkforceMachineFieldCropAssignmentInformation()))));
                           }
                         },
-                        child: const Text("Create Crop and Field assignment")),
+                        child: const Text("Update Crop and Field assignment")),
                   )
                 ],
               ))

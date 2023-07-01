@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fms/controller/model/harvesting_model.dart';
 import 'package:fms/dammies/constants.dart';
 import 'package:fms/pages/crop_managemnt/harvesting/add_harvest_crop_field_assignment.dart';
+import 'package:fms/pages/crop_managemnt/harvesting/edit_harvest_crop_field_assignment.dart';
 import 'package:fms/repository/harvesting_repostory.dart';
 import 'package:intl/intl.dart';
 class WorkforceMachineFieldCropAssignmentInformation extends StatefulWidget {
@@ -174,7 +175,9 @@ class _WorkforceMachineFieldCropAssignmentInformationState extends State<Workfor
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
                               children: [
-                                IconButton(onPressed: (){}, icon: Icon(Icons.edit, color: green,)),
+                                IconButton(onPressed: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>EditHarvestFieldCropAssignment(harvestdata: assignment,id: document.id,)));
+                                }, icon: Icon(Icons.edit, color: green,)),
                                 IconButton(onPressed: (){}, icon: Icon(Icons.remove_red_eye_outlined, color: grey,)),
                                 IconButton(onPressed: (){}, icon: Icon(Icons.delete, color: red,)),
                               ],
