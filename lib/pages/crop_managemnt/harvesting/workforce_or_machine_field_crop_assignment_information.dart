@@ -129,6 +129,15 @@ class _WorkforceMachineFieldCropAssignmentInformationState extends State<Workfor
                     ),
                   ),
                 ),
+                 DataColumn(
+                  label: Container(
+                    padding: const EdgeInsets.all(8.0),
+                    child: const Text(
+                      'Action',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
               ],
               rows: snapshot.data!.docs
                   .map((DocumentSnapshot document){
@@ -151,15 +160,25 @@ class _WorkforceMachineFieldCropAssignmentInformationState extends State<Workfor
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
                               children: [
-                                Text(DateFormat("MM").format(assignment.timefrom)),
+                                Text(DateFormat.MMMM().format(assignment.timefrom)),
                                 const Text(" - ", style: TextStyle(fontSize: 20),),
-                                Text(DateFormat("MM").format(assignment.timeTo)),
+                                Text(DateFormat.MMMM().format(assignment.timeTo)),
                               ],
                             ),
                           )),
                           DataCell(Container(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(assignment.skills),
+                          )),
+                          DataCell(Container(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                IconButton(onPressed: (){}, icon: Icon(Icons.edit, color: green,)),
+                                IconButton(onPressed: (){}, icon: Icon(Icons.remove_red_eye_outlined, color: grey,)),
+                                IconButton(onPressed: (){}, icon: Icon(Icons.delete, color: red,)),
+                              ],
+                            ),
                           )),
                         ],
                       );
