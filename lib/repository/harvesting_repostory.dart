@@ -9,6 +9,6 @@ class HarvestingRepository{
 
   Stream<QuerySnapshot> getAllWorkforceFieldAssignmentSnapshots()=>firestore.collection("work-force-field-assignment").snapshots();
 
-  Future<void> deleteWorkforceFieldAssignment(id,workforcefieldassignment)=>firestore.collection("work-force-field-assignment").doc(id).delete();
+  Future<void> deleteWorkforceFieldAssignment(id)=>firestore.collection("work-force-field-assignment").doc(id).delete();
 
 }
