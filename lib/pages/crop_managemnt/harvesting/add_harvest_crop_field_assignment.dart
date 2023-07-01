@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fms/dammies/constants.dart';
 import 'package:fms/widgets/feed_widgets/custom_form_field.dart';
@@ -14,10 +15,13 @@ class _CreateHarvestFieldCropAssignmentState extends State<CreateHarvestFieldCro
   final crop=TextEditingController();
   final workforce=TextEditingController();
   final workload=TextEditingController();
-  final timeframefrom=TextEditingController();
-  final timeframeto=TextEditingController();
+  // final timeframefrom=TextEditingController();
+  // final timeframeto=TextEditingController();
   final skills=TextEditingController();
   final _formKey=GlobalKey<FormState>();
+   DateTime? timeframefrom;
+   DateTime? timeframeto;
+
   @override
   Widget build(BuildContext context) {
     Size size=MediaQuery.of(context).size;
@@ -34,10 +38,79 @@ class _CreateHarvestFieldCropAssignmentState extends State<CreateHarvestFieldCro
               FeedFormField(controller: field,labelText: "Field name",valitationText: "Field name is required"),
              FeedFormField(controller: crop,labelText: "Type of crop ",valitationText: "Crop name is required"),
               FeedFormField(controller: workforce,labelText: "Workforce",valitationText: "Workforce is required"),
-              FeedFormField3(controller: timeframefrom,labelText: "Beginning date",valitationText: "Beginning date is required"),
-               FeedFormField3(controller: timeframeto,labelText: "Ending date",valitationText: "Ending date is required"),
+                  TextFormField(
+                  
+                  onTap: () async {
+                    final DateTime? picked = await showDatePicker(
+
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2023),
+                      lastDate: DateTime(2040),
+                    );
+                    setState(() {
+                      timeframefrom = picked!;
+                    });
+                  },
+                  readOnly: true,
+                  
+                  decoration:const InputDecoration(
+                    
+                    border: OutlineInputBorder(),
+                    labelText: 'Time Frame From',
+                  ),
+                  validator: (value) {
+                    // ignore: unnecessary_null_comparison
+                    if (timeframefrom == null) {
+                      return 'Please select a starting date';
+                    }
+                    return null;
+                  },
+                  controller: TextEditingController(
+                    // ignore: unnecessary_null_comparison
+                    text: timeframefrom != null
+                        ? timeframefrom.toString().split(' ')[0]
+                        : '',
+                  ),
+                ),
+                    TextFormField(
+                  
+                  onTap: () async {
+                    final DateTime? picked = await showDatePicker(
+
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2023),
+                      lastDate: DateTime(2040),
+                    );
+                    setState(() {
+                      timeframeto = picked!;
+                    });
+                  },
+                  readOnly: true,
+                  
+                  decoration:const InputDecoration(
+                    
+                    border: OutlineInputBorder(),
+                    labelText: 'Time Frame To',
+                  ),
+                  validator: (value) {
+                    // ignore: unnecessary_null_comparison
+                    if (timeframeto == null) {
+                      return 'Please select a ending date';
+                    }
+                    return null;
+                  },
+                  controller: TextEditingController(
+                    // ignore: unnecessary_null_comparison
+                    text: timeframeto != null
+                        ? timeframeto.toString().split(' ')[0]
+                        : '',
+                  ),
+                ),
                FeedFormField(controller: skills,labelText: "Skills",valitationText: "Skills required"),
               const SizedBox(height: 30,),
+               
               const SizedBox(height: 30,),
            Expanded(child:   Row(
               mainAxisAlignment: MainAxisAlignment.center,

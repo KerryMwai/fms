@@ -3,14 +3,15 @@ class HarvestingModel{
   final String crop;
   final int workforce;
   final String workload;
-  final String laborrequirements;
-  final String harvestingmethod;
-  final String storageandtransportation;
-  final String harvestingseason;
   final DateTime timefrom;
   final DateTime timeTo;
   final String skills;
-  final double quantityestimate;
 
-  HarvestingModel(this.field, this.crop, this.workforce, this.harvestingmethod, this.storageandtransportation, this.timefrom, this.timeTo, this.skills, this.workload, this.harvestingseason, this.quantityestimate, this.laborrequirements);
+  HarvestingModel( {required this.field,  required this.crop,  required this.workforce,  required this.timefrom,  required this.timeTo,  required this.skills,  required this.workload});
+
+  factory HarvestingModel.fromJson(Map<String,dynamic>json){
+    return HarvestingModel(field: json['field'], crop: json['crop'], workforce: json['workforce'], timefrom: json['timefrom'], timeTo: json['timeTo'], skills: json['skills'], workload: json['workload']);
+  }
+
+  // Map<String, dynamic>
 }
