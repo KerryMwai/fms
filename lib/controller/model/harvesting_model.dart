@@ -13,5 +13,16 @@ class HarvestingModel{
     return HarvestingModel(field: json['field'], crop: json['crop'], workforce: json['workforce'], timefrom: json['timefrom'], timeTo: json['timeTo'], skills: json['skills'], workload: json['workload']);
   }
 
-  // Map<String, dynamic>
+  Map<String, dynamic> toJson(){
+    return{
+      'field':field,
+      'crop':crop,
+      'workforce':workforce,
+      'skills':skills,
+      'workload':workload,
+      'timefrom':timefrom,
+      'timeTo':timeTo,
+
+    };
+  }
 }
