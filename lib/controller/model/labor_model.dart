@@ -12,7 +12,7 @@ class LaborModel{
   LaborModel({required this.employeeid, required this.employeename, required this.employeecontact, required this.role, required this.availability, required this.schedule, required this.task, required this.field, required this.seasonaldemand});
 
   factory LaborModel.fromJson(Map<String, dynamic> json){
-    return LaborModel(employeeid: json['employid'], employeename: json['employeename'], employeecontact: json['employeecontact'], role: json['role'], availability: json['availability'], schedule: json['schedule'], task: json['task'], field: json['field'], seasonaldemand: json['seasonaldemand']);
+    return LaborModel(employeeid: json['employeeid'], employeename: json['employeename'], employeecontact: json['employeecontact'], role: json['role'], availability: json['availability'], schedule: json['schedule'], task: json['task'], field: json['field'], seasonaldemand: json['seasonaldemand']);
   }
 
 
