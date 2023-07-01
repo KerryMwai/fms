@@ -16,7 +16,7 @@ class _HarvestingManagerState extends State<HarvestingManager> {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-        itemCount: 6,
+        itemCount: 5,
         gridDelegate:
             const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
         itemBuilder: (context, index) {

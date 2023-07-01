@@ -37,8 +37,6 @@ class _EditHarvestFieldCropAssignmentState
     workforce.text=widget.harvestdata.workforce;
     workload.text=widget.harvestdata.workload;
     skills.text=widget.harvestdata.skills;
-    timeframefrom=widget.harvestdata.timefrom;
-    timeframeto=widget.harvestdata.timeTo;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: blueGrey,
@@ -67,67 +65,73 @@ class _EditHarvestFieldCropAssignmentState
                   controller: workload,
                   labelText: "Workload",
                   valitationText: "Workload is required"),
-              TextFormField(
-                onTap: () async {
-                  final DateTime? picked = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(2023),
-                    lastDate: DateTime(2040),
-                  );
-                  setState(() {
-                    timeframefrom = picked!;
-                  });
-                },
-                readOnly: true,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Time Frame From',
-                ),
-                validator: (value) {
-                  // ignore: unnecessary_null_comparison
-                  if (timeframefrom == null) {
-                    return 'Please select a starting date';
-                  }
-                  return null;
-                },
-                controller: TextEditingController(
-                  // ignore: unnecessary_null_comparison
-                  text: timeframefrom != null
-                      ? timeframefrom.toString().split(' ')[0]
-                      : '',
+              Container(
+                margin:const  EdgeInsets.symmetric(horizontal: 8.0),
+                child: TextFormField(
+                  onTap: () async {
+                    final DateTime? picked = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2023),
+                      lastDate: DateTime(2040),
+                    );
+                    setState(() {
+                      timeframefrom = picked??widget.harvestdata.timefrom;
+                    });
+                  },
+                  readOnly: true,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Time Frame From',
+                  ),
+                  validator: (value) {
+                    // ignore: unnecessary_null_comparison
+                    if (timeframefrom == null) {
+                      return 'Please select a starting date';
+                    }
+                    return null;
+                  },
+                  controller: TextEditingController(
+                    // ignore: unnecessary_null_comparison
+                    text: timeframefrom != null
+                        ? timeframefrom.toString().split(' ')[0]
+                        : '',
+                  ),
                 ),
               ),
               const SizedBox(height: 20,),
-              TextFormField(
-                onTap: () async {
-                  final DateTime? picked = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(2023),
-                    lastDate: DateTime(2040),
-                  );
-                  setState(() {
-                    timeframeto = picked!;
-                  });
-                },
-                readOnly: true,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Time Frame To',
-                ),
-                validator: (value) {
-                  // ignore: unnecessary_null_comparison
-                  if (timeframeto == null) {
-                    return 'Please select a ending date';
-                  }
-                  return null;
-                },
-                controller: TextEditingController(
-                  // ignore: unnecessary_null_comparison
-                  text: timeframeto != null
-                      ? timeframeto.toString().split(' ')[0]
-                      : '',
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 8),
+                child: TextFormField(
+                  onTap: () async {
+                    final DateTime? picked = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2023),
+                      lastDate: DateTime(2040),
+                    );
+                    setState(() {
+                      timeframeto = picked??widget.harvestdata.timeTo;
+                    });
+                  },
+                  readOnly: true,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Time Frame To',
+                  ),
+                  validator: (value) {
+                    // ignore: unnecessary_null_comparison
+                    if (timeframeto == null) {
+                      return 'Please select a ending date';
+                    }
+                    return null;
+                  },
+                  controller: TextEditingController(
+                    // ignore: unnecessary_null_comparison
+                    text: timeframeto != null
+                        ? timeframeto.toString().split(' ')[0]
+                        : '',
+                  ),
                 ),
               ),
               

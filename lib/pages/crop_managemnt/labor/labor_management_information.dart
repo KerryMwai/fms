@@ -42,6 +42,9 @@ class _LaborManagementInformationState extends State<LaborManagementInformation>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        // leading: IconButton(onPressed: (){
+        //   Navigator.push(context, MaterialPageRoute(builder:(context)=>const HarvestingManager() ));
+        // }, icon: const Icon(Icons.arrow_back)),
         backgroundColor: blueGrey,
         title: const Text("Labor Management Information"),
         centerTitle: true,
@@ -49,6 +52,12 @@ class _LaborManagementInformationState extends State<LaborManagementInformation>
       body: StreamBuilder<QuerySnapshot>(
         stream: LaborRepository().getAllLaborSnapshots(),
         builder: (context, snapshot) {
+          if(snapshot.connectionState==ConnectionState.waiting){
+            return Center(child: CircularProgressIndicator(color: green,),);
+          }
+           if(snapshot.hasError){
+            return Center(child: Text("An error occurred please inform the developer", style: TextStyle(color: red),),);
+          }
           return Container(
             margin:const EdgeInsets.all(15),
             child: SingleChildScrollView(
