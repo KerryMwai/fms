@@ -5,14 +5,16 @@ import 'package:fms/pages/crop_managemnt/harvesting/harvesting_information.dart'
 import 'package:fms/repository/harvesting_repostory.dart';
 import 'package:fms/widgets/feed_widgets/custom_form_field.dart';
 
-class CreateHarvestPlan extends StatefulWidget {
-  const CreateHarvestPlan({super.key});
+class EditHarvestPlan extends StatefulWidget {
+  final String id;
+  final HarvestPlan plan;
+  const EditHarvestPlan({super.key, required this.id, required this.plan});
 
   @override
-  State<CreateHarvestPlan> createState() => _CreateHarvestPlanState();
+  State<EditHarvestPlan> createState() => _EditHarvestPlanState();
 }
 
-class _CreateHarvestPlanState extends State<CreateHarvestPlan> {
+class _EditHarvestPlanState extends State<EditHarvestPlan> {
   final crop=TextEditingController();
   final method=TextEditingController();
   final season=TextEditingController();
@@ -28,7 +30,7 @@ class _CreateHarvestPlanState extends State<CreateHarvestPlan> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: blueGrey,
-        title: const Text("Create Harvest Plan"),
+        title: const Text("Edit Harvest Plan"),
         centerTitle: true,
       ),
       body: Padding(padding: const EdgeInsets.all(15), child: Form(
@@ -53,7 +55,7 @@ class _CreateHarvestPlanState extends State<CreateHarvestPlan> {
                       lastDate: DateTime(2040),
                     );
                     setState(() {
-                      harvestingdate = picked?? DateTime.now();
+                      harvestingdate = picked!;
                     });
                   },
                   readOnly: true,
@@ -91,9 +93,9 @@ class _CreateHarvestPlanState extends State<CreateHarvestPlan> {
                   onPressed: (){
                   if(_formKey.currentState!.validate()){
                       HarvestingRepository().addHarvestingPlans(HarvestPlan(crop: crop.text, method: method.text, season: season.text, quantity: double.parse(quantity.text), equipment: equipment.text, labor: int.parse(labor.text), storage: storage.text, harvestingdate: harvestingdate).toJson())
-                      .then((value) =>ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Harvesting plan added successfully")))).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>const HarvestingInformation())));
+                      .then((value) =>ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Harvesting plan update successfully")))).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>const HarvestingInformation())));
                   }
-                }, child:const Text("Create Plan")),)
+                }, child:const Text("Update Plan")),)
               ],
              ))
           ],

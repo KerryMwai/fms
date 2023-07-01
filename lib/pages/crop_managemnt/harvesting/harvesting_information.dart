@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fms/controller/model/harvest_plan_model.dart';
 import 'package:fms/dammies/constants.dart';
 import 'package:fms/pages/crop_managemnt/harvesting/create_harvest_plan.dart';
+import 'package:fms/repository/harvesting_repostory.dart';
+import 'package:intl/intl.dart';
 
 class HarvestingInformation extends StatefulWidget {
   const HarvestingInformation({super.key});
@@ -110,132 +114,161 @@ class _HarvestingInformationState extends State<HarvestingInformation> {
           title: const Text("Harvesting plans"),
           centerTitle: true,
         ),
-        body: SingleChildScrollView(
-          child: Container(
-            margin: const EdgeInsets.all(10),
-            child: Table(
-              border: TableBorder.all(width: 1.0, color: Colors.black),
-              children: [
-                TableRow(
-                  decoration: BoxDecoration(
-                    color: Colors.grey[600],
-                  ),
-                  children: const [
-                    TableCell(
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          'Plant Type',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
+        body: StreamBuilder<QuerySnapshot>(
+          stream: HarvestingRepository().getAllharvestingplansSnapshots(),
+          builder: (context, snapshot) {
+            if(snapshot.connectionState == ConnectionState.waiting){
+              return Center(child: CircularProgressIndicator(color: green),);
+            }
+            if(snapshot.hasError){
+              return Center(child: Text('An error occured', style: TextStyle(color: red),),);
+            }
+            return SingleChildScrollView(
+              child: Container(
+                margin: const EdgeInsets.all(10),
+                child: Table(
+                  border: TableBorder.all(width: 1.0, color: Colors.black),
+                  children: [
+                    TableRow(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[600],
                       ),
-                    ),
-                    TableCell(
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          'Harvesting Method',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                      children: const [
+                        TableCell(
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              'Plant Type',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    TableCell(
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          'Harvesting Season (Kenyan)',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                        TableCell(
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              'Harvesting Method',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    TableCell(
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          'Quantity Estimate',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                        TableCell(
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              'Harvesting Season (Kenyan)',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    TableCell(
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          'Equipment',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          TableCell(
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              'Estimated harvesting date',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    TableCell(
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          'Labor Requirement',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                        TableCell(
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              'Quantity Estimate',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    TableCell(
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          'Storage and Transportation',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                        TableCell(
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              'Equipment',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
                         ),
-                      ),
+                        TableCell(
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              'Labor Requirement',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                        TableCell(
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              'Storage and Transportation',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
+                    ...snapshot.data!.docs.map((DocumentSnapshot document){
+                      final plan=HarvestPlan.fromJson(document.data() as Map<String, dynamic>);
+                        return  TableRow(
+                        children: [
+                          TableCell(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(plan.crop),
+                            ),
+                          ),
+                          TableCell(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(plan.method),
+                            ),
+                          ),
+                          TableCell(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(plan.season),
+                            ),
+                          ),
+                            TableCell(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(DateFormat.MMMM().format(plan.harvestingdate!)),
+                            ),
+                          ),
+                          TableCell(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text("${plan.quantity} Kgs"),
+                            ),
+                          ),
+                          TableCell(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(plan.equipment),
+                            ),
+                          ),
+                          TableCell(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text("${plan.labor} ${plan.method}"),
+                            ),
+                          ),
+                          TableCell(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(plan.storage),
+                            ),
+                          ),
+                        ],
+                      );
+                    }).toList()
+                     
                   ],
                 ),
-                for (final row in dummyData)
-                  TableRow(
-                    children: [
-                      TableCell(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(row[0]),
-                        ),
-                      ),
-                      TableCell(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(row[1]),
-                        ),
-                      ),
-                      TableCell(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(row[2]),
-                        ),
-                      ),
-                      TableCell(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(row[3]),
-                        ),
-                      ),
-                      TableCell(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(row[4]),
-                        ),
-                      ),
-                      TableCell(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(row[5]),
-                        ),
-                      ),
-                      TableCell(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(row[6]),
-                        ),
-                      ),
-                    ],
-                  ),
-              ],
-            ),
-          ),
+              ),
+            );
+          }
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
