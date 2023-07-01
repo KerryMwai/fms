@@ -280,7 +280,9 @@ class _HarvestingInformationState extends State<HarvestingInformation> {
                                     IconButton(onPressed: (){
                                       Navigator.push(context, MaterialPageRoute(builder:(context)=>EditHarvestPlan(id: document.id, plan: plan) ));
                                     }, icon: Icon(Icons.edit, color: green,)),
-                                    IconButton(onPressed: (){}, icon:const Icon(Icons.remove_red_eye_outlined)),
+                                    IconButton(onPressed: (){
+                                      showVewDialogCard(plan, context);
+                                    }, icon:const Icon(Icons.remove_red_eye_outlined)),
                                     IconButton(onPressed: (){
                                         showAlertForDeletion(document.id, plan, context);
                                     }, icon: Icon(Icons.delete, color: red,)),
@@ -308,6 +310,170 @@ class _HarvestingInformationState extends State<HarvestingInformation> {
   }
 
 
+  Future<void> showVewDialogCard(plan, context) async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("${plan.crop}"),
+          content: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Crop: ${plan.crop}',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                ListTile(
+                  title: Text(
+                    'Crop Name',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    "${plan.crop}",
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    'Harvesting month',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    DateFormat.MMMM().format(plan.harvestingdate!),
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    'Harvesting method',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    "${plan.method}",
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    'Harvesting season',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    "${plan.season}",
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    'Quantity Estimated',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    "${plan.quantity} Kgs",
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    'Equipments used',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    plan.equipment,
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                 ListTile(
+                  title: Text(
+                    'Labor',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    "${plan.labor} ${plan.method}",
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                 ListTile(
+                  title: Text(
+                    'Storage',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    plan.storage,
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text("Ok")),
+            const SizedBox(
+              width: 10,
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   Future<void> showAlertForDeletion(id, assignment, context) async {
     return showDialog(
