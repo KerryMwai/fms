@@ -1,7 +1,7 @@
 class HarvestingModel{
   final String field;
   final String crop;
-  final int workforce;
+  final String workforce;
   final String workload;
   final DateTime timefrom;
   final DateTime timeTo;
