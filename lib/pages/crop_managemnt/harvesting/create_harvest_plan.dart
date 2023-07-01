@@ -17,7 +17,7 @@ class _CreateHarvestPlanState extends State<CreateHarvestPlan> {
   final equipment=TextEditingController();
   final labor=TextEditingController();
   final storage=TextEditingController();
-  final date=TextEditingController();
+  DateTime? harvestingdate;
   final _formKey=GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,40 @@ class _CreateHarvestPlanState extends State<CreateHarvestPlan> {
                FeedFormField(controller: equipment,labelText: "Harvesting equipment",valitationText: "Harvesting equipment is required"),
                FeedFormField2(controller: labor,labelText: "Harvesting labor (number of workers)",valitationText: "Hervesting labor is required"),
                FeedFormField(controller: storage,labelText: "Harvest storage",valitationText: "Hervest storage is required"),
-               FeedFormField3(controller: date,labelText: "Harvesting date",valitationText: "Hervesting date is required"),
+               Container(
+                margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                 child: TextFormField(
+                  onTap: () async {
+                    final DateTime? picked = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2023),
+                      lastDate: DateTime(2040),
+                    );
+                    setState(() {
+                      harvestingdate = picked!;
+                    });
+                  },
+                  readOnly: true,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Harvesting date',
+                  ),
+                  validator: (value) {
+                    // ignore: unnecessary_null_comparison
+                    if (harvestingdate == null) {
+                      return 'Please select a harvesting date';
+                    }
+                    return null;
+                  },
+                  controller: TextEditingController(
+                    // ignore: unnecessary_null_comparison
+                    text: harvestingdate != null
+                        ? harvestingdate.toString().split(' ')[0]
+                        : '',
+                  ),
+                             ),
+               ),
               const SizedBox(height: 30,),
               const SizedBox(height: 30,),
            Expanded(child:   Row(
@@ -54,7 +87,7 @@ class _CreateHarvestPlanState extends State<CreateHarvestPlan> {
                   ),
                   onPressed: (){
                   if(_formKey.currentState!.validate()){
-            
+                      
                   }
                 }, child:const Text("Create Plan")),)
               ],
