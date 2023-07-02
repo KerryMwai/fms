@@ -42,6 +42,7 @@ class HarvestingScheduleInformation extends StatelessWidget {
                     DataColumn(label: Text('Labor & Equipment Availability')),
                     DataColumn(label: Text('Crop Storage')),
                     DataColumn(label: Text('Harvesting Plan Adjustment')),
+                    DataColumn(label: Text('Action')),
                   ],
                   rows: snapshot.data!.docs.map((DocumentSnapshot document) {
                     final schedule=HarvestingSchedule.fromJson(document.data()! as Map<String,dynamic>);
@@ -53,6 +54,13 @@ class HarvestingScheduleInformation extends StatelessWidget {
                       DataCell(Text(schedule.laborandequipmentavailability)),
                       DataCell(Text(schedule.storage)),
                       DataCell(Text(schedule.planadjustment)),
+                      DataCell(Row(children: [
+                        IconButton(onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>EditHarvestSchedule()));
+                        }, icon: Icon(Icons.edit, color: green,)),
+                        IconButton(onPressed: (){}, icon: Icon(Icons.remove_red_eye_outlined, color: grey,)),
+                        IconButton(onPressed: (){}, icon: Icon(Icons.delete, color: red,)),
+                      ],)),
                     ]);
                   }).toList(),
                 ),
