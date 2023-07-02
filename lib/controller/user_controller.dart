@@ -37,7 +37,7 @@ class UserController extends ChangeNotifier {
     await _auth.signOut();
     notifyListeners();
   }
-
+Stream<User?> get authStateChanges => _auth.authStateChanges();
   // Department management
   Stream<QuerySnapshot> getalldepartments() {
     Stream<QuerySnapshot> departmentstream =

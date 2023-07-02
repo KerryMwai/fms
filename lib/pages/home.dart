@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fms/controller/model/farm.dart';
 import 'package:fms/controller/user_controller.dart';
+import 'package:fms/dammies/constants.dart';
 import 'package:fms/pages/details-page.dart';
 import 'package:fms/widgets/custom_drawer.dart';
 import 'package:fms/widgets/text_logreg_field.dart';
@@ -19,7 +20,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Manage Farm"),
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: blueGrey,
         centerTitle: true,
       ),
       drawer: const CustomDrawer(),

@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fms/controller/user_controller.dart';
+import 'package:fms/dammies/constants.dart';
+import 'package:fms/pages/home.dart';
 import 'package:fms/services/firebase-manager.dart';
 import 'package:fms/services/fms-change-notifier.dart';
 
@@ -29,6 +32,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
@@ -38,7 +42,20 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const LoginPage()
+      home: StreamBuilder<User?>(
+        stream: UserController().authStateChanges,
+        builder: (context, snapshot){
+          if(snapshot.connectionState==ConnectionState.active){
+            final user=snapshot.data;
+            if(user==null){
+              return const LoginPage();
+            }else{
+              return HomePage();
+            }
+          }else{
+            return Center( child: CircularProgressIndicator(color: green,),);
+          }
+        })
     );
   }
 }
