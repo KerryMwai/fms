@@ -48,12 +48,13 @@ class HomePage extends StatelessWidget {
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 10,
-                      mainAxisSpacing: 10),
+                      mainAxisSpacing: 60),
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (context, index) {
                     final department = snapshot.data!.docs[index];
 
-                    return GestureDetector(
+                    if(department['name'].trim()=="Crops management"){
+                      return GestureDetector(
                       onTap: () {
                         Navigator.push(
                             context,
@@ -63,16 +64,62 @@ class HomePage extends StatelessWidget {
                                       name: department['name'],
                                     )));
                       },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            image: const DecorationImage(image: AssetImage("asset/images/logo.png")),
-                            color: Colors.purpleAccent.withOpacity(0.5),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Center(
-                          child: Text(department['name']),
-                        ),
+                      child: Column(
+                        children: [
+                          Container(
+                            height: size.width * 0.33,
+                            decoration: BoxDecoration(
+                                image: const DecorationImage(
+                                    image: AssetImage("asset/images/field.jpg")),
+                                borderRadius: BorderRadius.circular(10)),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            department['name'],
+                            style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w500,
+                                color: green),
+                          )
+                        ],
                       ),
                     );
+                    }else{
+                      return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DetailsPAge(
+                                      id: department.id,
+                                      name: department['name'],
+                                    )));
+                      },
+                      child: Column(
+                        children: [
+                          Container(
+                            height: size.width * 0.33,
+                            decoration: BoxDecoration(
+                                image: const DecorationImage(
+                                    image: AssetImage("asset/images/logo.png")),
+                                borderRadius: BorderRadius.circular(10)),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            department['name'],
+                            style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w500,
+                                color: green),
+                          )
+                        ],
+                      ),
+                    );
+                    }
                   });
             }),
       ),
