@@ -54,11 +54,6 @@ class HomePage extends StatelessWidget {
                     final department = snapshot.data!.docs[index];
 
                     return GestureDetector(
-                      onLongPress: () {
-                         context
-                            .read<UserController>()
-                            .deleteDepartment(department.id);
-                      },
                       onTap: () {
                         Navigator.push(
                             context,
@@ -70,6 +65,7 @@ class HomePage extends StatelessWidget {
                       },
                       child: Container(
                         decoration: BoxDecoration(
+                            image: const DecorationImage(image: AssetImage("asset/images/logo.png")),
                             color: Colors.purpleAccent.withOpacity(0.5),
                             borderRadius: BorderRadius.circular(10)),
                         child: Center(
