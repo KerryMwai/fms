@@ -3,7 +3,7 @@ import 'package:fms/dammies/constants.dart';
 
 import 'feed-livestock-management/add_livestock_feed_type.dart';
 import 'feed-livestock-management/feed_consumption_history.dart';
-import 'feed-livestock-management/feed_schedule.dart';
+import 'feed-livestock-management/add_feed_schedule.dart';
 
 class LivestockFeedManagement extends StatefulWidget {
   const LivestockFeedManagement({super.key});

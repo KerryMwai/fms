@@ -1,9 +1,29 @@
 class FeedModel{
-  final String name;
-  final String type;
-  final String batch;
-  final String quantity;
-  final String cost;
+  final String feedname;
+  final String feedtype;
+  final int quantityaday;
+  final String livestockname;
+  final String livestockid;
+  final double animalweight;
+  final String feedingmethod;
+  final DateTime date;
 
-  FeedModel(this.name, this.type, this.batch, this.quantity, this.cost);
+  const FeedModel({required this.feedname, required this.feedtype, required this.quantityaday, required this.livestockname, required this.livestockid, required this.animalweight, required this.feedingmethod, required this.date});
+
+  factory FeedModel.fromJson(Map<String, dynamic> json){
+    return FeedModel(feedname: json['feedname'], feedtype: json['feedtype'], quantityaday: json['quantityaday'].toInt(), livestockname: json['livestockname'], livestockid: json['livestockid'], animalweight: json['animalweight'].toDouble(), feedingmethod: json['feedingmethod'], date: json['date'].toDate());
+  }
+
+  Map<String, dynamic> toJson(){
+    return {
+      'feedname':feedname,
+      'feedtype':feedtype,
+      'quantityaday':quantityaday,
+      'livestockname':livestockname,
+      'livestockid':livestockid,
+      'animalweight':animalweight,
+      'feedingmethod':feedingmethod,
+      'date':date
+    };
+  }
 }
