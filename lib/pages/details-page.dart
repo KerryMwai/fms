@@ -60,7 +60,7 @@ class DetailsPAge extends StatelessWidget {
                     ),
                 itemBuilder: (context, index) {
                   final subdepartment = snapshot.data!.docs[index];
-
+// Harvesting
                   if(subdepartment['name'].trim()=="Harvesting"){
                     return GestureDetector(
                       onTap: () {
@@ -76,7 +76,40 @@ class DetailsPAge extends StatelessWidget {
                             height: size.width * 0.33,
                             decoration: BoxDecoration(
                                 image: const DecorationImage(
-                                    image: AssetImage("asset/images/users.png")),
+                                    image: AssetImage("asset/images/harvesting.jpg")),
+                                borderRadius: BorderRadius.circular(10)),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            subdepartment['name'],
+                            style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w500,
+                                color: green),
+                          )
+                        ],
+                      ),
+                    );
+                  }
+// Planning
+                  if(subdepartment['name'].trim()=="Planning"){
+                       return GestureDetector(
+                      onTap: () {
+                       Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SubDetailsPage(
+                                  name: subdepartment['name'],)));
+                      },
+                      child: Column(
+                        children: [
+                          Container(
+                            height: size.width * 0.33,
+                            decoration: BoxDecoration(
+                                image: const DecorationImage(
+                                    image: AssetImage("asset/images/planning.jpg")),
                                 borderRadius: BorderRadius.circular(10)),
                           ),
                           const SizedBox(
