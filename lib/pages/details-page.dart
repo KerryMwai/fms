@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fms/controller/model/farm.dart';
+import 'package:fms/dammies/constants.dart';
 import 'package:fms/pages/nested-details-page.dart';
 import 'package:fms/widgets/custom_drawer.dart';
 import 'package:fms/widgets/text_logreg_field.dart';
@@ -27,11 +28,12 @@ class DetailsPAge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text(name),
         centerTitle: true,
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: green,
       ),
       drawer:const CustomDrawer(),
       body: StreamBuilder<QuerySnapshot>(
@@ -53,9 +55,44 @@ class DetailsPAge extends StatelessWidget {
             return GridView.builder(
                 itemCount: snapshot.data!.docs.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, childAspectRatio: 3 / 2),
+                    crossAxisCount: 2, 
+                    // childAspectRatio: 3 / 2
+                    ),
                 itemBuilder: (context, index) {
                   final subdepartment = snapshot.data!.docs[index];
+
+                  if(subdepartment['name'].trim()=="Harvesting"){
+                    return GestureDetector(
+                      onTap: () {
+                       Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SubDetailsPage(
+                                  name: subdepartment['name'],)));
+                      },
+                      child: Column(
+                        children: [
+                          Container(
+                            height: size.width * 0.33,
+                            decoration: BoxDecoration(
+                                image: const DecorationImage(
+                                    image: AssetImage("asset/images/users.png")),
+                                borderRadius: BorderRadius.circular(10)),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            subdepartment['name'],
+                            style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w500,
+                                color: green),
+                          )
+                        ],
+                      ),
+                    );
+                  }
                   return GestureDetector(
                     onTap: () {
                       Navigator.push(

@@ -86,7 +86,7 @@ class HomePage extends StatelessWidget {
                         ],
                       ),
                     );
-                    }else{
+                    }else if(department['name'].trim()=="Livestock"){
                       return GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -103,7 +103,40 @@ class HomePage extends StatelessWidget {
                             height: size.width * 0.33,
                             decoration: BoxDecoration(
                                 image: const DecorationImage(
-                                    image: AssetImage("asset/images/logo.png")),
+                                    image: AssetImage("asset/images/dairy.jpg")),
+                                borderRadius: BorderRadius.circular(10)),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            department['name'],
+                            style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w500,
+                                color: green),
+                          )
+                        ],
+                      ),
+                    );
+                    }else{
+                        return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DetailsPAge(
+                                      id: department.id,
+                                      name: department['name'],
+                                    )));
+                      },
+                      child: Column(
+                        children: [
+                          Container(
+                            height: size.width * 0.33,
+                            decoration: BoxDecoration(
+                                image: const DecorationImage(
+                                    image: AssetImage("asset/images/users.png")),
                                 borderRadius: BorderRadius.circular(10)),
                           ),
                           const SizedBox(
@@ -123,12 +156,12 @@ class HomePage extends StatelessWidget {
                   });
             }),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await _showFormDialog(context);
-        },
-        child: const Icon(Icons.add),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () async {
+      //     await _showFormDialog(context);
+      //   },
+      //   child: const Icon(Icons.add),
+      // ),
     );
   }
 
