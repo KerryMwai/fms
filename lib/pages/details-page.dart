@@ -58,7 +58,9 @@ class DetailsPAge extends StatelessWidget {
                   itemCount: snapshot.data!.docs.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      crossAxisSpacing: 10 
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 20,
+                      childAspectRatio: 2/2.6 
                       // childAspectRatio: 3 / 2
                       ),
                   itemBuilder: (context, index) {
@@ -78,7 +80,8 @@ class DetailsPAge extends StatelessWidget {
                             Container(
                               height: size.width * 0.33,
                               decoration: BoxDecoration(
-                                  image: const DecorationImage(
+
+                                  image:const  DecorationImage(
                                       image: AssetImage("asset/images/harvesting.jpg"), fit: BoxFit.cover),
                                   borderRadius: BorderRadius.circular(10)),
                             ),
@@ -111,8 +114,9 @@ class DetailsPAge extends StatelessWidget {
                             Container(
                               height: size.width * 0.33,
                               decoration: BoxDecoration(
-                                  image: const DecorationImage(
-                                      image: AssetImage("asset/images/planning.jpg")),
+                                     
+                                  image:const  DecorationImage(
+                                      image: AssetImage("asset/images/planning.jpg"),fit: BoxFit.cover),
                                   borderRadius: BorderRadius.circular(10)),
                             ),
                             const SizedBox(
@@ -128,7 +132,203 @@ class DetailsPAge extends StatelessWidget {
                           ],
                         ),
                       );
+                    }else if(subdepartment['name'].trim()=="Feed Records"){
+                       return GestureDetector(
+                        onTap: () {
+                         Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SubDetailsPage(
+                                    name: subdepartment['name'],)));
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                              height: size.width * 0.33,
+                              decoration: BoxDecoration(
+                                      
+                                  image:const  DecorationImage(
+                                      image: AssetImage("asset/images/record.jpg"),fit: BoxFit.cover),
+                                  borderRadius: BorderRadius.circular(10)),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              subdepartment['name'],
+                              style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                  color: green),
+                            )
+                          ],
+                        ),
+                      );
+                    }else if(subdepartment['name'].trim()=="Reporting"){
+                       return GestureDetector(
+                        onTap: () {
+                         Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SubDetailsPage(
+                                    name: subdepartment['name'],)));
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                              height: size.width * 0.33,
+                              decoration: BoxDecoration(
+                                      borderRadius:BorderRadius.circular(10),
+                                  image:const  DecorationImage(
+                                      image: AssetImage("asset/images/report.jpg"),fit: BoxFit.cover),
+                                ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              subdepartment['name'],
+                              style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                  color: green),
+                            )
+                          ],
+                        ),
+                      );
+                    }else if(subdepartment['name'].trim()=="Health Management"){
+                       return GestureDetector(
+                        onTap: () {
+                         Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SubDetailsPage(
+                                    name: subdepartment['name'],)));
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                              height: size.width * 0.33,
+                              decoration: BoxDecoration(
+                                      borderRadius:BorderRadius.circular(10),
+                                  image: const DecorationImage(
+                                      image: AssetImage("asset/images/laborm.jpg"),fit: BoxFit.cover),
+                                  ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              subdepartment['name'],
+                              style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                  color: green),
+                            )
+                          ],
+                        ),
+                      );
+                    }else if(subdepartment['name'].trim()=="Breeding"){
+                       return GestureDetector(
+                        onTap: () {
+                         Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SubDetailsPage(
+                                    name: subdepartment['name'],)));
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                              height: size.width * 0.33,
+                              decoration: BoxDecoration(
+                                  image: const DecorationImage(
+                                      image: AssetImage("asset/images/breed.jpg"),fit: BoxFit.cover),
+                                  borderRadius: BorderRadius.circular(10)),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              subdepartment['name'],
+                              style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                  color: green),
+                            )
+                          ],
+                        ),
+                      );
+                    }else if(subdepartment['name'].trim()=="Reporting"){
+                       return GestureDetector(
+                        onTap: () {
+                         Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SubDetailsPage(
+                                    name: subdepartment['name'],)));
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                              height: size.width * 0.33,
+                              decoration: BoxDecoration(
+                                      borderRadius:BorderRadius.circular(10),
+                                  image: const DecorationImage(
+                                      image: AssetImage("asset/images/report.jpg"),fit: BoxFit.cover),
+                                 ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              subdepartment['name'],
+                              style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                  color: green),
+                            )
+                          ],
+                        ),
+                      );
+                    }else if(subdepartment['name'].trim()=="Livestock Management"){
+                       return GestureDetector(
+                        onTap: () {
+                         Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SubDetailsPage(
+                                    name: subdepartment['name'],)));
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                              height: size.width * 0.33,
+                              decoration: BoxDecoration(
+                                      borderRadius:BorderRadius.circular(10),
+                                  image:const  DecorationImage(
+                                      image: AssetImage("asset/images/dairy.jpg"), fit: BoxFit.cover),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              subdepartment['name'],
+                              style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                  color: green),
+                            )
+                          ],
+                        ),
+                      );
                     }
+
+
+
+
+
                     return GestureDetector(
                       onTap: () {
                         Navigator.push(
