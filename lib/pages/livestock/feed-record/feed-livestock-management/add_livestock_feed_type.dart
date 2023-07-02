@@ -9,11 +9,12 @@ class AddLiveStockFeedType extends StatefulWidget {
 }
 
 class _AddLiveStockFeedTypeState extends State<AddLiveStockFeedType> {
-  TextEditingController feedname=TextEditingController();
-  TextEditingController feedtype=TextEditingController();
-  TextEditingController quantity=TextEditingController();
-  TextEditingController livestock=TextEditingController();
-  TextEditingController livestocknumber=TextEditingController();
+  final feedname=TextEditingController();
+  final feedtype=TextEditingController();
+  final  quantityaday=TextEditingController();
+  final livestock=TextEditingController();
+  final livestocknumber=TextEditingController();
+  final animalweight=TextEditingController();
   final _formKey=GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class _AddLiveStockFeedTypeState extends State<AddLiveStockFeedType> {
           children: [
              FeedFormField(controller: feedname,labelText: "Feed name",valitationText: "Feed name is required"),
              FeedFormField(controller: feedtype,labelText: "Feed type",valitationText: "Feed type is required"),
-             FeedFormField(controller: quantity,labelText: "Quantity",valitationText: "Quantity is required"),
+             FeedFormField(controller: quantityaday,labelText: "Quantity",valitationText: "Quantity is required"),
              FeedFormField(controller: livestock,labelText: "Livstock type",valitationText: "Livestock type is required"),
              FeedFormField(controller: livestocknumber,labelText: "Livstock population",valitationText: "Livestock population is required"),
            Expanded(child:   Row(
