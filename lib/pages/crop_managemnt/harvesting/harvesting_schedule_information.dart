@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fms/controller/model/harvesting_schedule.dart';
 import 'package:fms/dammies/constants.dart';
 import 'package:fms/pages/crop_managemnt/harvesting/create_harvesting_schedule.dart';
+import 'package:fms/pages/crop_managemnt/harvesting/edit_harvesting_schedule.dart';
 import 'package:fms/repository/harvesting_repostory.dart';
 
 class HarvestingScheduleInformation extends StatelessWidget {
@@ -56,7 +57,7 @@ class HarvestingScheduleInformation extends StatelessWidget {
                       DataCell(Text(schedule.planadjustment)),
                       DataCell(Row(children: [
                         IconButton(onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>EditHarvestSchedule()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>EditHarvestSchedule(id: document.id, schedule: schedule,)));
                         }, icon: Icon(Icons.edit, color: green,)),
                         IconButton(onPressed: (){}, icon: Icon(Icons.remove_red_eye_outlined, color: grey,)),
                         IconButton(onPressed: (){}, icon: Icon(Icons.delete, color: red,)),
