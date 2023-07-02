@@ -70,7 +70,7 @@ class HomePage extends StatelessWidget {
                             height: size.width * 0.33,
                             decoration: BoxDecoration(
                                 image: const DecorationImage(
-                                    image: AssetImage("asset/images/field.jpg")),
+                                    image: AssetImage("asset/images/field.jpg"), fit: BoxFit.cover),
                                 borderRadius: BorderRadius.circular(10)),
                           ),
                           const SizedBox(
@@ -103,7 +103,7 @@ class HomePage extends StatelessWidget {
                             height: size.width * 0.33,
                             decoration: BoxDecoration(
                                 image: const DecorationImage(
-                                    image: AssetImage("asset/images/dairy.jpg")),
+                                    image: AssetImage("asset/images/dairy.jpg"), fit: BoxFit.cover),
                                 borderRadius: BorderRadius.circular(10)),
                           ),
                           const SizedBox(
@@ -136,7 +136,7 @@ class HomePage extends StatelessWidget {
                             height: size.width * 0.33,
                             decoration: BoxDecoration(
                                 image: const DecorationImage(
-                                    image: AssetImage("asset/images/users.png")),
+                                    image: AssetImage("asset/images/users.png"), fit: BoxFit.cover),
                                 borderRadius: BorderRadius.circular(10)),
                           ),
                           const SizedBox(

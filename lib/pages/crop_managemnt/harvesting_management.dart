@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fms/dammies/constants.dart';
 import 'package:fms/pages/crop_managemnt/equipment/equipment_assignment_information.dart';
 import 'package:fms/pages/crop_managemnt/harvesting/harvesting_information.dart';
 import 'package:fms/pages/crop_managemnt/harvesting/harvesting_schedule_information.dart';
@@ -15,89 +16,184 @@ class HarvestingManager extends StatefulWidget {
 class _HarvestingManagerState extends State<HarvestingManager> {
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-        itemCount: 5,
-        gridDelegate:
-            const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-        itemBuilder: (context, index) {
-          if (index == 1) {
-            return GestureDetector(
-              onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => const HarvestingInformation())),
-              child: const Card(
-                margin: EdgeInsets.all(10),
-                color: Colors.grey,
-                child: Padding(
-                  padding: EdgeInsets.all(12.0),
-                  child: Center(child: Text("Harvesting Information")),
+    Size size = MediaQuery.of(context).size;
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: GridView.builder(
+          itemCount: 5,
+          gridDelegate:
+              const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 2/3,
+                crossAxisSpacing: 10
                 ),
-              ),
-            );
-          } else if (index == 2) {
-            return GestureDetector(
-              onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) =>
-                          const WorkforceMachineFieldCropAssignmentInformation())),
-              child: const Card(
-                margin: EdgeInsets.all(10),
-                color: Colors.grey,
-                child: Padding(
-                  padding: EdgeInsets.all(12.0),
-                  child:
-                      Center(child: Text("Harvesting Crop Field Assignments")),
+          itemBuilder: (context, index) {
+            if (index == 1) {
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const HarvestingInformation()));
+                },
+                child: Column(
+                  children: [
+                    Container(
+                      height: size.width * 0.33,
+                      decoration: BoxDecoration(
+                          image: const DecorationImage(
+                              image: AssetImage("asset/images/harvestinfor.jpg"),
+                              fit: BoxFit.cover),
+                          borderRadius: BorderRadius.circular(10)),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "Harvesting Information",
+                      style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                          color: green),
+                    )
+                  ],
                 ),
-              ),
-            );
-          } else if (index == 3) {
-            return GestureDetector(
-              onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => const HarvestingScheduleInformation())),
-              child: const Card(
-                margin: EdgeInsets.all(10),
-                color: Colors.grey,
-                child: Padding(
-                  padding: EdgeInsets.all(12.0),
-                  child: Center(child: Text("Harvesting Schedules")),
+              );
+            } else if (index == 2) {
+                return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const WorkforceMachineFieldCropAssignmentInformation()));
+                },
+                child: Column(
+                  children: [
+                    Container(
+                      height: size.width * 0.33,
+                      decoration: BoxDecoration(
+                          image: const DecorationImage(
+                              image: AssetImage("asset/images/assignment.png"),
+                              fit: BoxFit.cover),
+                          borderRadius: BorderRadius.circular(10)),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "Harvesting Crop Field Assignments",
+                      style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                          color: green),
+                    )
+                  ],
                 ),
-              ),
-            );
-          } if(index==4) {
-            return GestureDetector(
-              onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => const EquipmentAssignmentInformation())),
-              child: const Card(
-                margin: EdgeInsets.all(10),
-                color: Colors.grey,
-                child: Padding(
-                  padding: EdgeInsets.all(12.0),
-                  child: Center(child: Text("Equipment Assignment Information")),
+              );
+            } else if (index == 3) {
+               return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const HarvestingScheduleInformation()));
+                },
+                child: Column(
+                  children: [
+                    Container(
+                      height: size.width * 0.33,
+                      decoration: BoxDecoration(
+                          image: const DecorationImage(
+                              image: AssetImage("asset/images/schedule.png"),
+                              fit: BoxFit.cover),
+                          borderRadius: BorderRadius.circular(10)),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "Harvesting Schedules",
+                      style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                          color: green),
+                    )
+                  ],
                 ),
-              ),
-            );
-          }else{
-             return GestureDetector(
-              onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => const LaborManagementInformation())),
-              child: const Card(
-                margin: EdgeInsets.all(10),
-                color: Colors.grey,
-                child: Padding(
-                  padding: EdgeInsets.all(12.0),
-                  child: Center(child: Text("Labor Management")),
+              );
+            
+            }
+            if (index == 4) {
+                 return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const EquipmentAssignmentInformation()));
+                },
+                child: Column(
+                  children: [
+                    Container(
+                      height: size.width * 0.33,
+                      decoration: BoxDecoration(
+                          image: const DecorationImage(
+                              image: AssetImage("asset/images/eassignment.jpg"),
+                              fit: BoxFit.cover),
+                          borderRadius: BorderRadius.circular(10)),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "Equipment assignment information",
+                      style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                          color: green),
+                    )
+                  ],
                 ),
-              ),
-            );
-          }
-        });
+              );
+              
+            } else {
+    // Equipment management
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const LaborManagementInformation()));
+                },
+                child: Column(
+                  children: [
+                    Container(
+                      height: size.width * 0.33,
+                      decoration: BoxDecoration(
+                          image: const DecorationImage(
+                              image: AssetImage("asset/images/laborm.jpg"),
+                              fit: BoxFit.cover),
+                          borderRadius: BorderRadius.circular(10)),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "Labor Management",
+                      style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                          color: green),
+                    )
+                  ],
+                ),
+              );
+            }
+          }),
+    );
   }
 }

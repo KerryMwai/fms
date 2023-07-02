@@ -52,139 +52,143 @@ class DetailsPAge extends StatelessWidget {
                 ),
               );
             }
-            return GridView.builder(
-                itemCount: snapshot.data!.docs.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, 
-                    // childAspectRatio: 3 / 2
-                    ),
-                itemBuilder: (context, index) {
-                  final subdepartment = snapshot.data!.docs[index];
-// Harvesting
-                  if(subdepartment['name'].trim()=="Harvesting"){
+            return Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: GridView.builder(
+                  itemCount: snapshot.data!.docs.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 10 
+                      // childAspectRatio: 3 / 2
+                      ),
+                  itemBuilder: (context, index) {
+                    final subdepartment = snapshot.data!.docs[index];
+            // Harvesting
+                    if(subdepartment['name'].trim()=="Harvesting"){
+                      return GestureDetector(
+                        onTap: () {
+                         Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SubDetailsPage(
+                                    name: subdepartment['name'],)));
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                              height: size.width * 0.33,
+                              decoration: BoxDecoration(
+                                  image: const DecorationImage(
+                                      image: AssetImage("asset/images/harvesting.jpg"), fit: BoxFit.cover),
+                                  borderRadius: BorderRadius.circular(10)),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              subdepartment['name'],
+                              style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                  color: green),
+                            )
+                          ],
+                        ),
+                      );
+                    }
+            // Planning
+                    if(subdepartment['name'].trim()=="Planning"){
+                         return GestureDetector(
+                        onTap: () {
+                         Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SubDetailsPage(
+                                    name: subdepartment['name'],)));
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                              height: size.width * 0.33,
+                              decoration: BoxDecoration(
+                                  image: const DecorationImage(
+                                      image: AssetImage("asset/images/planning.jpg")),
+                                  borderRadius: BorderRadius.circular(10)),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              subdepartment['name'],
+                              style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w500,
+                                  color: green),
+                            )
+                          ],
+                        ),
+                      );
+                    }
                     return GestureDetector(
                       onTap: () {
-                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SubDetailsPage(
-                                  name: subdepartment['name'],)));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SubDetailsPage(
+                                    name: subdepartment['name'],)));
                       },
-                      child: Column(
-                        children: [
-                          Container(
-                            height: size.width * 0.33,
-                            decoration: BoxDecoration(
-                                image: const DecorationImage(
-                                    image: AssetImage("asset/images/harvesting.jpg")),
-                                borderRadius: BorderRadius.circular(10)),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            subdepartment['name'],
-                            style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.w500,
-                                color: green),
-                          )
-                        ],
-                      ),
-                    );
-                  }
-// Planning
-                  if(subdepartment['name'].trim()=="Planning"){
-                       return GestureDetector(
-                      onTap: () {
-                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SubDetailsPage(
-                                  name: subdepartment['name'],)));
-                      },
-                      child: Column(
-                        children: [
-                          Container(
-                            height: size.width * 0.33,
-                            decoration: BoxDecoration(
-                                image: const DecorationImage(
-                                    image: AssetImage("asset/images/planning.jpg")),
-                                borderRadius: BorderRadius.circular(10)),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            subdepartment['name'],
-                            style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.w500,
-                                color: green),
-                          )
-                        ],
-                      ),
-                    );
-                  }
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SubDetailsPage(
-                                  name: subdepartment['name'],)));
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color: Colors.grey,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                  margin: const EdgeInsets.all(10),
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.17,
-                                  child: Text(
-                                    subdepartment['name'],
-                                    maxLines: 2,
-                                    style: const TextStyle(
-                                        overflow: TextOverflow.ellipsis),
-                                  )),
-                              Container(
-                                margin: const EdgeInsets.only(
-                                    left: 10, top: 10, bottom: 5),
-                                width: MediaQuery.of(context).size.width * 0.12,
-                                height:
-                                    MediaQuery.of(context).size.width * 0.12,
-                                decoration: const BoxDecoration(
-                                    color: Color.fromARGB(255, 212, 86, 2),
-                                    shape: BoxShape.circle),
-                                child: const Center(
-                                  child: Icon(Icons.subtitles),
+                      child: Container(
+                        margin: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            color: Colors.grey,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                    margin: const EdgeInsets.all(10),
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.17,
+                                    child: Text(
+                                      subdepartment['name'],
+                                      maxLines: 2,
+                                      style: const TextStyle(
+                                          overflow: TextOverflow.ellipsis),
+                                    )),
+                                Container(
+                                  margin: const EdgeInsets.only(
+                                      left: 10, top: 10, bottom: 5),
+                                  width: MediaQuery.of(context).size.width * 0.12,
+                                  height:
+                                      MediaQuery.of(context).size.width * 0.12,
+                                  decoration: const BoxDecoration(
+                                      color: Color.fromARGB(255, 212, 86, 2),
+                                      shape: BoxShape.circle),
+                                  child: const Center(
+                                    child: Icon(Icons.subtitles),
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Divider(
-                            color: Colors.black.withOpacity(0.5),
-                            thickness: 2,
-                            height: 0,
-                          ),
-                          Expanded(
-                              child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.lightBlue.withOpacity(0.7),
-                                      borderRadius: const BorderRadius.only(
-                                          bottomLeft: Radius.circular(10),
-                                          bottomRight: Radius.circular(10)))))
-                        ],
+                              ],
+                            ),
+                            Divider(
+                              color: Colors.black.withOpacity(0.5),
+                              thickness: 2,
+                              height: 0,
+                            ),
+                            Expanded(
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.lightBlue.withOpacity(0.7),
+                                        borderRadius: const BorderRadius.only(
+                                            bottomLeft: Radius.circular(10),
+                                            bottomRight: Radius.circular(10)))))
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                });
+                    );
+                  }),
+            );
           }),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {

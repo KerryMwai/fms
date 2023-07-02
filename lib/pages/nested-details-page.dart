@@ -1,5 +1,6 @@
 // ignore: file_names
 import 'package:flutter/material.dart';
+import 'package:fms/dammies/constants.dart';
 import 'package:fms/pages/crop_managemnt/crop_manager.dart';
 import 'package:fms/pages/crop_managemnt/harvesting_management.dart';
 import 'package:fms/pages/inventories/inventories_manager.dart';
@@ -33,7 +34,7 @@ class _SubDetailsPageState extends State<SubDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: green,
         title: Text(widget.name),
         centerTitle: true,
         actions: const [],
