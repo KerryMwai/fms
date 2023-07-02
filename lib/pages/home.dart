@@ -55,9 +55,9 @@ class HomePage extends StatelessWidget {
 
                     return GestureDetector(
                       onLongPress: () {
-                        //  context
-                        //     .read<UserController>()
-                        //     .deleteDepartment(department.id);
+                         context
+                            .read<UserController>()
+                            .deleteDepartment(department.id);
                       },
                       onTap: () {
                         Navigator.push(
