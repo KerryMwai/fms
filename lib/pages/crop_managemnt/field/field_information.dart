@@ -241,79 +241,67 @@ class FieldInformationTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   return Scaffold(
-    appBar: AppBar(
-      title:const Text("Field Information"),
-      centerTitle: true,
-      backgroundColor: green,
-    ),
-    body:  Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: SingleChildScrollView(
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: DataTable(
-           columns: const [
-            DataColumn(label: Text('Field ID')),
-             DataColumn(label: Text('Crop Type')),
-             DataColumn(label: Text('Planting Date')),
-             DataColumn(label: Text('Expected Harvest Date')),
-             DataColumn(label: Text('Soil Type')),
-             DataColumn(label: Text('pH Level')),
-             DataColumn(label: Text('Organic Matter Content')),
-             DataColumn(label: Text('Nutrient Levels')),
-             DataColumn(label: Text('Weather Conditions')),
-             DataColumn(label: Text('Pest/Disease Events')),
-             DataColumn(label: Text('Fertilizer Applications')),
-             DataColumn(label: Text('Irrigation Practices')),
-             DataColumn(label: Text('Field Observations')),
-             DataColumn(label: Text('Equipment Usage')),
-             DataColumn(label: Text('Yield Records')),
-             DataColumn(label: Text('Labor Records')),
-             DataColumn(label: Text('Chemical Applications')),
-             DataColumn(label: Text('Field Notes')),
-           ],
-           rows:fieldInformation.map((field) {
-             return DataRow(cells: [
-               DataCell(Text(field.fieldId)),
-               DataCell(Text(field.cropType)),
-               DataCell(Text(field.plantingDate.toString())),
-               DataCell(Text(field.expectedHarvestDate.toString())),
-               DataCell(Text(field.soilType)),
-               DataCell(Text(field.pHLevel.toString())),
-               DataCell(Text(field.organicMatterContent.toString())),
-               DataCell(Text(field.nutrientLevels.toString())),
-               DataCell(buildListCell(field.weatherConditions)),
-               DataCell(buildListCell(field.pestDiseaseEvents)),
-               DataCell(buildListCell(field.fertilizerApplications)),
-               DataCell(buildListCell(field.irrigationPractices)),
-               DataCell(buildListCell(field.fieldObservations)),
-               DataCell(buildListCell(field.equipmentUsage)),
-               DataCell(buildListCell(field.yieldRecords)),
-               DataCell(buildListCell(field.laborRecords)),
-               DataCell(buildListCell(field.chemicalApplications)),
-               DataCell(buildListCell(field.fieldNotes)),
-             ]);
-           }).toList(),
-           ),
-        ),
-      ),
-    ),
+   return  SingleChildScrollView(
+     child: SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+       child: DataTable(
+               columns: const [
+                DataColumn(label: Text('Field ID')),
+                 DataColumn(label: Text('Crop Type')),
+                 DataColumn(label: Text('Planting Date')),
+                 DataColumn(label: Text('Expected Harvest Date')),
+                 DataColumn(label: Text('Soil Type')),
+                 DataColumn(label: Text('pH Level')),
+                 DataColumn(label: Text('Organic Matter Content')),
+                 DataColumn(label: Text('Nutrient Levels')),
+                 DataColumn(label: Text('Weather Conditions')),
+                 DataColumn(label: Text('Pest/Disease Events')),
+                 DataColumn(label: Text('Fertilizer Applications')),
+                 DataColumn(label: Text('Irrigation Practices')),
+                 DataColumn(label: Text('Field Observations')),
+                 DataColumn(label: Text('Equipment Usage')),
+                 DataColumn(label: Text('Yield Records')),
+                 DataColumn(label: Text('Labor Records')),
+                 DataColumn(label: Text('Chemical Applications')),
+                 DataColumn(label: Text('Field Notes')),
+               ],
+               rows:fieldInformation.map((field) {
+                 return DataRow(cells: [
+                   DataCell(Text(field.fieldId)),
+                   DataCell(Text(field.cropType)),
+                   DataCell(Text(field.plantingDate.toString())),
+                   DataCell(Text(field.expectedHarvestDate.toString())),
+                   DataCell(Text(field.soilType)),
+                   DataCell(Text(field.pHLevel.toString())),
+                   DataCell(Text(field.organicMatterContent.toString())),
+                   DataCell(Text(field.nutrientLevels.toString())),
+                   DataCell(buildListCell(field.weatherConditions)),
+                   DataCell(buildListCell(field.pestDiseaseEvents)),
+                   DataCell(buildListCell(field.fertilizerApplications)),
+                   DataCell(buildListCell(field.irrigationPractices)),
+                   DataCell(buildListCell(field.fieldObservations)),
+                   DataCell(buildListCell(field.equipmentUsage)),
+                   DataCell(buildListCell(field.yieldRecords)),
+                   DataCell(buildListCell(field.laborRecords)),
+                   DataCell(buildListCell(field.chemicalApplications)),
+                   DataCell(buildListCell(field.fieldNotes)),
+                 ]);
+               }).toList(),
+               ),
+     ),
    );
   }
 
 
     Widget buildListCell(List<dynamic> data) {
     if (data.isNotEmpty) {
-      return ListView.builder(
-        // shrinkWrap: true,
-        itemCount: data.length,
-        itemBuilder: (context, index) {
-          return Padding(
+      return Column(
+        children: List.generate(data.length, (index){
+            return Padding(
             padding: const EdgeInsets.only(bottom: 4.0),
             child: BulletText(text: data[index].toString()),
           );
-        },
+        }),
       );
     }
     return const Text('N/A');
