@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fms/dammies/constants.dart';
+import 'package:fms/repository/livestock_repository.dart';
 // https://fluttergems.dev/table/
 class FeedConsumptionHistory extends StatefulWidget {
   const FeedConsumptionHistory({super.key});
@@ -113,41 +116,52 @@ List<Map<String, dynamic>> consumptionhistoryData = [
             children:[ Expanded(
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                  child: DataTable(
-                columns: const [
-                   DataColumn(label: Text('#')),
-                  DataColumn(label: Text('Livestock ID')),
-                  DataColumn(label: Text('Breed')),
-                  DataColumn(label: Text('Weight')),
-                  DataColumn(label: Text('Feed type')),
-                  DataColumn(label: Text('Quantity/day')),
-                  DataColumn(label: Text('Feeding Method')),
-                  DataColumn(label: Text('Date')),
-                  DataColumn(label: Text('Action')),
-                ],
-                rows: consumptionhistoryData.map((data) {
-                  return DataRow(cells: [
-                    DataCell(Text("${data['id']}")),
-                    DataCell(Text(data['Livestock ID'])),
-                    DataCell(Text(data['Breed'])),
-                    DataCell(Text("${data['Weight']}")),
-                    DataCell(Text(data['Feed type'])),
-                    DataCell(Text("${data['Quantity/day']}")),
-                    DataCell(Text(data['Feeding Method'])),
-                    DataCell(Text(data['Date'])),
-                    
-                    DataCell(Row(children: [
-                      IconButton(onPressed: (){}, icon: const Icon(Icons.edit, color: Colors.green, size: 25,)
-                      ),
-                      IconButton(onPressed: (){}, icon: const Icon(Icons.remove_red_eye_outlined, color: Colors.grey, size: 30,)
-                      ),
-                      
-                      IconButton(onPressed: (){}, icon: const Icon(Icons.delete, color: Colors.red, size: 25,)
-                      ),
-                    ],)),
-                  ]);
-                }).toList(),
-              )),
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream: LivestockRepostory().getAllFeedsSnapshot(),
+                    builder: (context, snapshot) {
+                      if(snapshot.connectionState==ConnectionState.waiting){
+                        return Center(child: CircularProgressIndicator(color: green,),);
+                      }
+                      if(snapshot.hasError){
+                        return Center(child: Text("An error occured!", style: TextStyle(color: red),),);
+                      }
+                      return DataTable(
+                                  columns: const [
+                       DataColumn(label: Text('#')),
+                      DataColumn(label: Text('Livestock ID')),
+                      DataColumn(label: Text('Breed')),
+                      DataColumn(label: Text('Weight')),
+                      DataColumn(label: Text('Feed type')),
+                      DataColumn(label: Text('Quantity/day')),
+                      DataColumn(label: Text('Feeding Method')),
+                      DataColumn(label: Text('Date')),
+                      DataColumn(label: Text('Action')),
+                                  ],
+                                  rows: consumptionhistoryData.map((data) {
+                      return DataRow(cells: [
+                        DataCell(Text("${data['id']}")),
+                        DataCell(Text(data['Livestock ID'])),
+                        DataCell(Text(data['Breed'])),
+                        DataCell(Text("${data['Weight']}")),
+                        DataCell(Text(data['Feed type'])),
+                        DataCell(Text("${data['Quantity/day']}")),
+                        DataCell(Text(data['Feeding Method'])),
+                        DataCell(Text(data['Date'])),
+                        
+                        DataCell(Row(children: [
+                          IconButton(onPressed: (){}, icon: const Icon(Icons.edit, color: Colors.green, size: 25,)
+                          ),
+                          IconButton(onPressed: (){}, icon: const Icon(Icons.remove_red_eye_outlined, color: Colors.grey, size: 30,)
+                          ),
+                          
+                          IconButton(onPressed: (){}, icon: const Icon(Icons.delete, color: Colors.red, size: 25,)
+                          ),
+                        ],)),
+                      ]);
+                                  }).toList(),
+                                );
+                    }
+                  )),
             ),
             ]
           ),
