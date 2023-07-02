@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fms/dammies/constants.dart';
 import 'package:fms/pages/livestock/breeding/breedig-management/animal_fertility_and_reproductive_history.dart';
 import 'package:fms/pages/livestock/breeding/breedig-management/weight_analytics.dart';
 import 'package:fms/pages/livestock/breeding/breedig-management/weight_management.dart';
@@ -13,6 +14,7 @@ class BreedManagement extends StatefulWidget {
 class _BreedManagementState extends State<BreedManagement> {
   @override
   Widget build(BuildContext context) {
+    Size size=MediaQuery.of(context).size;
     return  GridView.builder(
         itemCount: 3,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2), 
@@ -20,44 +22,99 @@ class _BreedManagementState extends State<BreedManagement> {
         if(index==1){
 
            return GestureDetector(
-            onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>const AnimalReproductivityAndHistory())),
-            child: const Card(
-              
-            margin: EdgeInsets.all(10),
-            color: Colors.grey,
-            child: Padding(
-              padding: EdgeInsets.all(12.0),
-              child: Center(child: Text("Breed Productivity History")),
-            ),
-                  ),
-          );
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const AnimalReproductivityAndHistory()));
+                    },
+                    child: Column(
+                      children: [
+                        Container(
+                          height: size.width * 0.33,
+                          decoration: BoxDecoration(
+                              image: const DecorationImage(
+                                  image: AssetImage("asset/images/record.jpg"),
+                                  fit: BoxFit.cover),
+                              borderRadius: BorderRadius.circular(10)),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          "Breed Productivity History",
+                          style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500,
+                              color: green),
+                        )
+                      ],
+                    ),
+                  );
         }else if(index==2){
 
-           return GestureDetector(
-            onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>const AnimalWeightManagement())),
-            child: const Card(
-              
-            margin: EdgeInsets.all(10),
-            color: Colors.grey,
-            child: Padding(
-              padding: EdgeInsets.all(12.0),
-              child: Center(child: Text("Weight Management")),
-            ),
-                  ),
-          );
+ return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const AnimalWeightManagement()));
+                    },
+                    child: Column(
+                      children: [
+                        Container(
+                          height: size.width * 0.33,
+                          decoration: BoxDecoration(
+                              image: const DecorationImage(
+                                  image: AssetImage("asset/images/laborm.jpg"),
+                                  fit: BoxFit.cover),
+                              borderRadius: BorderRadius.circular(10)),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          "Weight Management",
+                          style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500,
+                              color: green),
+                        )
+                      ],
+                    ),
+                  );
         }else{
-            return GestureDetector(
-            onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>AnimalWeightAnalytics())),
-            child: const Card(
-              
-            margin: EdgeInsets.all(10),
-            color: Colors.grey,
-            child: Padding(
-              padding: EdgeInsets.all(12.0),
-              child: Center(child: Text("Weight Analytics")),
-            ),
-                  ),
-          );
+           return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => AnimalWeightAnalytics()));
+                    },
+                    child: Column(
+                      children: [
+                        Container(
+                          height: size.width * 0.33,
+                          decoration: BoxDecoration(
+                              image: const DecorationImage(
+                                  image: AssetImage("asset/images/level.jpg"),
+                                  fit: BoxFit.cover),
+                              borderRadius: BorderRadius.circular(10)),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          "Weight Analytics",
+                          style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500,
+                              color: green),
+                        )
+                      ],
+                    ),
+                  );
+
         }
       });
   }
