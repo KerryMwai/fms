@@ -170,6 +170,9 @@ class _AddBreedState extends State<AddBreed> {
                   SizedBox(
                     width: size.width * 0.4,
                     child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll(green)
+                      ),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             LivestockRepostory().addBreedingInformation(FertilityAndReproductiveHistoryModel(animalid: animalid.text, animalbreed: animalbreed.text, birthdate: acquisitiondate!, breedingattempt: int.parse(breedattempts.text), breedingsuccess: int.parse(breedingsuccess.text), reproductivecycle: reproductivecycle.text, estrusbehaviour: reproductivecycle.text, conceptiondate: conceptiondate!, gestationperiod: int.parse(gestationperiod.text), reproductivehealth: reproductivehealth.text, breedingperformance:double.parse( breedingperformance.text), reproductiveinterventions: interventions.text, observations: observation.text, breedingprogram: breedingprogram.text, matingschedule: heat.text).toJson()).then((value) => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Information added successfully")))).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>const AnimalReproductivityAndHistory())));
