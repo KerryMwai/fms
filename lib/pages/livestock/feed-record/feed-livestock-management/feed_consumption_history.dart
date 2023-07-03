@@ -119,6 +119,7 @@ class _FeedConsumptionHistoryState extends State<FeedConsumptionHistory> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: green,
           title: const Text("Consumption History"),
           centerTitle: true,
         ),
@@ -167,7 +168,7 @@ class _FeedConsumptionHistoryState extends State<FeedConsumptionHistory> {
                               DataCell(Text(history.feedtype)),
                               DataCell(Text("${history.quantityaday}")),
                               DataCell(Text(history.feedingmethod)),
-                              DataCell(Text(DateFormat("dd-MM-yy").format(history.date))),
+                              DataCell(Text(DateFormat("dd-MMMM-yyyy").format(history.date))),
                               DataCell(Row(
                                 children: [
                                   IconButton(

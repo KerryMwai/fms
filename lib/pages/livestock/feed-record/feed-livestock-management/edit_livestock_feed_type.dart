@@ -5,14 +5,16 @@ import 'package:fms/pages/livestock/feed-record/feed-livestock-management/feed_c
 import 'package:fms/repository/livestock_repository.dart';
 import 'package:fms/widgets/feed_widgets/custom_form_field.dart';
 
-class AddLiveStockFeedType extends StatefulWidget {
-  const AddLiveStockFeedType({super.key});
+class EditLiveStockFeedType extends StatefulWidget {
+  final String id;
+  final FeedModel feed;
+  const EditLiveStockFeedType({super.key, required this.id, required this.feed});
 
   @override
-  State<AddLiveStockFeedType> createState() => _AddLiveStockFeedTypeState();
+  State<EditLiveStockFeedType> createState() => _EditLiveStockFeedTypeState();
 }
 
-class _AddLiveStockFeedTypeState extends State<AddLiveStockFeedType> {
+class _EditLiveStockFeedTypeState extends State<EditLiveStockFeedType> {
   final feedname = TextEditingController();
   final feedtype = TextEditingController();
   final quantityaday = TextEditingController();
@@ -25,10 +27,17 @@ class _AddLiveStockFeedTypeState extends State<AddLiveStockFeedType> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    feedname.text=widget.feed.feedname;
+    feedtype.text=widget.feed.feedtype;
+    quantityaday.text=widget.feed.quantityaday.toString();
+    livestockname.text=widget.feed.livestockname;
+    livestockid.text=widget.feed.livestockid;
+    animalweight.text=widget.feed.animalweight.toString();
+    feedingmethod.text=widget.feed.feedingmethod;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: green,
-        title: const Text("Add New Feed Consumption History"),
+        title: const Text("Edit Feed consumption History"),
         centerTitle: true,
       ),
       body: Padding(
@@ -76,7 +85,7 @@ class _AddLiveStockFeedTypeState extends State<AddLiveStockFeedType> {
                       lastDate: DateTime(2040),
                     );
                     setState(() {
-                      date = picked??DateTime.now();
+                      date = picked??widget.feed.date;
                     });
                   },
                   readOnly: true,
@@ -112,10 +121,10 @@ class _AddLiveStockFeedTypeState extends State<AddLiveStockFeedType> {
                       ),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            LivestockRepostory().addFeed(FeedModel(feedname: feedname.text, feedtype: feedtype.text, quantityaday: int.parse(quantityaday.text), livestockname: livestockname.text, livestockid: livestockid.text, animalweight: double.parse(animalweight.text), feedingmethod: feedingmethod.text, date: date!).toJson()).then((value) => Navigator.push(context, MaterialPageRoute(builder: (contes)=>const FeedConsumptionHistory()))).then((value) => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Feed added succesffully"))));
+                            LivestockRepostory().updateFeed(widget.id,FeedModel(feedname: feedname.text, feedtype: feedtype.text, quantityaday: int.parse(quantityaday.text), livestockname: livestockname.text, livestockid: livestockid.text, animalweight: double.parse(animalweight.text), feedingmethod: feedingmethod.text, date: date!).toJson()).then((value) => Navigator.push(context, MaterialPageRoute(builder: (contes)=>const FeedConsumptionHistory()))).then((value) => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Feed updated succesffully"))));
                           }
                         },
-                        child: const Text("Add Feed")),
+                        child: const Text("Edit Feed")),
                   )
                 ],
               ))
