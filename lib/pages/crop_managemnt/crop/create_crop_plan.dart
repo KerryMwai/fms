@@ -76,39 +76,42 @@ class CropPlanningPageState extends State<CropPlanningPage> {
                  const SizedBox(height: 10),
                 FeedFormField(controller: selectedCrop, labelText: "Plant targeted", valitationText: "Plant targeted is required"),
                 const SizedBox(height: 10),
-                TextFormField(
-                  
-                  onTap: () async {
-                    final DateTime? picked = await showDatePicker(
-
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(2023),
-                      lastDate: DateTime(2040),
-                    );
-                    setState(() {
-                      selectedPlantingDate = picked!;
-                    });
-                  },
-                  readOnly: true,
-                  
-                  decoration:const InputDecoration(
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  child: TextFormField(
                     
-                    border: OutlineInputBorder(),
-                    labelText: 'Planting Date',
-                  ),
-                  validator: (value) {
-                    // ignore: unnecessary_null_comparison
-                    if (selectedPlantingDate == null) {
-                      return 'Please select a planting date';
-                    }
-                    return null;
-                  },
-                  controller: TextEditingController(
-                    // ignore: unnecessary_null_comparison
-                    text: selectedPlantingDate != null
-                        ? selectedPlantingDate.toString().split(' ')[0]
-                        : '',
+                    onTap: () async {
+                      final DateTime? picked = await showDatePicker(
+                
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2023),
+                        lastDate: DateTime(2040),
+                      );
+                      setState(() {
+                        selectedPlantingDate = picked!;
+                      });
+                    },
+                    readOnly: true,
+                    
+                    decoration:const InputDecoration(
+                      
+                      border: OutlineInputBorder(),
+                      labelText: 'Planting Date',
+                    ),
+                    validator: (value) {
+                      // ignore: unnecessary_null_comparison
+                      if (selectedPlantingDate == null) {
+                        return 'Please select a planting date';
+                      }
+                      return null;
+                    },
+                    controller: TextEditingController(
+                      // ignore: unnecessary_null_comparison
+                      text: selectedPlantingDate != null
+                          ? selectedPlantingDate.toString().split(' ')[0]
+                          : '',
+                    ),
                   ),
                 ),
                 const SizedBox(height: 10),

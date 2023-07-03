@@ -12,8 +12,8 @@ class FeedingSchedule extends StatefulWidget {
 class _FeedingScheduleState extends State<FeedingSchedule> {
   final livestockid = TextEditingController();
   final livestocktype = TextEditingController();
-  final feedingintervalfrom = TextEditingController();
-  final feedingintervalto = TextEditingController();
+   DateTime? feedingintervalfrom;
+  DateTime? feedingintervalto;
   final feedname = TextEditingController();
   final feedtype = TextEditingController();
   final feedquantity = TextEditingController();
@@ -41,14 +41,82 @@ class _FeedingScheduleState extends State<FeedingSchedule> {
                   controller: livestocktype,
                   labelText: "Livestock type",
                   valitationText: "Livestock type is required"),
-              FeedFormField(
-                  controller: feedingintervalfrom,
-                  labelText: "Feeding interval from",
-                  valitationText: "Feeding interval from is required"),
-              FeedFormField(
-                  controller: feedingintervalto,
-                  labelText: "Feeding interval to",
-                  valitationText: "Feeding interval to is required"),
+                   Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  child: TextFormField(
+                    
+                    onTap: () async {
+                      final DateTime? picked = await showDatePicker(
+                
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2023),
+                        lastDate: DateTime(2040),
+                      );
+                      setState(() {
+                        feedingintervalfrom = picked ?? DateTime.now();
+                      });
+                    },
+                    readOnly: true,
+                    
+                    decoration:const InputDecoration(
+                      
+                      border: OutlineInputBorder(),
+                      labelText: 'Feeding from',
+                    ),
+                    validator: (value) {
+                      // ignore: unnecessary_null_comparison
+                      if (feedingintervalfrom == null) {
+                        return 'Please select time from';
+                      }
+                      return null;
+                    },
+                    controller: TextEditingController(
+                      // ignore: unnecessary_null_comparison
+                      text: feedingintervalfrom != null
+                          ? feedingintervalfrom.toString().split(' ')[0]
+                          : '',
+                    ),
+                  ),
+                ),
+                   Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  child: TextFormField(
+                    
+                    onTap: () async {
+                      final DateTime? picked = await showDatePicker(
+                
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2023),
+                        lastDate: DateTime(2040),
+                      );
+                      setState(() {
+                        feedingintervalto = picked ?? DateTime.now();
+                      });
+                    },
+                    readOnly: true,
+                    
+                    decoration:const InputDecoration(
+                      
+                      border: OutlineInputBorder(),
+                      labelText: 'Feeding to',
+                    ),
+                    validator: (value) {
+                      // ignore: unnecessary_null_comparison
+                      if (feedingintervalto == null) {
+                        return 'Please select time to ';
+                      }
+                      return null;
+                    },
+                    controller: TextEditingController(
+                      // ignore: unnecessary_null_comparison
+                      text: feedingintervalto != null
+                          ? feedingintervalto.toString().split(' ')[0]
+                          : '',
+                    ),
+                  ),
+                ),
               FeedFormField(
                   controller: feedname,
                   labelText: "Feed name",
