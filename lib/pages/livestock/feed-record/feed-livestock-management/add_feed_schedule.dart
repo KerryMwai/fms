@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fms/controller/model/feed_schedule_model.dart';
 import 'package:fms/dammies/constants.dart';
+import 'package:fms/pages/livestock/feed-record/feed-livestock-management/feed_schedule_information.dart';
+import 'package:fms/repository/livestock_repository.dart';
 import 'package:fms/widgets/feed_widgets/custom_form_field.dart';
 import 'package:intl/intl.dart';
 
@@ -81,7 +84,7 @@ class _AddFeedingScheduleState extends State<AddFeedingSchedule> {
                   onTap: () async {
                     final TimeOfDay? picked = await showTimePicker(
                       context: context,
-                      initialTime: TimeOfDay.now(),
+                      initialTime: TimeOfDay.now().replacing(hour: TimeOfDay.now().hour+1),
                     );
                     setState(() {
                       feedingintervalto = picked ?? TimeOfDay.now();
@@ -102,7 +105,7 @@ class _AddFeedingScheduleState extends State<AddFeedingSchedule> {
                   controller: TextEditingController(
                     // ignore: unnecessary_null_comparison
                     text: feedingintervalto != null
-                        ? DateFormat("h:mm a").format(DateTime(2023,1,1, feedingintervalfrom!.hour,feedingintervalto!.minute))
+                        ? DateFormat("h:mm a").format(DateTime(2023,1,1, feedingintervalto!.hour,feedingintervalto!.minute))
                         : '',
                   ),
                 ),
@@ -126,10 +129,13 @@ class _AddFeedingScheduleState extends State<AddFeedingSchedule> {
                   SizedBox(
                     width: size.width * 0.4,
                     child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll(green)
+                      ),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            print(feedingintervalfrom);
-                            print(feedingintervalto);
+                            LivestockRepostory().addFeedSchedule(FeedScheduleModel(livestockid: livestockid.text, livestocktype: livestocktype.text, feedingintervalfrom: feedingintervalfrom!, feedingintervalto: feedingintervalto!, feedname: feedname.text, feedtype: feedtype.text, feedquantity: double.parse(feedquantity.text)).toJson()).
+                            then((value) => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Schedule added successfully")))).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>const FeedScheduleInformation())));
                           }
                         },
                         child: const Text("Add Schedule")),
