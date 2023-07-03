@@ -72,19 +72,27 @@ class _AddFeedingScheduleState extends State<AddFeedingSchedule> {
                   controller: TextEditingController(
                     // ignore: unnecessary_null_comparison
                     text: feedingintervalfrom != null
-                        ? DateFormat("h:mm a").format(DateTime(2023,1,1, feedingintervalfrom!.hour,feedingintervalfrom!.minute))
+                        ? DateFormat("h:mm a").format(DateTime(
+                            2023,
+                            1,
+                            1,
+                            feedingintervalfrom!.hour,
+                            feedingintervalfrom!.minute))
                         : '',
                   ),
                 ),
               ),
-              const SizedBox(height: 15,),
+              const SizedBox(
+                height: 15,
+              ),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 10),
                 child: TextFormField(
                   onTap: () async {
                     final TimeOfDay? picked = await showTimePicker(
                       context: context,
-                      initialTime: TimeOfDay.now().replacing(hour: TimeOfDay.now().hour+1),
+                      initialTime: TimeOfDay.now()
+                          .replacing(hour: TimeOfDay.now().hour + 1),
                     );
                     setState(() {
                       feedingintervalto = picked ?? TimeOfDay.now();
@@ -105,7 +113,8 @@ class _AddFeedingScheduleState extends State<AddFeedingSchedule> {
                   controller: TextEditingController(
                     // ignore: unnecessary_null_comparison
                     text: feedingintervalto != null
-                        ? DateFormat("h:mm a").format(DateTime(2023,1,1, feedingintervalto!.hour,feedingintervalto!.minute))
+                        ? DateFormat("h:mm a").format(DateTime(2023, 1, 1,
+                            feedingintervalto!.hour, feedingintervalto!.minute))
                         : '',
                   ),
                 ),
@@ -129,13 +138,40 @@ class _AddFeedingScheduleState extends State<AddFeedingSchedule> {
                   SizedBox(
                     width: size.width * 0.4,
                     child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(green)
-                      ),
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll(green)),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            LivestockRepostory().addFeedSchedule(FeedScheduleModel(livestockid: livestockid.text, livestocktype: livestocktype.text, feedingintervalfrom: feedingintervalfrom!, feedingintervalto: feedingintervalto!, feedname: feedname.text, feedtype: feedtype.text, feedquantity: double.parse(feedquantity.text)).toJson()).
-                            then((value) => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Schedule added successfully")))).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>const FeedScheduleInformation())));
+                            LivestockRepostory()
+                                .addFeedSchedule(FeedScheduleModel(
+                                        livestockid: livestockid.text,
+                                        livestocktype: livestocktype.text,
+                                        feedingintervalfrom: DateTime(
+                                            2023,
+                                            1,
+                                            1,
+                                            feedingintervalfrom!.hour,
+                                            feedingintervalfrom!.minute),
+                                        feedingintervalto: DateTime(
+                                            2023,
+                                            1,
+                                            1,
+                                            feedingintervalto!.hour,
+                                            feedingintervalto!.minute),
+                                        feedname: feedname.text,
+                                        feedtype: feedtype.text,
+                                        feedquantity:
+                                            double.parse(feedquantity.text))
+                                    .toJson())
+                                .then((value) => ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
+                                        content: Text(
+                                            "Schedule added successfully"))))
+                                .then((value) => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const FeedScheduleInformation())));
                           }
                         },
                         child: const Text("Add Schedule")),

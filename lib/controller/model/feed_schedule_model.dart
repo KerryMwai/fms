@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
 
 class FeedScheduleModel{
   final String livestockid;
   final String livestocktype;
-  final TimeOfDay feedingintervalfrom;
-  final TimeOfDay feedingintervalto;
+  final DateTime feedingintervalfrom;
+  final DateTime feedingintervalto;
   final String feedname;
   final String feedtype;
   final double feedquantity;
