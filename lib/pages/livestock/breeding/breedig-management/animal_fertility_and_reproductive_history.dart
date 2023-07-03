@@ -323,7 +323,7 @@ class _AnimalReproductivityAndHistoryState
                             IconButton(onPressed: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>EditBreed(id:document.id, breed: data,)));
                             }, icon: Icon(Icons.edit, color: green,)),
-                             IconButton(onPressed: (){}, icon: Icon(Icons.remove_red_eye_outlined, color: red,)),
+                             IconButton(onPressed: (){}, icon: Icon(Icons.remove_red_eye_outlined, color: grey,)),
                               IconButton(onPressed: (){
                                 showAlertForDeletion(document.id, data, context);
                               }, icon: Icon(Icons.delete, color: red,)),
@@ -337,6 +337,7 @@ class _AnimalReproductivityAndHistoryState
         }
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: green,
         onPressed: () {
           Navigator.push(
               context, MaterialPageRoute(builder: (_) => const AddBreed()));
