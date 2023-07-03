@@ -121,7 +121,7 @@ class _FeedScheduleInformationState extends State<FeedScheduleInformation> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: green,
-          title: const Text("Consumption History"),
+          title: const Text("Feeding Schedules"),
           centerTitle: true,
         ),
         body: Padding(
@@ -164,7 +164,7 @@ class _FeedScheduleInformationState extends State<FeedScheduleInformation> {
                             return DataRow(cells: [
                               DataCell(Text(schedule.livestockid)),
                               DataCell(Text(schedule.livestocktype)),
-                              DataCell(Text("${DateFormat("h:mm a").format(schedule.feedingintervalfrom)}- ${DateFormat("h:mm a").format(schedule.feedingintervalto)}")),
+                              DataCell(Text("${DateFormat("h:mm a").format(schedule.feedingintervalfrom)} — ${DateFormat("h:mm a").format(schedule.feedingintervalto)}")),
                               DataCell(Text(schedule.feedname)),
                               DataCell(Text(schedule.feedtype)),
                               DataCell(Text("${schedule.feedquantity} Kgs")),
