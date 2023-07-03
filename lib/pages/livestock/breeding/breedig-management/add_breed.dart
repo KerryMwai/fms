@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fms/controller/model/animal_fertility_and_reproductive_history_model.dart';
 import 'package:fms/dammies/constants.dart';
+import 'package:fms/repository/livestock_repository.dart';
 import 'package:fms/widgets/feed_widgets/custom_form_field.dart';
 
 class AddBreed extends StatefulWidget {
@@ -12,18 +14,18 @@ class AddBreed extends StatefulWidget {
 class _AddBreedState extends State<AddBreed> {
   final animalid = TextEditingController();
   final animalbreed = TextEditingController();
-  final acquisitiondate = TextEditingController();
+  DateTime? acquisitiondate;
   final breedattempts = TextEditingController();
   final breedingsuccess = TextEditingController();
   final reproductivecycle = TextEditingController();
   final heat = TextEditingController();
   final matingschedule = TextEditingController();
-  final conceptiondate = TextEditingController();
+  DateTime? conceptiondate;
   final gestationperiod = TextEditingController();
   final reproductivehealth = TextEditingController();
   final breedingperformance = TextEditingController();
   final interventions = TextEditingController();
-  final reproductvehistoryofparents = TextEditingController();
+  final breedingprogram= TextEditingController();
   final observation = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   @override
@@ -49,10 +51,76 @@ class _AddBreedState extends State<AddBreed> {
                   controller: animalbreed,
                   labelText: "Breed name",
                   valitationText: "Breed name is required"),
-              FeedFormField3(
-                  controller: acquisitiondate,
-                  labelText: "Breeding acquisition date",
-                  valitationText: "Breeding acquisition date is required"),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 10),
+                child: TextFormField(
+                  onTap: () async {
+                    final DateTime? picked = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2023),
+                      lastDate: DateTime(2040),
+                    );
+                    setState(() {
+                      acquisitiondate = picked!;
+                    });
+                  },
+                  readOnly: true,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Acquisition date',
+                  ),
+                  validator: (value) {
+                    // ignore: unnecessary_null_comparison
+                    if (acquisitiondate == null) {
+                      return 'Breed acquisition date';
+                    }
+                    return null;
+                  },
+                  controller: TextEditingController(
+                    // ignore: unnecessary_null_comparison
+                    text: acquisitiondate != null
+                        ? acquisitiondate.toString().split(' ')[0]
+                        : '',
+                  ),
+                ),
+              ),
+
+
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 10),
+                child: TextFormField(
+                  onTap: () async {
+                    final DateTime? picked = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2023),
+                      lastDate: DateTime(2040),
+                    );
+                    setState(() {
+                      conceptiondate = picked!;
+                    });
+                  },
+                  readOnly: true,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Conception date',
+                  ),
+                  validator: (value) {
+                    // ignore: unnecessary_null_comparison
+                    if (conceptiondate == null) {
+                      return 'Conception date';
+                    }
+                    return null;
+                  },
+                  controller: TextEditingController(
+                    // ignore: unnecessary_null_comparison
+                    text: conceptiondate != null
+                        ? conceptiondate.toString().split(' ')[0]
+                        : '',
+                  ),
+                ),
+              ),
               FeedFormField2(
                   controller: breedattempts,
                   labelText: "Breeding attempts",
@@ -67,16 +135,12 @@ class _AddBreedState extends State<AddBreed> {
                   valitationText: "Breed reproductive cycle is required"),
               FeedFormField(
                   controller: heat,
-                  labelText: "Breed heat",
-                  valitationText: "Breed heat is required"),
+                  labelText: "Breed mating schedule (how many times a year)",
+                  valitationText: "Breed mating schedule is required"),
               FeedFormField(
                   controller: matingschedule,
                   labelText: "Breed mating schedule",
                   valitationText: "Breed mating schedule is required"),
-              FeedFormField3(
-                  controller: conceptiondate,
-                  labelText: "Breeding conception date",
-                  valitationText: "Breeding conception date is required"),
               FeedFormField2(
                   controller: gestationperiod,
                   labelText: "Breed gestation period in days",
@@ -95,10 +159,10 @@ class _AddBreedState extends State<AddBreed> {
                   valitationText:
                       "Breed reproductive intervention is required"),
               FeedFormField(
-                  controller: reproductvehistoryofparents,
-                  labelText: "Reproductive history of parents",
+                  controller: breedingprogram,
+                  labelText: "Breeding program",
                   valitationText:
-                      "Reproductive history of parents is required"),
+                      "Breeding program is required"),
               FeedFormField(
                   controller: observation,
                   labelText: "Breed observation",
@@ -111,7 +175,9 @@ class _AddBreedState extends State<AddBreed> {
                     width: size.width * 0.4,
                     child: ElevatedButton(
                         onPressed: () {
-                          if (_formKey.currentState!.validate()) {}
+                          if (_formKey.currentState!.validate()) {
+                            LivestockRepostory().addBreedingInformation(FertilityAndReproductiveHistoryModel(animalid: animalid.text, animalbreed: animalbreed.text, birthdate: acquisitiondate!, breedingattempt: int.parse(breedattempts.text), breedingsuccess: int.parse(breedingsuccess.text), reproductivecycle: reproductivecycle.text, estrusbehaviour: reproductivecycle.text, conceptiondate: conceptiondate!, gestationperiod: int.parse(gestationperiod.text), reproductivehealth: reproductivehealth.text, breedingperformance:double.parse( breedingperformance.text), reproductiveinterventions: interventions.text, observations: observation.text, breedingprogram: breedingprogram.text, matingschedule: heat.text));
+                          }
                         },
                         child: const Text("Add Breed")),
                   )

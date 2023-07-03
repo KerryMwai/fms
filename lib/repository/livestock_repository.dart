@@ -14,4 +14,10 @@ class LivestockRepostory{
   Future<void> updateFeedSchedule(id, feedchedule)=>firestore.collection("feed-schedules").doc(id).update(feedchedule);
   Stream<QuerySnapshot> getAllFeedSchedulesSnapshot()=>firestore.collection("feed-schedules").snapshots();
   Future<void> deleteFeedSchedule(id)=>firestore.collection("feed-schedules").doc(id).delete();
+
+  // Breeding management
+   Future<void> addBreedingInformation(breedinginformation)=>firestore.collection("breeding-information").add(breedinginformation);
+  Future<void> updateBreedingInformation(id, feedchedule)=>firestore.collection("breeding-information").doc(id).update(feedchedule);
+  Stream<QuerySnapshot> getAllBreedingInformationsSnapshots()=>firestore.collection("breeding-information").snapshots();
+  Future<void> deleteBreedingInformation(id)=>firestore.collection("breeding-information").doc(id).delete();
 }
