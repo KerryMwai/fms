@@ -1,16 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fms/controller/model/animal_fertility_and_reproductive_history_model.dart';
 import 'package:fms/dammies/constants.dart';
 import 'package:fms/pages/livestock/breeding/breedig-management/add_breed.dart';
+import 'package:fms/repository/livestock_repository.dart';
+import 'package:intl/intl.dart';
 
 class AnimalReproductivityAndHistory extends StatefulWidget {
   const AnimalReproductivityAndHistory({super.key});
 
   @override
-  State<AnimalReproductivityAndHistory> createState() => _AnimalReproductivityAndHistoryState();
+  State<AnimalReproductivityAndHistory> createState() =>
+      _AnimalReproductivityAndHistoryState();
 }
 
-class _AnimalReproductivityAndHistoryState extends State<AnimalReproductivityAndHistory> {
- final List<Map<String, String>> dummyData = [
+class _AnimalReproductivityAndHistoryState
+    extends State<AnimalReproductivityAndHistory> {
+  final List<Map<String, String>> dummyData = [
     {
       'Animal ID': '1',
       'Birth/Acquisition Date': '01/01/2020',
@@ -260,44 +266,70 @@ class _AnimalReproductivityAndHistoryState extends State<AnimalReproductivityAnd
         backgroundColor: blueGrey,
         title: const Text("Animal Productivity History"),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: DataTable(
-      columns: const[
-        DataColumn(label: Text('Animal ID')),
-        DataColumn(label: Text('Birth/Acquisition Date')),
-        DataColumn(label: Text('Breeding Attempts')),
-        DataColumn(label: Text('Breeding Success')),
-        DataColumn(label: Text('Reproductive Cycles')),
-        DataColumn(label: Text('Heat/Estrus Behavior')),
-        DataColumn(label: Text('Conception Dates')),
-        DataColumn(label: Text('Gestation Period')),
-        DataColumn(label: Text('Reproductive Health')),
-        DataColumn(label: Text('Breeding Performance')),
-        DataColumn(label: Text('Reproductive Interventions')),
-        DataColumn(label: Text('Observations')),
-        DataColumn(label: Text('Breeding Program')),
-        DataColumn(label: Text('Mating Schedule')),
-      ],
-      rows: dummyData
-          .map(
-            (data) => DataRow(
-              cells: data.entries
-                  .map((entry) => DataCell(Text(entry.value)))
-                  .toList(),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: LivestockRepostory().getAllBreedingInformationsSnapshots(),
+        builder: (context, snapshot) {
+          if(snapshot.connectionState==ConnectionState.waiting){
+            return Center(child: CircularProgressIndicator(color: green,),);
+          }
+          if(snapshot.connectionState==ConnectionState.waiting){
+            return Center(child: Text("An error occured", style: TextStyle(color: red),),);
+          }
+          return SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: DataTable(
+                    columns: const [
+                      DataColumn(label: Text('Animal ID')),
+                      DataColumn(label: Text('Animal Breed')),
+                      DataColumn(label: Text('Birth/Acquisition Date')),
+                      DataColumn(label: Text('Breeding Attempts')),
+                      DataColumn(label: Text('Breeding Success')),
+                      DataColumn(label: Text('Reproductive Cycles')),
+                      DataColumn(label: Text('Heat/Estrus Behavior')),
+                      DataColumn(label: Text('Conception Dates')),
+                      DataColumn(label: Text('Gestation Period')),
+                      DataColumn(label: Text('Reproductive Health')),
+                      DataColumn(label: Text('Breeding Performance')),
+                      DataColumn(label: Text('Reproductive Interventions')),
+                      DataColumn(label: Text('Observations')),
+                      DataColumn(label: Text('Breeding Program')),
+                      DataColumn(label: Text('Mating Schedule')),
+                    ],
+                    rows: snapshot.data!.docs.map((DocumentSnapshot document) {
+                      final data=FertilityAndReproductiveHistoryModel.fromJson(document.data() as Map<String, dynamic>);
+                      return DataRow(cells: [
+                        DataCell(Text(data.animalid)),
+                        DataCell(Text(data.animalbreed)),
+                        DataCell(Text(DateFormat("dd-MM-yy").format(data.birthdate))),
+                        DataCell(Text("${data.breedingattempt}")),
+                        DataCell(Text("${data.breedingsuccess}")),
+                        DataCell(Text(data.reproductivecycle)),
+                        DataCell(Text(data.estrusbehaviour)),
+                        DataCell(Text(DateFormat("dd-MM-yy").format(data.conceptiondate))),
+                        DataCell(Text("${data.gestationperiod}")),
+                        DataCell(Text(data.reproductivehealth)),
+                        DataCell(Text("${data.breedingperformance}")),
+                        DataCell(Text(data.reproductiveinterventions)),
+                        DataCell(Text(data.observations)),
+                        DataCell(Text(data.breedingprogram)),
+                        DataCell(Text(data.matingschedule)),
+                      ]);
+                    }).toList(),
+                  )),
             ),
-          )
-          .toList(),
-    )
-          ),
-        ),
+          );
+        }
       ),
-      floatingActionButton: FloatingActionButton(onPressed: (){
-        Navigator.push(context, MaterialPageRoute(builder: (_)=>const AddBreed()));
-      },child:const Icon(Icons.add),),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (_) => const AddBreed()));
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
