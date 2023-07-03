@@ -59,11 +59,11 @@ class _AddBreedState extends State<AddBreed> {
                     final DateTime? picked = await showDatePicker(
                       context: context,
                       initialDate: DateTime.now(),
-                      firstDate: DateTime(2023),
+                      firstDate: DateTime(2010),
                       lastDate: DateTime(2040),
                     );
                     setState(() {
-                      acquisitiondate = picked!;
+                      acquisitiondate = picked??DateTime.now();
                     });
                   },
                   readOnly: true,
@@ -87,7 +87,7 @@ class _AddBreedState extends State<AddBreed> {
                 ),
               ),
 
-
+              const SizedBox(height: 15,),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 10),
                 child: TextFormField(
@@ -95,11 +95,11 @@ class _AddBreedState extends State<AddBreed> {
                     final DateTime? picked = await showDatePicker(
                       context: context,
                       initialDate: DateTime.now(),
-                      firstDate: DateTime(2023),
+                      firstDate: DateTime(2010),
                       lastDate: DateTime(2040),
                     );
                     setState(() {
-                      conceptiondate = picked!;
+                      conceptiondate = picked??DateTime.now();
                     });
                   },
                   readOnly: true,
