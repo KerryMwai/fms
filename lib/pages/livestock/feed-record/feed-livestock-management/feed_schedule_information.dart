@@ -193,7 +193,7 @@ class _FeedScheduleInformationState extends State<FeedScheduleInformation> {
                                       )),
                                   IconButton(
                                       onPressed: () {
-                                        // showAlertForDeletion(document.id, history, context);
+                                        showAlertForDeletion(document.id, schedule, context);
                                       },
                                       icon: const Icon(
                                         Icons.delete,
@@ -222,13 +222,13 @@ class _FeedScheduleInformationState extends State<FeedScheduleInformation> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("${schedule.livestockid} -> ${schedule.livestockname}"),
+          title: Text("${schedule.livestockid} -> ${schedule.livestocktype}"),
           content: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Schedule of: ${schedule.livestockid} -> ${schedule.livestockname}',
+                  'Schedule of: ${schedule.livestockid} -> ${schedule.livestocktype}',
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -246,7 +246,7 @@ class _FeedScheduleInformationState extends State<FeedScheduleInformation> {
                     ),
                   ),
                   subtitle: Text(
-                    "${schedule.livestockname}",
+                    "${schedule.livestocktype}",
                     style: const TextStyle(
                       fontSize: 16,
                     ),
@@ -350,12 +350,12 @@ class _FeedScheduleInformationState extends State<FeedScheduleInformation> {
     );
   }
 
-  Future<void> showAlertForDeletion(id, history, context) async {
+  Future<void> showAlertForDeletion(id, schedule, context) async {
     return showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          content: Text("Are you sure you want to delete ${history.feedname} for livestock ${history.livestockname}"),
+          content: Text("Are you sure you want to delete ${schedule.livestockid} for livestock ${schedule.livestocktype}"),
           actions: [
             TextButton(
                 onPressed: () {
@@ -368,12 +368,12 @@ class _FeedScheduleInformationState extends State<FeedScheduleInformation> {
             TextButton(
                 onPressed: () {
                   LivestockRepostory()
-                      .deleteFeed(id)
+                      .deleteFeedSchedule(id)
                       .then((value) => Navigator.pop(context))
                       .then((value) => ScaffoldMessenger.of(context)
                           .showSnackBar(SnackBar(
                               content:
-                                  Text("${history.feedname} deleted suuccessfully"))));
+                                  Text("${schedule.livestcokid} deleted suuccessfully"))));
                 },
                 child: const Text("Yes"))
           ],
