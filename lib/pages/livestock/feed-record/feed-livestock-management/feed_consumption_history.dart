@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fms/controller/model/feed_model.dart';
 import 'package:fms/dammies/constants.dart';
+import 'package:fms/pages/livestock/feed-record/feed-livestock-management/add_livestock_feed_type.dart';
 import 'package:fms/pages/livestock/feed-record/feed-livestock-management/edit_livestock_feed_type.dart';
 import 'package:fms/repository/livestock_repository.dart';
 import 'package:intl/intl.dart';
@@ -209,7 +210,13 @@ class _FeedConsumptionHistoryState extends State<FeedConsumptionHistory> {
                       })),
             ),
           ]),
-        ));
+        ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: green,
+          onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>const AddLiveStockFeedType()));
+          }, child:const Icon(Icons.add)),
+        );
   }
 
     Future<void> showVewDialogCard(history, context) async {

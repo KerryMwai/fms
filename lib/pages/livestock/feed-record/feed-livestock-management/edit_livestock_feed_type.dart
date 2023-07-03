@@ -74,41 +74,44 @@ class _EditLiveStockFeedTypeState extends State<EditLiveStockFeedType> {
                   controller: feedingmethod,
                   labelText: "Feeding method",
                   valitationText: "Feeding method is required"),
-                         TextFormField(
-                  
-                  onTap: () async {
-                    final DateTime? picked = await showDatePicker(
-
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(2023),
-                      lastDate: DateTime(2040),
-                    );
-                    setState(() {
-                      date = picked??widget.feed.date;
-                    });
-                  },
-                  readOnly: true,
-                  
-                  decoration:const InputDecoration(
-                    
-                    border: OutlineInputBorder(),
-                    labelText: 'Feeding Date',
-                  ),
-                  validator: (value) {
-                    // ignore: unnecessary_null_comparison
-                    if (date == null) {
-                      return 'Please select a feeding date';
-                    }
-                    return null;
-                  },
-                  controller: TextEditingController(
-                    // ignore: unnecessary_null_comparison
-                    text: date != null
-                        ? date.toString().split(' ')[0]
-                        : '',
-                  ),
-                ),
+                         Container(
+                          margin:const EdgeInsets.symmetric(horizontal: 10),
+                           child: TextFormField(
+                                           
+                                           onTap: () async {
+                                             final DateTime? picked = await showDatePicker(
+                         
+                                               context: context,
+                                               initialDate: DateTime.now(),
+                                               firstDate: DateTime(2023),
+                                               lastDate: DateTime(2040),
+                                             );
+                                             setState(() {
+                                               date = picked??widget.feed.date;
+                                             });
+                                           },
+                                           readOnly: true,
+                                           
+                                           decoration:const InputDecoration(
+                                             
+                                             border: OutlineInputBorder(),
+                                             labelText: 'Feeding Date',
+                                           ),
+                                           validator: (value) {
+                                             // ignore: unnecessary_null_comparison
+                                             if (date == null) {
+                                               return 'Please select a feeding date';
+                                             }
+                                             return null;
+                                           },
+                                           controller: TextEditingController(
+                                             // ignore: unnecessary_null_comparison
+                                             text: date != null
+                                                 ? date.toString().split(' ')[0]
+                                                 : '',
+                                           ),
+                                         ),
+                         ),
               Expanded(
                   child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
