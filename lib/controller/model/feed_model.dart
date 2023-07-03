@@ -1,7 +1,7 @@
 class FeedModel{
   final String feedname;
   final String feedtype;
-  final int quantityaday;
+  final double quantityaday;
   final String livestockname;
   final String livestockid;
   final double animalweight;
@@ -11,7 +11,7 @@ class FeedModel{
   const FeedModel({required this.feedname, required this.feedtype, required this.quantityaday, required this.livestockname, required this.livestockid, required this.animalweight, required this.feedingmethod, required this.date});
 
   factory FeedModel.fromJson(Map<String, dynamic> json){
-    return FeedModel(feedname: json['feedname'], feedtype: json['feedtype'], quantityaday: json['quantityaday'].toInt(), livestockname: json['livestockname'], livestockid: json['livestockid'], animalweight: json['animalweight'].toDouble(), feedingmethod: json['feedingmethod'], date: json['date'].toDate());
+    return FeedModel(feedname: json['feedname'], feedtype: json['feedtype'], quantityaday: json['quantityaday'].toDouble(), livestockname: json['livestockname'], livestockid: json['livestockid'], animalweight: json['animalweight'].toDouble(), feedingmethod: json['feedingmethod'], date: json['date'].toDate());
   }
 
   Map<String, dynamic> toJson(){

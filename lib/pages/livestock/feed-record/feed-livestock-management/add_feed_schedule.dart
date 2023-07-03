@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fms/dammies/constants.dart';
 import 'package:fms/widgets/feed_widgets/custom_form_field.dart';
 
 class FeedingSchedule extends StatefulWidget {
@@ -9,16 +10,19 @@ class FeedingSchedule extends StatefulWidget {
 }
 
 class _FeedingScheduleState extends State<FeedingSchedule> {
-  TextEditingController livestocktype=TextEditingController();
-  TextEditingController feedinginterval=TextEditingController();
-  TextEditingController feedtype=TextEditingController();
-  TextEditingController feedquantity=TextEditingController();
+  final livestockid=TextEditingController();
+  final livestocktype=TextEditingController();
+  final feedingintervalfrom=TextEditingController();
+  final feedingintervalto=TextEditingController();
+  final feedtype=TextEditingController();
+  final  feedquantity=TextEditingController();
   final _formKey=GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     Size size=MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: green,
         title: const Text("Schedule feeding"),
         centerTitle: true,
       ),
@@ -27,7 +31,8 @@ class _FeedingScheduleState extends State<FeedingSchedule> {
         child: ListView(
           children: [
              FeedFormField(controller: livestocktype,labelText: "Livestock type",valitationText: "Livestock type is required"),
-             FeedFormField(controller: feedinginterval,labelText: "Feeding interval",valitationText: "Feeding interval is required"),
+             FeedFormField(controller: feedingintervalfrom,labelText: "Feeding interval from",valitationText: "Feeding interval from is required"),
+             FeedFormField(controller: feedingintervalto,labelText: "Feeding interval to",valitationText: "Feeding interval to is required"),
              FeedFormField(controller: feedtype,labelText: "Feed type",valitationText: "Feed type is required"),
              FeedFormField(controller: feedquantity,labelText: "Feed quantity",valitationText: "Feed quantity is required"),
            Expanded(child:   Row(

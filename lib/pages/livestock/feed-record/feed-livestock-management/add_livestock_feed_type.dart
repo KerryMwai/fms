@@ -113,7 +113,7 @@ class _AddLiveStockFeedTypeState extends State<AddLiveStockFeedType> {
                                         feedname: feedname.text,
                                         feedtype: feedtype.text,
                                         quantityaday:
-                                            int.parse(quantityaday.text),
+                                            double.parse(quantityaday.text),
                                         livestockname: livestockname.text,
                                         livestockid: livestockid.text,
                                         animalweight:

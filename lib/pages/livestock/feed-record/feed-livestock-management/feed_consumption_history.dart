@@ -154,7 +154,7 @@ class _FeedConsumptionHistoryState extends State<FeedConsumptionHistory> {
                           columns: const [
                             DataColumn(label: Text('Livestock ID')),
                             DataColumn(label: Text('Breed')),
-                            DataColumn(label: Text('Weight')),
+                            DataColumn(label: Text('Animal Weight')),
                             DataColumn(label: Text('Feed name')),
                             DataColumn(label: Text('Feed type')),
                             DataColumn(label: Text('Quantity/day')),
