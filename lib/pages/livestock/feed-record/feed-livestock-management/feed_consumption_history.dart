@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fms/controller/model/feed_model.dart';
 import 'package:fms/dammies/constants.dart';
+import 'package:fms/pages/livestock/feed-record/feed-livestock-management/edit_livestock_feed_type.dart';
 import 'package:fms/repository/livestock_repository.dart';
 import 'package:intl/intl.dart';
 
@@ -172,7 +173,9 @@ class _FeedConsumptionHistoryState extends State<FeedConsumptionHistory> {
                               DataCell(Row(
                                 children: [
                                   IconButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.replace(context, oldRoute: MaterialPageRoute(builder: (context)=>const FeedConsumptionHistory()), newRoute: MaterialPageRoute(builder: (context)=> EditLiveStockFeedType(id: document.id,feed: history,)));
+                                      },
                                       icon: const Icon(
                                         Icons.edit,
                                         color: Colors.green,
