@@ -12,6 +12,6 @@ class LivestockRepostory{
   // Livestock feeding schedule
   Future<void> addFeedSchedule(feedschedule)=>firestore.collection("feed-schedules").add(feedschedule);
   Future<void> updateFeedSchedule(id, feedchedule)=>firestore.collection("feed-schedules").doc(id).update(feedchedule);
-  Stream<QuerySnapshot> getAllFeedSchedulesSnapshot()=>firestore.collection("feedschedules").snapshots();
+  Stream<QuerySnapshot> getAllFeedSchedulesSnapshot()=>firestore.collection("feed-schedules").snapshots();
   Future<void> deleteFeedSchedule(id)=>firestore.collection("feed-schedules").doc(id).delete();
 }

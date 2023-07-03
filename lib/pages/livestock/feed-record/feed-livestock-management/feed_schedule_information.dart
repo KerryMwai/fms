@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:fms/controller/model/feed_model.dart';
+import 'package:fms/controller/model/feed_schedule_model.dart';
 import 'package:fms/dammies/constants.dart';
 import 'package:fms/pages/livestock/feed-record/feed-livestock-management/add_feed_schedule.dart';
-import 'package:fms/pages/livestock/feed-record/feed-livestock-management/edit_livestock_feed_type.dart';
 import 'package:fms/repository/livestock_repository.dart';
 import 'package:intl/intl.dart';
 
@@ -132,7 +131,7 @@ class _FeedScheduleInformationState extends State<FeedScheduleInformation> {
               child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: StreamBuilder<QuerySnapshot>(
-                      stream: LivestockRepostory().getAllFeedsSnapshot(),
+                      stream: LivestockRepostory().getAllFeedSchedulesSnapshot(),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
@@ -161,19 +160,19 @@ class _FeedScheduleInformationState extends State<FeedScheduleInformation> {
                             DataColumn(label: Text('Action')),
                           ],
                           rows: snapshot.data!.docs.map((DocumentSnapshot document) {
-                            final history=FeedModel.fromJson(document.data() as Map<String, dynamic>);
+                            final schedule=FeedScheduleModel.fromJson(document.data() as Map<String, dynamic>);
                             return DataRow(cells: [
-                              DataCell(Text("Cow-021")),
-                              DataCell(Text("Angus")),
-                              DataCell(Text("12:00 pm - 2:00 pm")),
-                              DataCell(Text("Hay")),
-                              DataCell(Text("Hay (Timothy)")),
-                              DataCell(Text("20 Kgs")),
+                              DataCell(Text(schedule.livestockid)),
+                              DataCell(Text(schedule.livestocktype)),
+                              DataCell(Text("${DateFormat("h:mm a").format(schedule.feedingintervalfrom)}- ${DateFormat("h:mm a").format(schedule.feedingintervalto)}")),
+                              DataCell(Text(schedule.feedname)),
+                              DataCell(Text(schedule.feedtype)),
+                              DataCell(Text("${schedule.feedquantity} Kgs")),
                               DataCell(Row(
                                 children: [
                                   IconButton(
                                       onPressed: () {
-                                        Navigator.push(context, MaterialPageRoute(builder: (context)=> EditLiveStockFeedType(id: document.id,feed: history,)));
+                                        Navigator.push(context, MaterialPageRoute(builder: (context)=> Text("")));
                                       },
                                       icon: const Icon(
                                         Icons.edit,
@@ -182,7 +181,7 @@ class _FeedScheduleInformationState extends State<FeedScheduleInformation> {
                                       )),
                                   IconButton(
                                       onPressed: () {
-                                        showVewDialogCard(history, context);
+                                        // showVewDialogCard(history, context);
                                       },
                                       icon: const Icon(
                                         Icons.remove_red_eye_outlined,
@@ -191,7 +190,7 @@ class _FeedScheduleInformationState extends State<FeedScheduleInformation> {
                                       )),
                                   IconButton(
                                       onPressed: () {
-                                        showAlertForDeletion(document.id, history, context);
+                                        // showAlertForDeletion(document.id, history, context);
                                       },
                                       icon: const Icon(
                                         Icons.delete,
