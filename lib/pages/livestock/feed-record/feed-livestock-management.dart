@@ -20,45 +20,14 @@ class _LivestockFeedManagementState extends State<LivestockFeedManagement> {
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: GridView.builder(
-          itemCount: 3,
+          itemCount: 2,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               mainAxisSpacing: 20,
               crossAxisSpacing: 10,
               childAspectRatio: 2 / 2.5,
               crossAxisCount: 2),
           itemBuilder: (context, index) {
-            if (index == 0) {
-              return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const AddLiveStockFeedType()));
-                },
-                child: Column(
-                  children: [
-                    Container(
-                      height: size.width * 0.33,
-                      decoration: BoxDecoration(
-                          image: const DecorationImage(
-                              image: AssetImage("asset/images/record.jpg"),
-                              fit: BoxFit.cover),
-                          borderRadius: BorderRadius.circular(10)),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      "Listock and its type of feed",
-                      style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w500,
-                          color: green),
-                    )
-                  ],
-                ),
-              );
-            } else if (index == 1) {
+         if (index == 0) {
               return GestureDetector(
                 onTap: () {
                   Navigator.push(
@@ -111,7 +80,7 @@ class _LivestockFeedManagementState extends State<LivestockFeedManagement> {
                       height: 20,
                     ),
                     Text(
-                      "Setup Feeding Schedule",
+                      "Livestock Feeding Schedule Information",
                       style: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w500,

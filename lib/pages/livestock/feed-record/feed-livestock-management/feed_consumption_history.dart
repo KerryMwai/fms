@@ -120,106 +120,117 @@ class _FeedConsumptionHistoryState extends State<FeedConsumptionHistory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: green,
-          title: const Text("Consumption History"),
-          centerTitle: true,
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(10),
-          child: ListView(children: [
-            Expanded(
+      appBar: AppBar(
+        backgroundColor: green,
+        title: const Text("Consumption History"),
+        centerTitle: true,
+      ),
+      body: StreamBuilder<QuerySnapshot>(
+          stream: LivestockRepostory().getAllFeedsSnapshot(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(
+                  color: green,
+                ),
+              );
+            }
+            if (snapshot.hasError) {
+              return Center(
+                child: Text(
+                  "An error occured!",
+                  style: TextStyle(color: red),
+                ),
+              );
+            }
+            return Padding(
+              padding: const EdgeInsets.all(15.0),
               child: SingleChildScrollView(
+                child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  child: StreamBuilder<QuerySnapshot>(
-                      stream: LivestockRepostory().getAllFeedsSnapshot(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Center(
-                            child: CircularProgressIndicator(
-                              color: green,
-                            ),
-                          );
-                        }
-                        if (snapshot.hasError) {
-                          return Center(
-                            child: Text(
-                              "An error occured!",
-                              style: TextStyle(color: red),
-                            ),
-                          );
-                        }
-                        return DataTable(
-                          columns: const [
-                            DataColumn(label: Text('Livestock ID')),
-                            DataColumn(label: Text('Breed')),
-                            DataColumn(label: Text('Animal Weight')),
-                            DataColumn(label: Text('Feed name')),
-                            DataColumn(label: Text('Feed type')),
-                            DataColumn(label: Text('Quantity/day')),
-                            DataColumn(label: Text('Feeding Method')),
-                            DataColumn(label: Text('Date')),
-                            DataColumn(label: Text('Action')),
+                  child: DataTable(
+                    border: TableBorder.all(),
+                    columns: const [
+                      DataColumn(label: Text('Livestock ID')),
+                      DataColumn(label: Text('Breed')),
+                      DataColumn(label: Text('Animal Weight')),
+                      DataColumn(label: Text('Feed name')),
+                      DataColumn(label: Text('Feed type')),
+                      DataColumn(label: Text('Quantity/day')),
+                      DataColumn(label: Text('Feeding Method')),
+                      DataColumn(label: Text('Date')),
+                      DataColumn(label: Text('Action')),
+                    ],
+                    rows: snapshot.data!.docs.map((DocumentSnapshot document) {
+                      final history =
+                          FeedModel.fromJson(document.data() as Map<String, dynamic>);
+                      return DataRow(cells: [
+                        DataCell(Text(history.livestockid)),
+                        DataCell(Text(history.livestockname)),
+                        DataCell(Text("${history.animalweight} Kgs")),
+                        DataCell(Text(history.feedname)),
+                        DataCell(Text(history.feedtype)),
+                        DataCell(Text("${history.quantityaday} Kgs")),
+                        DataCell(Text(history.feedingmethod)),
+                        DataCell(
+                            Text(DateFormat("dd-MMMM-yyyy").format(history.date))),
+                        DataCell(Row(
+                          children: [
+                            IconButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => EditLiveStockFeedType(
+                                                id: document.id,
+                                                feed: history,
+                                              )));
+                                },
+                                icon: const Icon(
+                                  Icons.edit,
+                                  color: Colors.green,
+                                  size: 25,
+                                )),
+                            IconButton(
+                                onPressed: () {
+                                  showVewDialogCard(history, context);
+                                },
+                                icon: const Icon(
+                                  Icons.remove_red_eye_outlined,
+                                  color: Colors.grey,
+                                  size: 30,
+                                )),
+                            IconButton(
+                                onPressed: () {
+                                  showAlertForDeletion(document.id, history, context);
+                                },
+                                icon: const Icon(
+                                  Icons.delete,
+                                  color: Colors.red,
+                                  size: 25,
+                                )),
                           ],
-                          rows: snapshot.data!.docs.map((DocumentSnapshot document) {
-                            final history=FeedModel.fromJson(document.data() as Map<String, dynamic>);
-                            return DataRow(cells: [
-                              DataCell(Text(history.livestockid)),
-                              DataCell(Text(history.livestockname)),
-                              DataCell(Text("${history.animalweight} Kgs")),
-                              DataCell(Text(history.feedname)),
-                              DataCell(Text(history.feedtype)),
-                              DataCell(Text("${history.quantityaday} Kgs")),
-                              DataCell(Text(history.feedingmethod)),
-                              DataCell(Text(DateFormat("dd-MMMM-yyyy").format(history.date))),
-                              DataCell(Row(
-                                children: [
-                                  IconButton(
-                                      onPressed: () {
-                                        Navigator.push(context, MaterialPageRoute(builder: (context)=> EditLiveStockFeedType(id: document.id,feed: history,)));
-                                      },
-                                      icon: const Icon(
-                                        Icons.edit,
-                                        color: Colors.green,
-                                        size: 25,
-                                      )),
-                                  IconButton(
-                                      onPressed: () {
-                                        showVewDialogCard(history, context);
-                                      },
-                                      icon: const Icon(
-                                        Icons.remove_red_eye_outlined,
-                                        color: Colors.grey,
-                                        size: 30,
-                                      )),
-                                  IconButton(
-                                      onPressed: () {
-                                        showAlertForDeletion(document.id, history, context);
-                                      },
-                                      icon: const Icon(
-                                        Icons.delete,
-                                        color: Colors.red,
-                                        size: 25,
-                                      )),
-                                ],
-                              )),
-                            ]);
-                          }).toList(),
-                        );
-                      })),
-            ),
-          ]),
-        ),
-        floatingActionButton: FloatingActionButton(
+                        )),
+                      ]);
+                    }).toList(),
+                  ),
+                ),
+              ),
+            );
+          }),
+      floatingActionButton: FloatingActionButton(
           backgroundColor: green,
-          onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>const AddLiveStockFeedType()));
-          }, child:const Icon(Icons.add)),
-        );
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const AddLiveStockFeedType()));
+          },
+          child: const Icon(Icons.add)),
+    );
   }
 
-    Future<void> showVewDialogCard(history, context) async {
+  Future<void> showVewDialogCard(history, context) async {
     showDialog(
       context: context,
       builder: (context) {
@@ -254,7 +265,7 @@ class _FeedConsumptionHistoryState extends State<FeedConsumptionHistory> {
                     ),
                   ),
                 ),
-                 ListTile(
+                ListTile(
                   title: Text(
                     'Animal weight',
                     style: TextStyle(
@@ -373,7 +384,8 @@ class _FeedConsumptionHistoryState extends State<FeedConsumptionHistory> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          content: Text("Are you sure you want to delete ${history.feedname} for livestock ${history.livestockname}"),
+          content: Text(
+              "Are you sure you want to delete ${history.feedname} for livestock ${history.livestockname}"),
           actions: [
             TextButton(
                 onPressed: () {
@@ -390,8 +402,8 @@ class _FeedConsumptionHistoryState extends State<FeedConsumptionHistory> {
                       .then((value) => Navigator.pop(context))
                       .then((value) => ScaffoldMessenger.of(context)
                           .showSnackBar(SnackBar(
-                              content:
-                                  Text("${history.feedname} deleted suuccessfully"))));
+                              content: Text(
+                                  "${history.feedname} deleted suuccessfully"))));
                 },
                 child: const Text("Yes"))
           ],
