@@ -55,8 +55,8 @@ class _AddLiveStockFeedTypeState extends State<AddLiveStockFeedType> {
                   valitationText: "Livestock type is required"),
               FeedFormField(
                   controller: livestockid,
-                  labelText: "Livstock population",
-                  valitationText: "Livestock population is required"),
+                  labelText: "Livstock identification number",
+                  valitationText: "Livestock weight is required"),
               FeedFormField(
                   controller: animalweight,
                   labelText: "Livestock weight",
@@ -65,24 +65,22 @@ class _AddLiveStockFeedTypeState extends State<AddLiveStockFeedType> {
                   controller: feedingmethod,
                   labelText: "Feeding method",
                   valitationText: "Feeding method is required"),
-                         TextFormField(
-                  
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 10),
+                child: TextFormField(
                   onTap: () async {
                     final DateTime? picked = await showDatePicker(
-
                       context: context,
                       initialDate: DateTime.now(),
                       firstDate: DateTime(2023),
                       lastDate: DateTime(2040),
                     );
                     setState(() {
-                      date = picked??DateTime.now();
+                      date = picked ?? DateTime.now();
                     });
                   },
                   readOnly: true,
-                  
-                  decoration:const InputDecoration(
-                    
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Feeding Date',
                   ),
@@ -95,11 +93,10 @@ class _AddLiveStockFeedTypeState extends State<AddLiveStockFeedType> {
                   },
                   controller: TextEditingController(
                     // ignore: unnecessary_null_comparison
-                    text: date != null
-                        ? date.toString().split(' ')[0]
-                        : '',
+                    text: date != null ? date.toString().split(' ')[0] : '',
                   ),
                 ),
+              ),
               Expanded(
                   child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -107,12 +104,32 @@ class _AddLiveStockFeedTypeState extends State<AddLiveStockFeedType> {
                   SizedBox(
                     width: size.width * 0.4,
                     child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(green)
-                      ),
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll(green)),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            LivestockRepostory().addFeed(FeedModel(feedname: feedname.text, feedtype: feedtype.text, quantityaday: int.parse(quantityaday.text), livestockname: livestockname.text, livestockid: livestockid.text, animalweight: double.parse(animalweight.text), feedingmethod: feedingmethod.text, date: date!).toJson()).then((value) => Navigator.push(context, MaterialPageRoute(builder: (contes)=>const FeedConsumptionHistory()))).then((value) => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Feed added succesffully"))));
+                            LivestockRepostory()
+                                .addFeed(FeedModel(
+                                        feedname: feedname.text,
+                                        feedtype: feedtype.text,
+                                        quantityaday:
+                                            int.parse(quantityaday.text),
+                                        livestockname: livestockname.text,
+                                        livestockid: livestockid.text,
+                                        animalweight:
+                                            double.parse(animalweight.text),
+                                        feedingmethod: feedingmethod.text,
+                                        date: date!)
+                                    .toJson())
+                                .then((value) => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (contes) =>
+                                            const FeedConsumptionHistory())))
+                                .then((value) => ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
+                                        content:
+                                            Text("Feed added succesffully"))));
                           }
                         },
                         child: const Text("Add Feed")),

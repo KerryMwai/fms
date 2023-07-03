@@ -174,7 +174,7 @@ class _FeedConsumptionHistoryState extends State<FeedConsumptionHistory> {
                                 children: [
                                   IconButton(
                                       onPressed: () {
-                                        Navigator.replace(context, oldRoute: MaterialPageRoute(builder: (context)=>const FeedConsumptionHistory()), newRoute: MaterialPageRoute(builder: (context)=> EditLiveStockFeedType(id: document.id,feed: history,)));
+                                        Navigator.push(context, MaterialPageRoute(builder: (context)=> EditLiveStockFeedType(id: document.id,feed: history,)));
                                       },
                                       icon: const Icon(
                                         Icons.edit,

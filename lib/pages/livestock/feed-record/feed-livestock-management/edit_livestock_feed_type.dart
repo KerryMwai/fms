@@ -64,8 +64,8 @@ class _EditLiveStockFeedTypeState extends State<EditLiveStockFeedType> {
                   valitationText: "Livestock type is required"),
               FeedFormField(
                   controller: livestockid,
-                  labelText: "Livstock population",
-                  valitationText: "Livestock population is required"),
+                  labelText: "Livstock identification number",
+                  valitationText: "Livestock identification number is required"),
               FeedFormField(
                   controller: animalweight,
                   labelText: "Livestock weight",
