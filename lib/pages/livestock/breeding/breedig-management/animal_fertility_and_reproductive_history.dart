@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fms/controller/model/animal_fertility_and_reproductive_history_model.dart';
 import 'package:fms/dammies/constants.dart';
 import 'package:fms/pages/livestock/breeding/breedig-management/add_breed.dart';
+import 'package:fms/pages/livestock/breeding/breedig-management/edit_breed.dart';
 import 'package:fms/repository/livestock_repository.dart';
 import 'package:intl/intl.dart';
 
@@ -297,6 +298,7 @@ class _AnimalReproductivityAndHistoryState
                       DataColumn(label: Text('Observations')),
                       DataColumn(label: Text('Breeding Program')),
                       DataColumn(label: Text('Mating Schedule')),
+                      DataColumn(label: Text('Action')),
                     ],
                     rows: snapshot.data!.docs.map((DocumentSnapshot document) {
                       final data=FertilityAndReproductiveHistoryModel.fromJson(document.data() as Map<String, dynamic>);
@@ -316,6 +318,17 @@ class _AnimalReproductivityAndHistoryState
                         DataCell(Text(data.observations)),
                         DataCell(Text(data.breedingprogram)),
                         DataCell(Text(data.matingschedule)),
+                        DataCell(Row(
+                          children: [
+                            IconButton(onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>EditBreed(id:document.id, breed: data,)));
+                            }, icon: Icon(Icons.edit, color: green,)),
+                             IconButton(onPressed: (){}, icon: Icon(Icons.remove_red_eye_outlined, color: red,)),
+                              IconButton(onPressed: (){
+                                showAlertForDeletion(document.id, data, context);
+                              }, icon: Icon(Icons.delete, color: red,)),
+                          ],
+                        )),
                       ]);
                     }).toList(),
                   )),
@@ -330,6 +343,39 @@ class _AnimalReproductivityAndHistoryState
         },
         child: const Icon(Icons.add),
       ),
+    );
+  }
+
+
+  Future<void> showAlertForDeletion(id, breed, context) async {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: Text("Are you sure you want to delete ${breed.animalid}"),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text("No")),
+            const SizedBox(
+              width: 10,
+            ),
+            TextButton(
+                onPressed: () {
+                  LivestockRepostory()
+                      .deleteBreedingInformation(id)
+                      .then((value) => Navigator.pop(context))
+                      .then((value) => ScaffoldMessenger.of(context)
+                          .showSnackBar(SnackBar(
+                              content:
+                                  Text("${breed.animalid} deleted suuccessfully"))));
+                },
+                child: const Text("Yes"))
+          ],
+        );
+      },
     );
   }
 }
