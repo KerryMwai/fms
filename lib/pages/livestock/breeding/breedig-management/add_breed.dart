@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fms/controller/model/animal_fertility_and_reproductive_history_model.dart';
 import 'package:fms/dammies/constants.dart';
+import 'package:fms/pages/livestock/breeding/breedig-management/animal_fertility_and_reproductive_history.dart';
 import 'package:fms/repository/livestock_repository.dart';
 import 'package:fms/widgets/feed_widgets/custom_form_field.dart';
 
@@ -176,7 +177,7 @@ class _AddBreedState extends State<AddBreed> {
                     child: ElevatedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            LivestockRepostory().addBreedingInformation(FertilityAndReproductiveHistoryModel(animalid: animalid.text, animalbreed: animalbreed.text, birthdate: acquisitiondate!, breedingattempt: int.parse(breedattempts.text), breedingsuccess: int.parse(breedingsuccess.text), reproductivecycle: reproductivecycle.text, estrusbehaviour: reproductivecycle.text, conceptiondate: conceptiondate!, gestationperiod: int.parse(gestationperiod.text), reproductivehealth: reproductivehealth.text, breedingperformance:double.parse( breedingperformance.text), reproductiveinterventions: interventions.text, observations: observation.text, breedingprogram: breedingprogram.text, matingschedule: heat.text));
+                            LivestockRepostory().addBreedingInformation(FertilityAndReproductiveHistoryModel(animalid: animalid.text, animalbreed: animalbreed.text, birthdate: acquisitiondate!, breedingattempt: int.parse(breedattempts.text), breedingsuccess: int.parse(breedingsuccess.text), reproductivecycle: reproductivecycle.text, estrusbehaviour: reproductivecycle.text, conceptiondate: conceptiondate!, gestationperiod: int.parse(gestationperiod.text), reproductivehealth: reproductivehealth.text, breedingperformance:double.parse( breedingperformance.text), reproductiveinterventions: interventions.text, observations: observation.text, breedingprogram: breedingprogram.text, matingschedule: heat.text).toJson()).then((value) => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Information added successfully")))).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>const AnimalReproductivityAndHistory())));
                           }
                         },
                         child: const Text("Add Breed")),
