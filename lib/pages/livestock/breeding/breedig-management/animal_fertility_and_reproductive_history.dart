@@ -347,6 +347,139 @@ class _AnimalReproductivityAndHistoryState
     );
   }
 
+  Future<void> showVewDialogCard(plan, context) async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("${plan.crop}"),
+          content: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Crop: ${plan.crop}',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                ListTile(
+                  title: Text(
+                    'Crop Name',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    "${plan.crop}",
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    'Planting date',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    DateFormat('dd-MM-yy').format(plan.plantingDate!),
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    'Plant spacing',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    "${plan.spacing}",
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    'Fertilizer name',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    "${plan.fertilizername}",
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    'Fertilizer type',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    "${plan.fertilizertype}",
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    'Purchase date',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    plan.pestManagementRequired ? "Yes" : "No",
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text("Ok")),
+            const SizedBox(
+              width: 10,
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 
   Future<void> showAlertForDeletion(id, breed, context) async {
     return showDialog(
