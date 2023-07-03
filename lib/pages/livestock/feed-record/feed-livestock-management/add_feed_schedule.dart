@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fms/dammies/constants.dart';
 import 'package:fms/widgets/feed_widgets/custom_form_field.dart';
+import 'package:intl/intl.dart';
 
 class AddFeedingSchedule extends StatefulWidget {
   const AddFeedingSchedule({super.key});
@@ -68,11 +69,12 @@ class _AddFeedingScheduleState extends State<AddFeedingSchedule> {
                   controller: TextEditingController(
                     // ignore: unnecessary_null_comparison
                     text: feedingintervalfrom != null
-                        ? feedingintervalfrom.toString().split(' ')[0]
+                        ? DateFormat("h:mm a").format(DateTime(2023,1,1, feedingintervalfrom!.hour,feedingintervalfrom!.minute))
                         : '',
                   ),
                 ),
               ),
+              const SizedBox(height: 15,),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 10),
                 child: TextFormField(
@@ -100,7 +102,7 @@ class _AddFeedingScheduleState extends State<AddFeedingSchedule> {
                   controller: TextEditingController(
                     // ignore: unnecessary_null_comparison
                     text: feedingintervalto != null
-                        ? feedingintervalto.toString().split(' ')[0]
+                        ? DateFormat("h:mm a").format(DateTime(2023,1,1, feedingintervalfrom!.hour,feedingintervalto!.minute))
                         : '',
                   ),
                 ),
@@ -125,7 +127,10 @@ class _AddFeedingScheduleState extends State<AddFeedingSchedule> {
                     width: size.width * 0.4,
                     child: ElevatedButton(
                         onPressed: () {
-                          if (_formKey.currentState!.validate()) {}
+                          if (_formKey.currentState!.validate()) {
+                            print(feedingintervalfrom);
+                            print(feedingintervalto);
+                          }
                         },
                         child: const Text("Add Schedule")),
                   )
