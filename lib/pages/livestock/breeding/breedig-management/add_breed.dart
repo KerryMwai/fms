@@ -20,7 +20,6 @@ class _AddBreedState extends State<AddBreed> {
   final breedingsuccess = TextEditingController();
   final reproductivecycle = TextEditingController();
   final heat = TextEditingController();
-  final matingschedule = TextEditingController();
   DateTime? conceptiondate;
   final gestationperiod = TextEditingController();
   final reproductivehealth = TextEditingController();
@@ -137,10 +136,6 @@ class _AddBreedState extends State<AddBreed> {
               FeedFormField(
                   controller: heat,
                   labelText: "Breed mating schedule (how many times a year)",
-                  valitationText: "Breed mating schedule is required"),
-              FeedFormField(
-                  controller: matingschedule,
-                  labelText: "Breed mating schedule",
                   valitationText: "Breed mating schedule is required"),
               FeedFormField2(
                   controller: gestationperiod,
