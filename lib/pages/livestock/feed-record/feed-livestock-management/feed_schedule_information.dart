@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fms/controller/model/feed_schedule_model.dart';
 import 'package:fms/dammies/constants.dart';
 import 'package:fms/pages/livestock/feed-record/feed-livestock-management/add_feed_schedule.dart';
+import 'package:fms/pages/livestock/feed-record/feed-livestock-management/edit_feed_schedule.dart';
 import 'package:fms/repository/livestock_repository.dart';
 import 'package:intl/intl.dart';
 
@@ -157,6 +158,7 @@ class _FeedScheduleInformationState extends State<FeedScheduleInformation> {
                             DataColumn(label: Text('Feed name')),
                             DataColumn(label: Text('Feed type')),
                             DataColumn(label: Text('Quantity')),
+                            DataColumn(label: Text('Feeding method')),
                             DataColumn(label: Text('Action')),
                           ],
                           rows: snapshot.data!.docs.map((DocumentSnapshot document) {
@@ -168,11 +170,12 @@ class _FeedScheduleInformationState extends State<FeedScheduleInformation> {
                               DataCell(Text(schedule.feedname)),
                               DataCell(Text(schedule.feedtype)),
                               DataCell(Text("${schedule.feedquantity} Kgs")),
+                              DataCell(Text(schedule.feedingmethod)),
                               DataCell(Row(
                                 children: [
                                   IconButton(
                                       onPressed: () {
-                                        Navigator.push(context, MaterialPageRoute(builder: (context)=> Text("")));
+                                       Navigator.push(context, MaterialPageRoute(builder: (context)=>EditFeedingSchedule(feedschedule:schedule, id: document.id)));
                                       },
                                       icon: const Icon(
                                         Icons.edit,
@@ -181,7 +184,7 @@ class _FeedScheduleInformationState extends State<FeedScheduleInformation> {
                                       )),
                                   IconButton(
                                       onPressed: () {
-                                        // showVewDialogCard(history, context);
+                                        showVewDialogCard(schedule, context);
                                       },
                                       icon: const Icon(
                                         Icons.remove_red_eye_outlined,
@@ -214,18 +217,18 @@ class _FeedScheduleInformationState extends State<FeedScheduleInformation> {
         );
   }
 
-    Future<void> showVewDialogCard(history, context) async {
+    Future<void> showVewDialogCard(schedule, context) async {
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("${history.livestockname} -> ${history.feedname}"),
+          title: Text("${schedule.livestockid} -> ${schedule.livestockname}"),
           content: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'History of: ${history.livestockname} -> ${history.feedname}',
+                  'Schedule of: ${schedule.livestockid} -> ${schedule.livestockname}',
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -243,7 +246,7 @@ class _FeedScheduleInformationState extends State<FeedScheduleInformation> {
                     ),
                   ),
                   subtitle: Text(
-                    "${history.livestockname}",
+                    "${schedule.livestockname}",
                     style: const TextStyle(
                       fontSize: 16,
                     ),
@@ -251,7 +254,7 @@ class _FeedScheduleInformationState extends State<FeedScheduleInformation> {
                 ),
                  ListTile(
                   title: Text(
-                    'Animal weight',
+                    'Feed schedule',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -259,7 +262,7 @@ class _FeedScheduleInformationState extends State<FeedScheduleInformation> {
                     ),
                   ),
                   subtitle: Text(
-                    "${history.animalweight} Kgs",
+                    "${DateFormat("h:mm a").format(schedule.feedingintervalfrom)} — ${DateFormat("h:mm a").format(schedule.feedingintervalto)}",
                     style: const TextStyle(
                       fontSize: 16,
                     ),
@@ -275,7 +278,7 @@ class _FeedScheduleInformationState extends State<FeedScheduleInformation> {
                     ),
                   ),
                   subtitle: Text(
-                    history.feedname,
+                   schedule.feedname,
                     style: const TextStyle(
                       fontSize: 16,
                     ),
@@ -291,7 +294,7 @@ class _FeedScheduleInformationState extends State<FeedScheduleInformation> {
                     ),
                   ),
                   subtitle: Text(
-                    "${history.feedtype}",
+                    "${schedule.feedtype}",
                     style: const TextStyle(
                       fontSize: 16,
                     ),
@@ -307,7 +310,7 @@ class _FeedScheduleInformationState extends State<FeedScheduleInformation> {
                     ),
                   ),
                   subtitle: Text(
-                    "${history.quantityaday} Kgs",
+                    "${schedule.feedquantity} Kgs",
                     style: const TextStyle(
                       fontSize: 16,
                     ),
@@ -323,23 +326,7 @@ class _FeedScheduleInformationState extends State<FeedScheduleInformation> {
                     ),
                   ),
                   subtitle: Text(
-                    "${history.feedingmethod}",
-                    style: const TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-                ListTile(
-                  title: Text(
-                    'Feeding date',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey[600],
-                    ),
-                  ),
-                  subtitle: Text(
-                    DateFormat("dd-MMMM-yyyy").format(history.date),
+                    "${schedule.feedingmethod}",
                     style: const TextStyle(
                       fontSize: 16,
                     ),

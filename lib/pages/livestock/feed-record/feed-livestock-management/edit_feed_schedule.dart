@@ -6,32 +6,34 @@ import 'package:fms/repository/livestock_repository.dart';
 import 'package:fms/widgets/feed_widgets/custom_form_field.dart';
 import 'package:intl/intl.dart';
 
-class AddFeedingSchedule extends StatefulWidget {
+class EditFeedingSchedule extends StatefulWidget {
   final String id;
   final FeedScheduleModel feedschedule;
-  const AddFeedingSchedule({super.key, required this.id, required this.feedschedule});
+  const EditFeedingSchedule(
+      {super.key, required this.id, required this.feedschedule});
 
   @override
-  State<AddFeedingSchedule> createState() => _AddFeedingScheduleState();
+  State<EditFeedingSchedule> createState() => _EditFeedingScheduleState();
 }
 
-class _AddFeedingScheduleState extends State<AddFeedingSchedule> {
+class _EditFeedingScheduleState extends State<EditFeedingSchedule> {
   final livestockid = TextEditingController();
   final livestocktype = TextEditingController();
-  TimeOfDay? feedingintervalfrom;
-  TimeOfDay? feedingintervalto;
   final feedname = TextEditingController();
   final feedtype = TextEditingController();
   final feedquantity = TextEditingController();
+  final feedingmethod = TextEditingController();
+  TimeOfDay? feedingintervalfrom;
+  TimeOfDay? feedingintervalto;
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    livestockid.text=widget.feedschedule.livestockid;
-    livestocktype.text=widget.feedschedule.livestocktype;
-    feedname.text=widget.feedschedule.feedname;
-    feedtype.text=widget.feedschedule.feedtype;
-    feedquantity.text=widget.feedschedule.feedquantity.toString();
+    livestockid.text = widget.feedschedule.livestockid;
+    livestocktype.text = widget.feedschedule.livestocktype;
+    feedname.text = widget.feedschedule.feedname;
+    feedtype.text = widget.feedschedule.feedtype;
+    feedquantity.text = widget.feedschedule.feedquantity.toString();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: green,
@@ -85,7 +87,8 @@ class _AddFeedingScheduleState extends State<AddFeedingSchedule> {
                             1,
                             feedingintervalfrom!.hour,
                             feedingintervalfrom!.minute))
-                        : '',
+                        : DateFormat("h:mm a")
+                            .format(widget.feedschedule.feedingintervalfrom),
                   ),
                 ),
               ),
@@ -122,7 +125,8 @@ class _AddFeedingScheduleState extends State<AddFeedingSchedule> {
                     text: feedingintervalto != null
                         ? DateFormat("h:mm a").format(DateTime(2023, 1, 1,
                             feedingintervalto!.hour, feedingintervalto!.minute))
-                        : '',
+                        : DateFormat("h:mm a")
+                            .format(widget.feedschedule.feedingintervalto),
                   ),
                 ),
               ),
@@ -138,6 +142,10 @@ class _AddFeedingScheduleState extends State<AddFeedingSchedule> {
                   controller: feedquantity,
                   labelText: "Feed quantity",
                   valitationText: "Feed quantity is required"),
+              FeedFormField(
+                  controller: feedingmethod,
+                  labelText: "Feeding method",
+                  valitationText: "Feeding method is required"),
               Expanded(
                   child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -150,30 +158,33 @@ class _AddFeedingScheduleState extends State<AddFeedingSchedule> {
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             LivestockRepostory()
-                                .addFeedSchedule(FeedScheduleModel(
-                                        livestockid: livestockid.text,
-                                        livestocktype: livestocktype.text,
-                                        feedingintervalfrom: DateTime(
-                                            2023,
-                                            1,
-                                            1,
-                                            feedingintervalfrom!.hour,
-                                            feedingintervalfrom!.minute),
-                                        feedingintervalto: DateTime(
-                                            2023,
-                                            1,
-                                            1,
-                                            feedingintervalto!.hour,
-                                            feedingintervalto!.minute),
-                                        feedname: feedname.text,
-                                        feedtype: feedtype.text,
-                                        feedquantity:
-                                            double.parse(feedquantity.text))
-                                    .toJson())
+                                .updateFeedSchedule(
+                                    widget.id,
+                                    FeedScheduleModel(
+                                      feedingmethod: feedingmethod.text,
+                                            livestockid: livestockid.text,
+                                            livestocktype: livestocktype.text,
+                                            feedingintervalfrom: DateTime(
+                                                2023,
+                                                1,
+                                                1,
+                                                feedingintervalfrom!.hour,
+                                                feedingintervalfrom!.minute),
+                                            feedingintervalto: DateTime(
+                                                2023,
+                                                1,
+                                                1,
+                                                feedingintervalto!.hour,
+                                                feedingintervalto!.minute),
+                                            feedname: feedname.text,
+                                            feedtype: feedtype.text,
+                                            feedquantity:
+                                                double.parse(feedquantity.text))
+                                        .toJson())
                                 .then((value) => ScaffoldMessenger.of(context)
-                                    .showSnackBar(const SnackBar(
+                                    .showSnackBar(SnackBar(
                                         content: Text(
-                                            "Schedule added successfully"))))
+                                            "Schedule for ${widget.feedschedule.livestockid} update successfully"))))
                                 .then((value) => Navigator.push(
                                     context,
                                     MaterialPageRoute(

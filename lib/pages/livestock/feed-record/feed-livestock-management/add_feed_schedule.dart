@@ -16,11 +16,12 @@ class AddFeedingSchedule extends StatefulWidget {
 class _AddFeedingScheduleState extends State<AddFeedingSchedule> {
   final livestockid = TextEditingController();
   final livestocktype = TextEditingController();
-  TimeOfDay? feedingintervalfrom;
-  TimeOfDay? feedingintervalto;
   final feedname = TextEditingController();
   final feedtype = TextEditingController();
   final feedquantity = TextEditingController();
+  final feedingmethod = TextEditingController();
+  TimeOfDay? feedingintervalfrom;
+  TimeOfDay? feedingintervalto;
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -131,6 +132,10 @@ class _AddFeedingScheduleState extends State<AddFeedingSchedule> {
                   controller: feedquantity,
                   labelText: "Feed quantity",
                   valitationText: "Feed quantity is required"),
+              FeedFormField(
+                  controller: feedingmethod,
+                  labelText: "Feeding method",
+                  valitationText: "Feeding method is required"),
               Expanded(
                   child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -144,6 +149,7 @@ class _AddFeedingScheduleState extends State<AddFeedingSchedule> {
                           if (_formKey.currentState!.validate()) {
                             LivestockRepostory()
                                 .addFeedSchedule(FeedScheduleModel(
+                                  feedingmethod: feedingmethod.text,
                                         livestockid: livestockid.text,
                                         livestocktype: livestocktype.text,
                                         feedingintervalfrom: DateTime(
