@@ -154,6 +154,7 @@ class _FeedConsumptionHistoryState extends State<FeedConsumptionHistory> {
                             DataColumn(label: Text('Livestock ID')),
                             DataColumn(label: Text('Breed')),
                             DataColumn(label: Text('Weight')),
+                            DataColumn(label: Text('Feed name')),
                             DataColumn(label: Text('Feed type')),
                             DataColumn(label: Text('Quantity/day')),
                             DataColumn(label: Text('Feeding Method')),
@@ -166,8 +167,9 @@ class _FeedConsumptionHistoryState extends State<FeedConsumptionHistory> {
                               DataCell(Text(history.livestockid)),
                               DataCell(Text(history.livestockname)),
                               DataCell(Text("${history.animalweight} Kgs")),
+                              DataCell(Text(history.feedname)),
                               DataCell(Text(history.feedtype)),
-                              DataCell(Text("${history.quantityaday}")),
+                              DataCell(Text("${history.quantityaday} Kgs")),
                               DataCell(Text(history.feedingmethod)),
                               DataCell(Text(DateFormat("dd-MMMM-yyyy").format(history.date))),
                               DataCell(Row(
@@ -182,14 +184,18 @@ class _FeedConsumptionHistoryState extends State<FeedConsumptionHistory> {
                                         size: 25,
                                       )),
                                   IconButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        showVewDialogCard(history, context);
+                                      },
                                       icon: const Icon(
                                         Icons.remove_red_eye_outlined,
                                         color: Colors.grey,
                                         size: 30,
                                       )),
                                   IconButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        showAlertForDeletion(document.id, history, context);
+                                      },
                                       icon: const Icon(
                                         Icons.delete,
                                         color: Colors.red,
@@ -204,5 +210,186 @@ class _FeedConsumptionHistoryState extends State<FeedConsumptionHistory> {
             ),
           ]),
         ));
+  }
+
+    Future<void> showVewDialogCard(history, context) async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("${history.livestockname} -> ${history.feedname}"),
+          content: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'History of: ${history.livestockname} -> ${history.feedname}',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                ListTile(
+                  title: Text(
+                    'Animal name',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    "${history.livestockname}",
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                 ListTile(
+                  title: Text(
+                    'Animal weight',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    "${history.animalweight} Kgs",
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    'Feed name',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    history.feedname,
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    'Feed type',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    "${history.feedtype}",
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    'Quantity a day',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    "${history.quantityaday} Kgs",
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    'Feeding method',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    "${history.feedingmethod}",
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    'Feeding date',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    DateFormat("dd-MMMM-yyyy").format(history.date),
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text("Ok")),
+            const SizedBox(
+              width: 10,
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> showAlertForDeletion(id, history, context) async {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: Text("Are you sure you want to delete ${history.feedname} for livestock ${history.livestockname}"),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text("No")),
+            const SizedBox(
+              width: 10,
+            ),
+            TextButton(
+                onPressed: () {
+                  LivestockRepostory()
+                      .deleteFeed(id)
+                      .then((value) => Navigator.pop(context))
+                      .then((value) => ScaffoldMessenger.of(context)
+                          .showSnackBar(SnackBar(
+                              content:
+                                  Text("${history.feedname} deleted suuccessfully"))));
+                },
+                child: const Text("Yes"))
+          ],
+        );
+      },
+    );
   }
 }
