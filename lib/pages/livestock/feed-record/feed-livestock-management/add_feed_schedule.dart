@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:fms/dammies/constants.dart';
 import 'package:fms/widgets/feed_widgets/custom_form_field.dart';
 
-class FeedingSchedule extends StatefulWidget {
-  const FeedingSchedule({super.key});
+class AddFeedingSchedule extends StatefulWidget {
+  const AddFeedingSchedule({super.key});
 
   @override
-  State<FeedingSchedule> createState() => _FeedingScheduleState();
+  State<AddFeedingSchedule> createState() => _AddFeedingScheduleState();
 }
 
-class _FeedingScheduleState extends State<FeedingSchedule> {
+class _AddFeedingScheduleState extends State<AddFeedingSchedule> {
   final livestockid = TextEditingController();
   final livestocktype = TextEditingController();
-   DateTime? feedingintervalfrom;
-  DateTime? feedingintervalto;
+  TimeOfDay? feedingintervalfrom;
+  TimeOfDay? feedingintervalto;
   final feedname = TextEditingController();
   final feedtype = TextEditingController();
   final feedquantity = TextEditingController();
@@ -41,82 +41,70 @@ class _FeedingScheduleState extends State<FeedingSchedule> {
                   controller: livestocktype,
                   labelText: "Livestock type",
                   valitationText: "Livestock type is required"),
-                   Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                  child: TextFormField(
-                    
-                    onTap: () async {
-                      final DateTime? picked = await showDatePicker(
-                
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(2023),
-                        lastDate: DateTime(2040),
-                      );
-                      setState(() {
-                        feedingintervalfrom = picked ?? DateTime.now();
-                      });
-                    },
-                    readOnly: true,
-                    
-                    decoration:const InputDecoration(
-                      
-                      border: OutlineInputBorder(),
-                      labelText: 'Feeding from',
-                    ),
-                    validator: (value) {
-                      // ignore: unnecessary_null_comparison
-                      if (feedingintervalfrom == null) {
-                        return 'Please select time from';
-                      }
-                      return null;
-                    },
-                    controller: TextEditingController(
-                      // ignore: unnecessary_null_comparison
-                      text: feedingintervalfrom != null
-                          ? feedingintervalfrom.toString().split(' ')[0]
-                          : '',
-                    ),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 10),
+                child: TextFormField(
+                  onTap: () async {
+                    final TimeOfDay? picked = await showTimePicker(
+                      context: context,
+                      initialTime: TimeOfDay.now(),
+                    );
+                    setState(() {
+                      feedingintervalfrom = picked ?? TimeOfDay.now();
+                    });
+                  },
+                  readOnly: true,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Feeding from',
+                  ),
+                  validator: (value) {
+                    // ignore: unnecessary_null_comparison
+                    if (feedingintervalfrom == null) {
+                      return 'Please select time from';
+                    }
+                    return null;
+                  },
+                  controller: TextEditingController(
+                    // ignore: unnecessary_null_comparison
+                    text: feedingintervalfrom != null
+                        ? feedingintervalfrom.toString().split(' ')[0]
+                        : '',
                   ),
                 ),
-                   Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                  child: TextFormField(
-                    
-                    onTap: () async {
-                      final DateTime? picked = await showDatePicker(
-                
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(2023),
-                        lastDate: DateTime(2040),
-                      );
-                      setState(() {
-                        feedingintervalto = picked ?? DateTime.now();
-                      });
-                    },
-                    readOnly: true,
-                    
-                    decoration:const InputDecoration(
-                      
-                      border: OutlineInputBorder(),
-                      labelText: 'Feeding to',
-                    ),
-                    validator: (value) {
-                      // ignore: unnecessary_null_comparison
-                      if (feedingintervalto == null) {
-                        return 'Please select time to ';
-                      }
-                      return null;
-                    },
-                    controller: TextEditingController(
-                      // ignore: unnecessary_null_comparison
-                      text: feedingintervalto != null
-                          ? feedingintervalto.toString().split(' ')[0]
-                          : '',
-                    ),
+              ),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 10),
+                child: TextFormField(
+                  onTap: () async {
+                    final TimeOfDay? picked = await showTimePicker(
+                      context: context,
+                      initialTime: TimeOfDay.now(),
+                    );
+                    setState(() {
+                      feedingintervalto = picked ?? TimeOfDay.now();
+                    });
+                  },
+                  readOnly: true,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Feeding to',
+                  ),
+                  validator: (value) {
+                    // ignore: unnecessary_null_comparison
+                    if (feedingintervalto == null) {
+                      return 'Please select time to ';
+                    }
+                    return null;
+                  },
+                  controller: TextEditingController(
+                    // ignore: unnecessary_null_comparison
+                    text: feedingintervalto != null
+                        ? feedingintervalto.toString().split(' ')[0]
+                        : '',
                   ),
                 ),
+              ),
               FeedFormField(
                   controller: feedname,
                   labelText: "Feed name",

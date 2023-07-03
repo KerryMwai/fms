@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fms/controller/model/feed_model.dart';
 import 'package:fms/dammies/constants.dart';
-import 'package:fms/pages/livestock/feed-record/feed-livestock-management/add_livestock_feed_type.dart';
+import 'package:fms/pages/livestock/feed-record/feed-livestock-management/add_feed_schedule.dart';
 import 'package:fms/pages/livestock/feed-record/feed-livestock-management/edit_livestock_feed_type.dart';
 import 'package:fms/repository/livestock_repository.dart';
 import 'package:intl/intl.dart';
@@ -210,7 +210,7 @@ class _FeedScheduleInformationState extends State<FeedScheduleInformation> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: green,
           onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>const AddLiveStockFeedType()));
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>const AddFeedingSchedule()));
           }, child:const Icon(Icons.add)),
         );
   }
