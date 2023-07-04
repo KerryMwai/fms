@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fms/widgets/animal_health_monitoring.dart';
+import 'package:fms/pages/livestock/health-management/animal_health_monitoring.dart';
 
 class LivestockHealthMonotoring extends StatefulWidget {
   const LivestockHealthMonotoring({super.key});

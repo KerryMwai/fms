@@ -22,9 +22,18 @@ class LivestockRepostory{
   Future<void> deleteBreedingInformation(id)=>firestore.collection("breeding-information").doc(id).delete();
 
 
+  // Animal health management
+  Future<void> addAnimalHealthInformation(health)=>firestore.collection('health-information').add(health);
+  Future<void> updateAnimalHealthInformation(id,health)=>firestore.collection('health-information').doc(id).update(health);
+  Stream<QuerySnapshot> getAnimalHealthInformationSnapshots(health)=>firestore.collection('health-information').snapshots();
+  Future<void> deleteAnimalHealthInformation(id)=>firestore.collection('health-information').doc(id).delete();
+
+
+
+
   // Filtering data
   Future<void> fetchFilteredData(collection,filterfiled,fieltervalue, fieldtogroupby) async {
-  final collectionReference = FirebaseFirestore.instance.collection(collection);
+  final collectionReference = firestore.collection(collection);
 
   // Apply filters
   final querySnapshot = await collectionReference

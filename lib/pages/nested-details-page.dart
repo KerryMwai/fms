@@ -8,7 +8,7 @@ import 'package:fms/pages/livestock/breeding/breed_management.dart';
 import 'package:fms/pages/livestock/feed-record/feed-livestock-management.dart';
 import 'package:fms/pages/livestock/feed-record/feed-management.dart';
 import 'package:fms/pages/livestock/feed-record/feed-reporting.dart';
-import 'package:fms/pages/livestock/health-management/health-monitoring/health_monotoring.dart';
+import 'package:fms/pages/livestock/health-management/health_monotoring.dart';
 import 'package:fms/pages/users/activity-logs.dart';
 import 'package:fms/pages/users/permission-management.dart';
 import 'package:fms/pages/users/role-management.dart';
