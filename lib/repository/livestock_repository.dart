@@ -25,7 +25,7 @@ class LivestockRepostory{
   // Animal health management
   Future<void> addAnimalHealthInformation(health)=>firestore.collection('health-information').add(health);
   Future<void> updateAnimalHealthInformation(id,health)=>firestore.collection('health-information').doc(id).update(health);
-  Stream<QuerySnapshot> getAnimalHealthInformationSnapshots(health)=>firestore.collection('health-information').snapshots();
+  Stream<QuerySnapshot> getAnimalHealthInformationSnapshots()=>firestore.collection('health-information').snapshots();
   Future<void> deleteAnimalHealthInformation(id)=>firestore.collection('health-information').doc(id).delete();
 
 

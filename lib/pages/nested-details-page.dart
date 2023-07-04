@@ -42,7 +42,9 @@ class _SubDetailsPageState extends State<SubDetailsPage> {
       ),
       drawer:const CustomDrawer(),
       body: sectionToRoute(widget.name),
-      floatingActionButton: FloatingActionButton(onPressed: (){
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: green,
+        onPressed: (){
         switch(widget.name.trim()){
           case "Health Management":
           setState(() {

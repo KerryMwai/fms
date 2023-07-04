@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fms/dammies/constants.dart';
 import 'package:fms/pages/livestock/health-management/animal_health_monitoring.dart';
+import 'package:fms/repository/livestock_repository.dart';
 
 class LivestockHealthMonotoring extends StatefulWidget {
   const LivestockHealthMonotoring({super.key});
@@ -75,11 +78,22 @@ class _LivestockHealthMonotoringState extends State<LivestockHealthMonotoring> {
   ];
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: animalHealthList.length,
-      itemBuilder: (context, index) {
-        return animalHealthList[index];
-      },
+    return StreamBuilder<QuerySnapshot>(
+      stream: LivestockRepostory().getAnimalHealthInformationSnapshots(),
+      builder: (context, snapshot) {
+        if(snapshot.connectionState==ConnectionState.waiting){
+          return Center( child: CircularProgressIndicator(color: green,),);
+        }
+        if(snapshot.hasError){
+          return Center(child: Text("An error occured", style: TextStyle(color: red),),);
+        }
+        return ListView.builder(
+          itemCount: animalHealthList.length,
+          itemBuilder: (context, index) {
+            return animalHealthList[index];
+          },
+        );
+      }
     );
   }
 }
