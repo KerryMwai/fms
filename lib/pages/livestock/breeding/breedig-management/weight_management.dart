@@ -199,7 +199,7 @@ class _AnimalWeightManagementState extends State<AnimalWeightManagement> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          content: Text("Are you sure you want to delete ${weight.weight}"),
+          content: Text("Are you sure you want to delete ${weight.animalid}"),
           actions: [
             TextButton(
                 onPressed: () {
@@ -217,7 +217,7 @@ class _AnimalWeightManagementState extends State<AnimalWeightManagement> {
                       .then((value) => ScaffoldMessenger.of(context)
                           .showSnackBar(SnackBar(
                               content:
-                                  Text("${weight.weight} deleted suuccessfully"))));
+                                  Text("${weight.animalid} deleted suuccessfully"))));
                 },
                 child: const Text("Yes"))
           ],
