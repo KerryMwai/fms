@@ -26,7 +26,7 @@ class _AddAnimalHealthInformationState extends State<AddAnimalHealthInformation>
     return Scaffold(
       appBar: AppBar(
         backgroundColor: green,
-        title: const Text("Schedule feeding"),
+        title: const Text("Animal Health Infor"),
         centerTitle: true,
       ),
       body: Padding(
@@ -75,7 +75,7 @@ class _AddAnimalHealthInformationState extends State<AddAnimalHealthInformation>
                                 .then((value) => ScaffoldMessenger.of(context)
                                     .showSnackBar(const SnackBar(
                                         content: Text(
-                                            "Schedule added successfully"))))
+                                            "Information added successfully"))))
                                 .then((value) => Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -83,7 +83,7 @@ class _AddAnimalHealthInformationState extends State<AddAnimalHealthInformation>
                                             const FeedScheduleInformation())));
                           }
                         },
-                        child: const Text("Add Schedule")),
+                        child: const Text("Add Health Infor")),
                   )
                 ],
               ))

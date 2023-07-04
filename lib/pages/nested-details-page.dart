@@ -8,6 +8,7 @@ import 'package:fms/pages/livestock/breeding/breed_management.dart';
 import 'package:fms/pages/livestock/feed-record/feed-livestock-management.dart';
 import 'package:fms/pages/livestock/feed-record/feed-management.dart';
 import 'package:fms/pages/livestock/feed-record/feed-reporting.dart';
+import 'package:fms/pages/livestock/health-management/add_animal_health_information.dart';
 import 'package:fms/pages/livestock/health-management/health_monotoring.dart';
 import 'package:fms/pages/users/activity-logs.dart';
 import 'package:fms/pages/users/permission-management.dart';
@@ -45,7 +46,7 @@ class _SubDetailsPageState extends State<SubDetailsPage> {
         switch(widget.name.trim()){
           case "Health Management":
           setState(() {
-            print(widget.name);
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>const AddAnimalHealthInformation()));
           });
           break;
           default:
