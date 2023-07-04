@@ -92,7 +92,7 @@ class _IndividualAnimalHealthState extends State<IndividualAnimalHealth> {
             TextButton(
                 onPressed: () {
                   LivestockRepostory()
-                      .deleteFeed(id)
+                      .deleteAnimalHealthInformation(id)
                       .then((value) => Navigator.pop(context))
                       .then((value) => ScaffoldMessenger.of(context)
                           .showSnackBar(SnackBar(

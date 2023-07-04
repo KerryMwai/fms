@@ -100,6 +100,4 @@ class _LivestockHealthMonotoringState extends State<LivestockHealthMonotoring> {
       }
     );
   }
-
-
 }
