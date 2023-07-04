@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fms/controller/model/animal_weight_model.dart';
 import 'package:fms/dammies/constants.dart';
 import 'package:fms/pages/livestock/breeding/breedig-management/add_animal_weight.dart';
+import 'package:fms/pages/livestock/breeding/breedig-management/edit_animal_weight.dart';
 import 'package:fms/repository/livestock_repository.dart';
 import 'package:intl/intl.dart';
 
@@ -164,9 +165,13 @@ class _AnimalWeightManagementState extends State<AnimalWeightManagement> {
                     DataCell(Text(weight.remarks)),
                     DataCell(Row(
                       children: [
-                        IconButton(onPressed: (){}, icon: Icon(Icons.edit, color: green,)),
+                        IconButton(onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (_)=>EditWeight(id: document.id, weight: weight,)));
+                        }, icon: Icon(Icons.edit, color: green,)),
                          
-                          IconButton(onPressed: (){}, icon: Icon(Icons.delete, color: red,)),
+                          IconButton(onPressed: (){
+                            showAlertForDeletion(document.id, weight, context);
+                          }, icon: Icon(Icons.delete, color: red,)),
                       ],
                     ))
                   ]
@@ -185,6 +190,39 @@ class _AnimalWeightManagementState extends State<AnimalWeightManagement> {
         onPressed: (){
         Navigator.push(context, MaterialPageRoute(builder: (_)=>const AddWeight()));
       },child:const Icon(Icons.add),),
+    );
+  }
+
+
+    Future<void> showAlertForDeletion(id, weight, context) async {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: Text("Are you sure you want to delete ${weight.weight}"),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text("No")),
+            const SizedBox(
+              width: 10,
+            ),
+            TextButton(
+                onPressed: () {
+                  LivestockRepostory()
+                      .deleteAnimalWeight(id)
+                      .then((value) => Navigator.pop(context))
+                      .then((value) => ScaffoldMessenger.of(context)
+                          .showSnackBar(SnackBar(
+                              content:
+                                  Text("${weight.weight} deleted suuccessfully"))));
+                },
+                child: const Text("Yes"))
+          ],
+        );
+      },
     );
   }
 }
