@@ -516,7 +516,7 @@ class _AnimalReproductivityAndHistoryState
 
                    ListTile(
                   title: Text(
-                    'Estrus Behaviour',
+                    'Breeding performance',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -524,7 +524,7 @@ class _AnimalReproductivityAndHistoryState
                     ),
                   ),
                   subtitle: Text(
-                    data.estrusbehaviour,
+                    "${data.breedingperformance} %",
                     style: const TextStyle(
                       fontSize: 16,
                     ),
@@ -533,7 +533,7 @@ class _AnimalReproductivityAndHistoryState
 
                   ListTile(
                   title: Text(
-                    'Estrus Behaviour',
+                    'Reproductive intervention',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -541,7 +541,7 @@ class _AnimalReproductivityAndHistoryState
                     ),
                   ),
                   subtitle: Text(
-                    data.estrusbehaviour,
+                    data.reproductiveinterventions,
                     style: const TextStyle(
                       fontSize: 16,
                     ),
@@ -550,7 +550,7 @@ class _AnimalReproductivityAndHistoryState
 
                   ListTile(
                   title: Text(
-                    'Estrus Behaviour',
+                    'Observations',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -558,7 +558,7 @@ class _AnimalReproductivityAndHistoryState
                     ),
                   ),
                   subtitle: Text(
-                    data.estrusbehaviour,
+                    data.observations,
                     style: const TextStyle(
                       fontSize: 16,
                     ),
@@ -566,7 +566,7 @@ class _AnimalReproductivityAndHistoryState
                 ),
                   ListTile(
                   title: Text(
-                    'Estrus Behaviour',
+                    'Bredding program',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -574,7 +574,24 @@ class _AnimalReproductivityAndHistoryState
                     ),
                   ),
                   subtitle: Text(
-                    data.estrusbehaviour,
+                    data.breedingprogram,
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+
+                ListTile(
+                  title: Text(
+                    'Mating schedule',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    data.matingschedule,
                     style: const TextStyle(
                       fontSize: 16,
                     ),
