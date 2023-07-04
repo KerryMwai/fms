@@ -159,7 +159,7 @@ class _AnimalWeightManagementState extends State<AnimalWeightManagement> {
                   return DataRow(
                   cells:[
                     DataCell(Text(weight.animalid)),
-                    DataCell(Text(DateFormat("dd-MMMM-yyyy").format(weight.weightdate!))),
+                    DataCell(Text(DateFormat.yMMMMEEEEd().format(weight.weightdate!))),
                     DataCell(Text("${weight.weight} Kgs")),
                     DataCell(Text(weight.weighttype)),
                     DataCell(Text(weight.remarks)),

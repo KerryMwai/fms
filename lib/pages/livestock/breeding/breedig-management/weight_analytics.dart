@@ -1,8 +1,10 @@
 
 
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fms/dammies/constants.dart';
+import 'package:fms/repository/livestock_repository.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 
@@ -23,7 +25,8 @@ class AnimalWeightAnalyticsState extends State<AnimalWeightAnalytics> {
     WeightData('May', 420),
     WeightData('June', 385),
     WeightData('July', 410),
-    WeightData('August', 400)
+    WeightData('August', 400),
+    WeightData('September', 410)
   ];
   @override
   Widget build(BuildContext context) {
@@ -32,31 +35,42 @@ class AnimalWeightAnalyticsState extends State<AnimalWeightAnalytics> {
           backgroundColor: blueGrey,
           title: const Text('Weight Analytics'),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(15),
-          child: Column(children: [
-            //Initialize the chart widget
-            SizedBox(
-              height: MediaQuery.of(context).size.height*0.8,
-              child: SfCartesianChart(
-                  primaryXAxis: CategoryAxis(),
-                  // Chart title
-                  title: ChartTitle(text: 'Weight Analytics of Animal X'),
-                  // Enable legend
-                  legend: Legend(isVisible: true),
-                  // Enable tooltip
-                  tooltipBehavior: TooltipBehavior(enable: true),
-                  series: <ChartSeries<WeightData, String>>[
-                    LineSeries<WeightData, String>(
-                        dataSource: data,
-                        xValueMapper: (WeightData weight, _) => weight.year,
-                        yValueMapper: (WeightData weight, _) => weight.weight,
-                        name: 'Kg',
-                        // Enable data label
-                        dataLabelSettings: const DataLabelSettings(isVisible: true))
-                  ]),
-            ),
-          ]),
+        body: StreamBuilder<QuerySnapshot>(
+          stream: LivestockRepostory().getAllAnimalWeightSnapshots(),
+          builder: (context, snapshot) {
+            if(snapshot.connectionState==ConnectionState.waiting){
+              return Center( child: CircularProgressIndicator(color: green,),);
+            }
+             if(snapshot.connectionState==ConnectionState.waiting){
+              return Center( child: Text("An error occured", style: TextStyle(color: red),),);
+            }
+            return Padding(
+              padding: const EdgeInsets.all(15),
+              child: Column(children: [
+                //Initialize the chart widget
+                SizedBox(
+                  height: MediaQuery.of(context).size.height*0.8,
+                  child: SfCartesianChart(
+                      primaryXAxis: CategoryAxis(),
+                      // Chart title
+                      title: ChartTitle(text: 'Weight Analytics of Animal X'),
+                      // Enable legend
+                      legend: Legend(isVisible: true),
+                      // Enable tooltip
+                      tooltipBehavior: TooltipBehavior(enable: true),
+                      series: <ChartSeries<WeightData, String>>[
+                        LineSeries<WeightData, String>(
+                            dataSource: data,
+                            xValueMapper: (WeightData weight, _) => weight.year,
+                            yValueMapper: (WeightData weight, _) => weight.weight,
+                            name: 'Kg',
+                            // Enable data label
+                            dataLabelSettings: const DataLabelSettings(isVisible: true))
+                      ]),
+                ),
+              ]),
+            );
+          }
         ));
   }
 }
