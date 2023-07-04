@@ -424,7 +424,7 @@ class _AnimalReproductivityAndHistoryState
                     ),
                   ),
                   subtitle: Text(
-                    "${plan.fertilizername}",
+                    "${data.breedingsuccess}",
                     style: const TextStyle(
                       fontSize: 16,
                     ),
@@ -432,7 +432,7 @@ class _AnimalReproductivityAndHistoryState
                 ),
                 ListTile(
                   title: Text(
-                    'Fertilizer type',
+                    'Reproductive cycle',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -440,7 +440,7 @@ class _AnimalReproductivityAndHistoryState
                     ),
                   ),
                   subtitle: Text(
-                    "${plan.fertilizertype}",
+                    data.reproductivecycle,
                     style: const TextStyle(
                       fontSize: 16,
                     ),
@@ -448,7 +448,7 @@ class _AnimalReproductivityAndHistoryState
                 ),
                 ListTile(
                   title: Text(
-                    'Purchase date',
+                    'Estrus Behaviour',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -456,7 +456,125 @@ class _AnimalReproductivityAndHistoryState
                     ),
                   ),
                   subtitle: Text(
-                    plan.pestManagementRequired ? "Yes" : "No",
+                    data.estrusbehaviour,
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+
+                   ListTile(
+                  title: Text(
+                    'Conception date',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    DateFormat("dd-MMMM-yyyy").format(data.conceptiondate),
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+
+                   ListTile(
+                  title: Text(
+                    'Gestation period',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    "${data.gestationperiod} Days",
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+
+                   ListTile(
+                  title: Text(
+                    'Reproductive health',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    data.reproductivehealth,
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+
+                   ListTile(
+                  title: Text(
+                    'Estrus Behaviour',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    data.estrusbehaviour,
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+
+                  ListTile(
+                  title: Text(
+                    'Estrus Behaviour',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    data.estrusbehaviour,
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+
+                  ListTile(
+                  title: Text(
+                    'Estrus Behaviour',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    data.estrusbehaviour,
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                  ListTile(
+                  title: Text(
+                    'Estrus Behaviour',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    data.estrusbehaviour,
                     style: const TextStyle(
                       fontSize: 16,
                     ),
@@ -465,6 +583,7 @@ class _AnimalReproductivityAndHistoryState
               ],
             ),
           ),
+          
           actions: [
             TextButton(
                 onPressed: () {
