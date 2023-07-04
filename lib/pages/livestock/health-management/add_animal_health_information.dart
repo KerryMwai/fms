@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fms/controller/model/animal_health_model.dart';
 import 'package:fms/dammies/constants.dart';
-import 'package:fms/pages/livestock/health-management/health_monotoring.dart';
+import 'package:fms/pages/nested-details-page.dart';
 import 'package:fms/repository/livestock_repository.dart';
 import 'package:fms/widgets/feed_widgets/custom_form_field.dart';
 
@@ -9,16 +9,18 @@ class AddAnimalHealthInformation extends StatefulWidget {
   const AddAnimalHealthInformation({super.key});
 
   @override
-  State<AddAnimalHealthInformation> createState() => _AddAnimalHealthInformationState();
+  State<AddAnimalHealthInformation> createState() =>
+      _AddAnimalHealthInformationState();
 }
 
-class _AddAnimalHealthInformationState extends State<AddAnimalHealthInformation> {
+class _AddAnimalHealthInformationState
+    extends State<AddAnimalHealthInformation> {
   final livestockid = TextEditingController();
   final bodytemperature = TextEditingController();
   final heartrate = TextEditingController();
   final weight = TextEditingController();
   final respiratoryrate = TextEditingController();
-  final status=TextEditingController();
+  final status = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -71,7 +73,18 @@ class _AddAnimalHealthInformationState extends State<AddAnimalHealthInformation>
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             LivestockRepostory()
-                                .addAnimalHealthInformation(AnimalHealthModel(animalid: livestockid.text, imageaddress: "https://cdn.pixabay.com/photo/2016/07/11/08/29/cow-1509258_640.jpg", bodytemperature: double.parse(bodytemperature.text), heartrate: int.parse(heartrate.text), weight: double.parse(weight.text), respiratoryrate: int.parse(respiratoryrate.text), status: status.text).toJson())
+                                .addAnimalHealthInformation(AnimalHealthModel(
+                                        animalid: livestockid.text,
+                                        imageaddress:
+                                            "https://cdn.pixabay.com/photo/2016/07/11/08/29/cow-1509258_640.jpg",
+                                        bodytemperature:
+                                            double.parse(bodytemperature.text),
+                                        heartrate: int.parse(heartrate.text),
+                                        weight: double.parse(weight.text),
+                                        respiratoryrate:
+                                            int.parse(respiratoryrate.text),
+                                        status: status.text)
+                                    .toJson())
                                 .then((value) => ScaffoldMessenger.of(context)
                                     .showSnackBar(const SnackBar(
                                         content: Text(
@@ -79,8 +92,9 @@ class _AddAnimalHealthInformationState extends State<AddAnimalHealthInformation>
                                 .then((value) => Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            const LivestockHealthMonotoring())));
+                                        builder: (context) => SubDetailsPage(
+                                              name: "Health Management",
+                                            ))));
                           }
                         },
                         child: const Text("Add Health Infor")),

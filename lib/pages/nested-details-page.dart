@@ -21,10 +21,8 @@ import 'package:fms/widgets/custom_drawer.dart';
 
 // ignore: must_be_immutable
 class SubDetailsPage extends StatefulWidget {
-  String id;
   String name;
-  List subsections;
-  SubDetailsPage({super.key, this.id='', required this.name,  this.subsections=const []});
+  SubDetailsPage({super.key, required this.name});
 
   @override
   State<SubDetailsPage> createState() => _SubDetailsPageState();
