@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fms/dammies/constants.dart';
 import 'package:fms/pages/livestock/breeding/breedig-management/add_animal_weight.dart';
+import 'package:fms/repository/livestock_repository.dart';
 
 class AnimalWeightManagement extends StatefulWidget {
   const AnimalWeightManagement({super.key});
@@ -124,31 +126,42 @@ class _AnimalWeightManagementState extends State<AnimalWeightManagement> {
         backgroundColor: blueGrey,
         title: const Text("Animal Weight information"),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: DataTable(
-      columns: const [
-        DataColumn(label: Text('Animal ID')),
-        DataColumn(label: Text('Weight Date')),
-        DataColumn(label: Text('Weight (kg)')),
-        DataColumn(label: Text('Weight Type')),
-        DataColumn(label: Text('Remarks')),
-      ],
-      rows: dummyData
-          .map(
-            (data) => DataRow(
-              cells: data.entries
-                  .map((entry) => DataCell(Text(entry.value)))
-                  .toList(),
-            ),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: LivestockRepostory().getAllAnimalWeightSnapshots(),
+        builder: (context, snapshot) {
+          if(snapshot.connectionState==ConnectionState.waiting){
+            return Center( child: CircularProgressIndicator(color: green,),);
+          }
+          if(snapshot.connectionState==ConnectionState.waiting){
+            return Center( child: Text("An error occured", style: TextStyle(color: green, fontSize: 18),),);
+          }
+          return SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: DataTable(
+          columns: const [
+            DataColumn(label: Text('Animal ID')),
+            DataColumn(label: Text('Weight Date')),
+            DataColumn(label: Text('Weight (kg)')),
+            DataColumn(label: Text('Weight Type')),
+            DataColumn(label: Text('Remarks')),
+          ],
+          rows: dummyData
+              .map(
+                (data) => DataRow(
+                  cells: data.entries
+                      .map((entry) => DataCell(Text(entry.value)))
+                      .toList(),
+                ),
+              )
+              .toList(),
           )
-          .toList(),
-    )
-          ),
-        ),
+              ),
+            ),
+          );
+        }
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: green,
