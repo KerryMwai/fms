@@ -20,12 +20,13 @@ class _AddBreedState extends State<AddBreed> {
   final breedingsuccess = TextEditingController();
   final reproductivecycle = TextEditingController();
   final heat = TextEditingController();
+  final matingschedule = TextEditingController();
   DateTime? conceptiondate;
   final gestationperiod = TextEditingController();
   final reproductivehealth = TextEditingController();
   final breedingperformance = TextEditingController();
   final interventions = TextEditingController();
-  final breedingprogram= TextEditingController();
+  final breedingprogram = TextEditingController();
   final observation = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   @override
@@ -62,7 +63,7 @@ class _AddBreedState extends State<AddBreed> {
                       lastDate: DateTime(2040),
                     );
                     setState(() {
-                      acquisitiondate = picked??DateTime.now();
+                      acquisitiondate = picked ?? DateTime.now();
                     });
                   },
                   readOnly: true,
@@ -85,8 +86,9 @@ class _AddBreedState extends State<AddBreed> {
                   ),
                 ),
               ),
-
-              const SizedBox(height: 15,),
+              const SizedBox(
+                height: 15,
+              ),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 10),
                 child: TextFormField(
@@ -98,7 +100,7 @@ class _AddBreedState extends State<AddBreed> {
                       lastDate: DateTime(2040),
                     );
                     setState(() {
-                      conceptiondate = picked??DateTime.now();
+                      conceptiondate = picked ?? DateTime.now();
                     });
                   },
                   readOnly: true,
@@ -134,9 +136,13 @@ class _AddBreedState extends State<AddBreed> {
                   labelText: "Breed reproductive cycle",
                   valitationText: "Breed reproductive cycle is required"),
               FeedFormField(
-                  controller: heat,
+                  controller: matingschedule,
                   labelText: "Breed mating schedule (how many times a year)",
                   valitationText: "Breed mating schedule is required"),
+              FeedFormField(
+                  controller: heat,
+                  labelText: "Estrus behavior",
+                  valitationText: "Estrus behavior is required"),
               FeedFormField2(
                   controller: gestationperiod,
                   labelText: "Breed gestation period in days",
@@ -157,8 +163,7 @@ class _AddBreedState extends State<AddBreed> {
               FeedFormField(
                   controller: breedingprogram,
                   labelText: "Breeding program",
-                  valitationText:
-                      "Breeding program is required"),
+                  valitationText: "Breeding program is required"),
               FeedFormField(
                   controller: observation,
                   labelText: "Breed observation",
@@ -170,12 +175,42 @@ class _AddBreedState extends State<AddBreed> {
                   SizedBox(
                     width: size.width * 0.4,
                     child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(green)
-                      ),
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll(green)),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            LivestockRepostory().addBreedingInformation(FertilityAndReproductiveHistoryModel(animalid: animalid.text, animalbreed: animalbreed.text, birthdate: acquisitiondate!, breedingattempt: int.parse(breedattempts.text), breedingsuccess: int.parse(breedingsuccess.text), reproductivecycle: reproductivecycle.text, estrusbehaviour: heat.text, conceptiondate: conceptiondate!, gestationperiod: int.parse(gestationperiod.text), reproductivehealth: reproductivehealth.text, breedingperformance:double.parse( breedingperformance.text), reproductiveinterventions: interventions.text, observations: observation.text, breedingprogram: breedingprogram.text, matingschedule: heat.text).toJson()).then((value) => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Information added successfully")))).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>const AnimalReproductivityAndHistory())));
+                            LivestockRepostory()
+                                .addBreedingInformation(
+                                    FertilityAndReproductiveHistoryModel(
+                                            animalid: animalid.text,
+                                            animalbreed: animalbreed.text,
+                                            birthdate: acquisitiondate!,
+                                            breedingattempt:
+                                                int.parse(breedattempts.text),
+                                            breedingsuccess:
+                                                int.parse(breedingsuccess.text),
+                                            reproductivecycle:
+                                                reproductivecycle.text,
+                                            estrusbehaviour: heat.text,
+                                            conceptiondate: conceptiondate!,
+                                            gestationperiod:
+                                                int.parse(gestationperiod.text),
+                                            reproductivehealth:
+                                                reproductivehealth.text,
+                                            breedingperformance: double.parse(
+                                                breedingperformance.text),
+                                            reproductiveinterventions:
+                                                interventions.text,
+                                            observations: observation.text,
+                                            breedingprogram:
+                                                breedingprogram.text,
+                                            matingschedule: matingschedule.text)
+                                        .toJson())
+                                .then((value) => ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
+                                        content: Text(
+                                            "Information added successfully"))))
+                                .then((value) => Navigator.push(context, MaterialPageRoute(builder: (context) => const AnimalReproductivityAndHistory())));
                           }
                         },
                         child: const Text("Add Breed")),

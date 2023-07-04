@@ -22,28 +22,30 @@ class _EditBreedState extends State<EditBreed> {
   final breedingsuccess = TextEditingController();
   final reproductivecycle = TextEditingController();
   final heat = TextEditingController();
+  final matingschedule = TextEditingController();
   DateTime? conceptiondate;
   final gestationperiod = TextEditingController();
   final reproductivehealth = TextEditingController();
   final breedingperformance = TextEditingController();
   final interventions = TextEditingController();
-  final breedingprogram= TextEditingController();
+  final breedingprogram = TextEditingController();
   final observation = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    animalid.text=widget.breed.animalid;
-    animalbreed.text=widget.breed.animalbreed;
-    breedattempts.text=widget.breed.breedingattempt.toString();
-    breedingsuccess.text=widget.breed.breedingsuccess.toString();
-    reproductivecycle.text=widget.breed.reproductivecycle;
-    heat.text=widget.breed.estrusbehaviour;
-    gestationperiod.text=widget.breed.gestationperiod.toString();
-    reproductivehealth.text=widget.breed.reproductivehealth;
-    breedingperformance.text=widget.breed.breedingperformance.toString();
-    interventions.text=widget.breed.reproductiveinterventions;
-    breedingprogram.text=widget.breed.breedingprogram;
-    observation.text=widget.breed.observations;
+    animalid.text = widget.breed.animalid;
+    animalbreed.text = widget.breed.animalbreed;
+    breedattempts.text = widget.breed.breedingattempt.toString();
+    breedingsuccess.text = widget.breed.breedingsuccess.toString();
+    reproductivecycle.text = widget.breed.reproductivecycle;
+    heat.text = widget.breed.estrusbehaviour;
+    gestationperiod.text = widget.breed.gestationperiod.toString();
+    reproductivehealth.text = widget.breed.reproductivehealth;
+    breedingperformance.text = widget.breed.breedingperformance.toString();
+    interventions.text = widget.breed.reproductiveinterventions;
+    breedingprogram.text = widget.breed.breedingprogram;
+    observation.text = widget.breed.observations;
+    matingschedule.text=widget.breed.matingschedule;
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -76,7 +78,7 @@ class _EditBreedState extends State<EditBreed> {
                       lastDate: DateTime(2040),
                     );
                     setState(() {
-                      acquisitiondate = picked??widget.breed.birthdate;
+                      acquisitiondate = picked ?? widget.breed.birthdate;
                     });
                   },
                   readOnly: true,
@@ -99,8 +101,9 @@ class _EditBreedState extends State<EditBreed> {
                   ),
                 ),
               ),
-
-              const SizedBox(height: 15,),
+              const SizedBox(
+                height: 15,
+              ),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 10),
                 child: TextFormField(
@@ -112,7 +115,7 @@ class _EditBreedState extends State<EditBreed> {
                       lastDate: DateTime(2040),
                     );
                     setState(() {
-                      conceptiondate = picked?? widget.breed.conceptiondate;
+                      conceptiondate = picked ?? widget.breed.conceptiondate;
                     });
                   },
                   readOnly: true,
@@ -148,9 +151,13 @@ class _EditBreedState extends State<EditBreed> {
                   labelText: "Breed reproductive cycle",
                   valitationText: "Breed reproductive cycle is required"),
               FeedFormField(
-                  controller: heat,
+                  controller: matingschedule,
                   labelText: "Breed mating schedule (how many times a year)",
                   valitationText: "Breed mating schedule is required"),
+              FeedFormField(
+                  controller: heat,
+                  labelText: "Estrus behaviour",
+                  valitationText: "Estrus is required"),
               FeedFormField2(
                   controller: gestationperiod,
                   labelText: "Breed gestation period in days",
@@ -171,8 +178,7 @@ class _EditBreedState extends State<EditBreed> {
               FeedFormField(
                   controller: breedingprogram,
                   labelText: "Breeding program",
-                  valitationText:
-                      "Breeding program is required"),
+                  valitationText: "Breeding program is required"),
               FeedFormField(
                   controller: observation,
                   labelText: "Breed observation",
@@ -184,12 +190,44 @@ class _EditBreedState extends State<EditBreed> {
                   SizedBox(
                     width: size.width * 0.4,
                     child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(green)
-                      ),
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll(green)),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            LivestockRepostory().updateBreedingInformation(widget.id,FertilityAndReproductiveHistoryModel(animalid: animalid.text, animalbreed: animalbreed.text, birthdate: acquisitiondate!, breedingattempt: int.parse(breedattempts.text), breedingsuccess: int.parse(breedingsuccess.text), reproductivecycle: reproductivecycle.text, estrusbehaviour: heat.text, conceptiondate: conceptiondate!, gestationperiod: int.parse(gestationperiod.text), reproductivehealth: reproductivehealth.text, breedingperformance:double.parse( breedingperformance.text), reproductiveinterventions: interventions.text, observations: observation.text, breedingprogram: breedingprogram.text, matingschedule: heat.text).toJson()).then((value) => ScaffoldMessenger.of(context).showSnackBar( SnackBar(content: Text("${widget.breed.animalid} update successfully")))).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>const AnimalReproductivityAndHistory())));
+                            LivestockRepostory()
+                                .updateBreedingInformation(
+                                    widget.id,
+                                    FertilityAndReproductiveHistoryModel(
+                                            animalid: animalid.text,
+                                            animalbreed: animalbreed.text,
+                                            birthdate: acquisitiondate!,
+                                            breedingattempt:
+                                                int.parse(breedattempts.text),
+                                            breedingsuccess:
+                                                int.parse(breedingsuccess.text),
+                                            reproductivecycle:
+                                                reproductivecycle.text,
+                                            estrusbehaviour: heat.text,
+                                            conceptiondate: conceptiondate!,
+                                            gestationperiod:
+                                                int.parse(gestationperiod.text),
+                                            reproductivehealth:
+                                                reproductivehealth.text,
+                                            breedingperformance: double.parse(
+                                                breedingperformance.text),
+                                            reproductiveinterventions:
+                                                interventions.text,
+                                            observations: observation.text,
+                                            breedingprogram:
+                                                breedingprogram.text,
+                                            matingschedule: matingschedule.text)
+                                        .toJson())
+                                .then((value) => ScaffoldMessenger.of(context)
+                                    .showSnackBar(SnackBar(
+                                        content: Text(
+                                            "${widget.breed.animalid} update successfully"))))
+                                .then((value) =>
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => const AnimalReproductivityAndHistory())));
                           }
                         },
                         child: const Text("Update Breed")),
