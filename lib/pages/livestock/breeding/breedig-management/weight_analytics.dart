@@ -3,8 +3,10 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fms/controller/model/animal_weight_model.dart';
 import 'package:fms/dammies/constants.dart';
 import 'package:fms/repository/livestock_repository.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 
@@ -18,15 +20,15 @@ class AnimalWeightAnalytics extends StatefulWidget {
 
 class AnimalWeightAnalyticsState extends State<AnimalWeightAnalytics> {
   List<WeightData> data = [
-    WeightData('Jan', 430),
-    WeightData('Feb', 428),
-    WeightData('Mar', 442),
-    WeightData('Apr', 435),
-    WeightData('May', 420),
-    WeightData('June', 385),
-    WeightData('July', 410),
-    WeightData('August', 400),
-    WeightData('September', 410)
+    // WeightData('Jan', 430),
+    // WeightData('Feb', 428),
+    // WeightData('Mar', 442),
+    // WeightData('Apr', 435),
+    // WeightData('May', 420),
+    // WeightData('June', 385),
+    // WeightData('July', 410),
+    // WeightData('August', 400),
+    // WeightData('September', 410)
   ];
   @override
   Widget build(BuildContext context) {
@@ -43,6 +45,11 @@ class AnimalWeightAnalyticsState extends State<AnimalWeightAnalytics> {
             }
              if(snapshot.connectionState==ConnectionState.waiting){
               return Center( child: Text("An error occured", style: TextStyle(color: red),),);
+            }
+            List<AnimalWeightModel> weightData=snapshot.data!.docs.map((DocumentSnapshot document)=>AnimalWeightModel.fromJson(document.data() as Map<String, dynamic>)).toList();
+            for (var element in weightData) {
+              final weightdata=WeightData(DateFormat("MMMM").format(element.weightdate!), element.weight);
+              data.add(weightdata);
             }
             return Padding(
               padding: const EdgeInsets.all(15),
@@ -80,4 +87,5 @@ class WeightData {
 
   final String year;
   final double weight;
+
 }
