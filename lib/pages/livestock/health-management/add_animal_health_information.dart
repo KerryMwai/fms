@@ -1,27 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:fms/controller/model/feed_schedule_model.dart';
+import 'package:fms/controller/model/animal_health_model.dart';
 import 'package:fms/dammies/constants.dart';
 import 'package:fms/pages/livestock/feed-record/feed-livestock-management/feed_schedule_information.dart';
 import 'package:fms/repository/livestock_repository.dart';
 import 'package:fms/widgets/feed_widgets/custom_form_field.dart';
-import 'package:intl/intl.dart';
 
-class AddFeedingSchedule extends StatefulWidget {
-  const AddFeedingSchedule({super.key});
+class AddAnimalHealthInformation extends StatefulWidget {
+  const AddAnimalHealthInformation({super.key});
 
   @override
-  State<AddFeedingSchedule> createState() => _AddFeedingScheduleState();
+  State<AddAnimalHealthInformation> createState() => _AddAnimalHealthInformationState();
 }
 
-class _AddFeedingScheduleState extends State<AddFeedingSchedule> {
+class _AddAnimalHealthInformationState extends State<AddAnimalHealthInformation> {
   final livestockid = TextEditingController();
-  final livestocktype = TextEditingController();
-  final feedname = TextEditingController();
-  final feedtype = TextEditingController();
-  final feedquantity = TextEditingController();
-  final feedingmethod = TextEditingController();
-  TimeOfDay? feedingintervalfrom;
-  TimeOfDay? feedingintervalto;
+  final bodytemperature = TextEditingController();
+  final heartrate = TextEditingController();
+  final weight = TextEditingController();
+  final respiratoryrate = TextEditingController();
+  final status=TextEditingController();
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -43,99 +40,25 @@ class _AddFeedingScheduleState extends State<AddFeedingSchedule> {
                   labelText: "Livestock id",
                   valitationText: "Livestock id is required"),
               FeedFormField(
-                  controller: livestocktype,
-                  labelText: "Livestock type",
-                  valitationText: "Livestock type is required"),
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 10),
-                child: TextFormField(
-                  onTap: () async {
-                    final TimeOfDay? picked = await showTimePicker(
-                      context: context,
-                      initialTime: TimeOfDay.now(),
-                    );
-                    setState(() {
-                      feedingintervalfrom = picked ?? TimeOfDay.now();
-                    });
-                  },
-                  readOnly: true,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Feeding from',
-                  ),
-                  validator: (value) {
-                    // ignore: unnecessary_null_comparison
-                    if (feedingintervalfrom == null) {
-                      return 'Please select time from';
-                    }
-                    return null;
-                  },
-                  controller: TextEditingController(
-                    // ignore: unnecessary_null_comparison
-                    text: feedingintervalfrom != null
-                        ? DateFormat("h:mm a").format(DateTime(
-                            2023,
-                            1,
-                            1,
-                            feedingintervalfrom!.hour,
-                            feedingintervalfrom!.minute))
-                        : '',
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 10),
-                child: TextFormField(
-                  onTap: () async {
-                    final TimeOfDay? picked = await showTimePicker(
-                      context: context,
-                      initialTime: TimeOfDay.now()
-                          .replacing(hour: TimeOfDay.now().hour + 1),
-                    );
-                    setState(() {
-                      feedingintervalto = picked ?? TimeOfDay.now();
-                    });
-                  },
-                  readOnly: true,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Feeding to',
-                  ),
-                  validator: (value) {
-                    // ignore: unnecessary_null_comparison
-                    if (feedingintervalto == null) {
-                      return 'Please select time to ';
-                    }
-                    return null;
-                  },
-                  controller: TextEditingController(
-                    // ignore: unnecessary_null_comparison
-                    text: feedingintervalto != null
-                        ? DateFormat("h:mm a").format(DateTime(2023, 1, 1,
-                            feedingintervalto!.hour, feedingintervalto!.minute))
-                        : '',
-                  ),
-                ),
-              ),
+                  controller: bodytemperature,
+                  labelText: "Livestock body temperature",
+                  valitationText: "Livestock  body temperature is required"),
               FeedFormField(
-                  controller: feedname,
-                  labelText: "Feed name",
-                  valitationText: "Feed name is required"),
+                  controller: heartrate,
+                  labelText: "Animal heart rate",
+                  valitationText: "Animal heart rate is required"),
               FeedFormField(
-                  controller: feedtype,
-                  labelText: "Feed type",
-                  valitationText: "Feed type is required"),
+                  controller: weight,
+                  labelText: "Animal weight",
+                  valitationText: "Animal weight is required"),
               FeedFormField(
-                  controller: feedquantity,
-                  labelText: "Feed quantity",
-                  valitationText: "Feed quantity is required"),
+                  controller: respiratoryrate,
+                  labelText: "Animal respiratory rate",
+                  valitationText: "Animal respiratory rate is required"),
               FeedFormField(
-                  controller: feedingmethod,
-                  labelText: "Feeding method",
-                  valitationText: "Feeding method is required"),
+                  controller: status,
+                  labelText: "Animal status (Sick/Health)",
+                  valitationText: "Animal status is required"),
               Expanded(
                   child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -148,27 +71,7 @@ class _AddFeedingScheduleState extends State<AddFeedingSchedule> {
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             LivestockRepostory()
-                                .addFeedSchedule(FeedScheduleModel(
-                                  feedingmethod: feedingmethod.text,
-                                        livestockid: livestockid.text,
-                                        livestocktype: livestocktype.text,
-                                        feedingintervalfrom: DateTime(
-                                            2023,
-                                            1,
-                                            1,
-                                            feedingintervalfrom!.hour,
-                                            feedingintervalfrom!.minute),
-                                        feedingintervalto: DateTime(
-                                            2023,
-                                            1,
-                                            1,
-                                            feedingintervalto!.hour,
-                                            feedingintervalto!.minute),
-                                        feedname: feedname.text,
-                                        feedtype: feedtype.text,
-                                        feedquantity:
-                                            double.parse(feedquantity.text))
-                                    .toJson())
+                                .addAnimalHealthInformation(AnimalHealthModel(animalid: livestockid.text, imageaddress: "https://cdn.pixabay.com/photo/2016/07/11/08/29/cow-1509258_640.jpg", bodytemperature: double.parse(bodytemperature.text), heartrate: int.parse(heartrate.text), weight: double.parse(weight.text), respiratoryrate: int.parse(respiratoryrate.text), status: status.text).toJson())
                                 .then((value) => ScaffoldMessenger.of(context)
                                     .showSnackBar(const SnackBar(
                                         content: Text(
