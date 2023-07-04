@@ -20,4 +20,34 @@ class LivestockRepostory{
   Future<void> updateBreedingInformation(id, feedchedule)=>firestore.collection("breeding-information").doc(id).update(feedchedule);
   Stream<QuerySnapshot> getAllBreedingInformationsSnapshots()=>firestore.collection("breeding-information").snapshots();
   Future<void> deleteBreedingInformation(id)=>firestore.collection("breeding-information").doc(id).delete();
+
+
+  // Filtering data
+  Future<void> fetchFilteredData(collection,filterfiled,fieltervalue, fieldtogroupby) async {
+  final collectionReference = FirebaseFirestore.instance.collection(collection);
+
+  // Apply filters
+  final querySnapshot = await collectionReference
+      .where(filterfiled, isEqualTo: fieltervalue)
+      .get();
+
+  // Group data based on a certain field
+  final groupedData = <String, List<DocumentSnapshot>>{};
+  for (var doc in querySnapshot.docs) {
+    final fieldValue = doc.data()[fieldtogroupby];
+    if (!groupedData.containsKey(fieldValue)) {
+      groupedData[fieldValue] = [];
+    }
+    groupedData[fieldValue]!.add(doc);
+  }
+
+  // Access the grouped data
+  groupedData.forEach((key, value) {
+    print('Group: $key');
+    value.forEach((doc) {
+      print('Document: ${doc.data()}');
+    });
+  });
+}
+
 }
