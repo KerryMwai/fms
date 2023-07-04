@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fms/controller/model/animal_health_model.dart';
 import 'package:fms/dammies/constants.dart';
-import 'package:fms/pages/livestock/feed-record/feed-livestock-management/feed_schedule_information.dart';
+import 'package:fms/pages/livestock/health-management/health_monotoring.dart';
 import 'package:fms/repository/livestock_repository.dart';
 import 'package:fms/widgets/feed_widgets/custom_form_field.dart';
 
@@ -80,7 +80,7 @@ class _AddAnimalHealthInformationState extends State<AddAnimalHealthInformation>
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const FeedScheduleInformation())));
+                                            const LivestockHealthMonotoring())));
                           }
                         },
                         child: const Text("Add Health Infor")),
