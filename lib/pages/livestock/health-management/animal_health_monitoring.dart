@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fms/dammies/constants.dart';
+import 'package:fms/repository/livestock_repository.dart';
 
 class IndividualAnimalHealth extends StatefulWidget {
+  final String id;
   final String animalId;
   final String imageaddress;
   final double bodyTemperature;
@@ -10,18 +12,18 @@ class IndividualAnimalHealth extends StatefulWidget {
   final int respiratoryRate;
   final String status;
 
-  IndividualAnimalHealth({
+  const IndividualAnimalHealth({super.key, 
     required this.animalId,
     required this.imageaddress,
     required this.bodyTemperature,
     required this.heartRate,
     required this.weight,
     required this.respiratoryRate,
-    required this.status
+    required this.status, required this.id
   });
 
   @override
-  _IndividualAnimalHealthState createState() => _IndividualAnimalHealthState();
+  State<IndividualAnimalHealth> createState() => _IndividualAnimalHealthState();
 }
 
 class _IndividualAnimalHealthState extends State<IndividualAnimalHealth> {
@@ -59,12 +61,48 @@ class _IndividualAnimalHealthState extends State<IndividualAnimalHealth> {
             child: Row(
               children: [
                 IconButton(onPressed: (){}, splashColor: Colors.green[200], icon: const Icon(Icons.edit, color: Colors.green,)),
-                 IconButton(onPressed: (){}, splashColor: Colors.red[100], icon: const Icon(Icons.delete, color: Colors.red,)),
+                 IconButton(onPressed: (){
+                  showAlertForDeletion(widget.id, widget.animalId, context);
+                 }, splashColor: Colors.red[100], icon: const Icon(Icons.delete, color: Colors.red,)),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+
+    Future<void> showAlertForDeletion(id, animalid, context) async {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: Text(
+              "Are you sure you want to delete animal $animalid}"),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text("No")),
+            const SizedBox(
+              width: 10,
+            ),
+            TextButton(
+                onPressed: () {
+                  LivestockRepostory()
+                      .deleteFeed(id)
+                      .then((value) => Navigator.pop(context))
+                      .then((value) => ScaffoldMessenger.of(context)
+                          .showSnackBar(SnackBar(
+                              content: Text(
+                                  "$animalid deleted suuccessfully"))));
+                },
+                child: const Text("Yes"))
+          ],
+        );
+      },
     );
   }
 }
