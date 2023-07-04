@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fms/controller/model/animal_health_model.dart';
 import 'package:fms/dammies/constants.dart';
 import 'package:fms/pages/livestock/health-management/animal_health_monitoring.dart';
 import 'package:fms/repository/livestock_repository.dart';
@@ -87,10 +88,12 @@ class _LivestockHealthMonotoringState extends State<LivestockHealthMonotoring> {
         if(snapshot.hasError){
           return Center(child: Text("An error occured", style: TextStyle(color: red),),);
         }
+        final List<AnimalHealthModel> healthinfors=snapshot.data!.docs.map((DocumentSnapshot document) =>AnimalHealthModel.fromJson(document.data() as Map<String, dynamic>) ).toList();
         return ListView.builder(
-          itemCount: animalHealthList.length,
+          itemCount: healthinfors.length,
           itemBuilder: (context, index) {
-            return animalHealthList[index];
+            final animalh=healthinfors[index];
+            return IndividualAnimalHealth(animalId: animalh.animalid, imageaddress: animalh.imageaddress, bodyTemperature: animalh.bodytemperature, heartRate: animalh.heartrate, weight: animalh.weight, respiratoryRate: animalh.respiratoryrate, status: animalh.status);
           },
         );
       }
