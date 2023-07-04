@@ -101,7 +101,7 @@ class _AddWeightState extends State<AddWeight> {
                                     weightdate: weightdate,
                                     weight: double.parse(weight.text),
                                     weighttype: weighttype.text,
-                                    remarks: remarks.text)).then((value) => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Weight added successfully")))).then((value) => Navigator.push(context, MaterialPageRoute(builder: (_)=>const AnimalWeightManagement())));
+                                    remarks: remarks.text).toJson()).then((value) => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Weight added successfully")))).then((value) => Navigator.push(context, MaterialPageRoute(builder: (_)=>const AnimalWeightManagement())));
                           }
                         },
                         child: const Text("Add Weight")),

@@ -122,7 +122,7 @@ class _AnimalWeightManagementState extends State<AnimalWeightManagement> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: blueGrey,
-        title: const Text("Animal Productivity History"),
+        title: const Text("Animal Weight information"),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -150,7 +150,9 @@ class _AnimalWeightManagementState extends State<AnimalWeightManagement> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(onPressed: (){
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: green,
+        onPressed: (){
         Navigator.push(context, MaterialPageRoute(builder: (_)=>const AddWeight()));
       },child:const Icon(Icons.add),),
     );
