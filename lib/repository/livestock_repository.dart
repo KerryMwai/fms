@@ -32,6 +32,7 @@ class LivestockRepostory{
   Future<void> addAnimalWeight(weight)=>firestore.collection('weight-information').add(weight);
   Future<void> updateAnimalWeight(id, weight)=>firestore.collection('weight-information').doc(id).update(weight);
   Stream<QuerySnapshot> getAllAnimalWeightSnapshots()=>firestore.collection('weight-information').snapshots();
+   Stream<QuerySnapshot> getAllAnimalWeightSnapshotsForParticularAnimal(animalid)=>firestore.collection('weight-information').where("animalid", isEqualTo: animalid).snapshots();
   Future<void> deleteAnimalWeight(id)=>firestore.collection('weight-information').doc(id).delete();
 
 

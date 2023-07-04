@@ -6,3 +6,4 @@ Color black=Colors.black;
 Color white=Colors.white;
 Color red=Colors.red;
 Color green=Colors.green;
+const analyticscolor=Colors.purple;
