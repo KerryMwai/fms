@@ -347,18 +347,18 @@ class _AnimalReproductivityAndHistoryState
     );
   }
 
-  Future<void> showVewDialogCard(plan, context) async {
+  Future<void> showVewDialogCard(data, context) async {
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("${plan.crop}"),
+          title: Text("${data.animalid}"),
           content: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Crop: ${plan.crop}',
+                  'Livestock breed: ${data.animalbreed}',
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -368,7 +368,7 @@ class _AnimalReproductivityAndHistoryState
                 const SizedBox(height: 8),
                 ListTile(
                   title: Text(
-                    'Crop Name',
+                    'Breed',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -376,7 +376,7 @@ class _AnimalReproductivityAndHistoryState
                     ),
                   ),
                   subtitle: Text(
-                    "${plan.crop}",
+                    "${data.animalbreed}",
                     style: const TextStyle(
                       fontSize: 16,
                     ),
@@ -384,7 +384,7 @@ class _AnimalReproductivityAndHistoryState
                 ),
                 ListTile(
                   title: Text(
-                    'Planting date',
+                    'Acquisition date',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -392,7 +392,7 @@ class _AnimalReproductivityAndHistoryState
                     ),
                   ),
                   subtitle: Text(
-                    DateFormat('dd-MM-yy').format(plan.plantingDate!),
+                    DateFormat("dd-MMMM-yyyy").format(data.birthdate),
                     style: const TextStyle(
                       fontSize: 16,
                     ),
@@ -400,7 +400,7 @@ class _AnimalReproductivityAndHistoryState
                 ),
                 ListTile(
                   title: Text(
-                    'Plant spacing',
+                    'Breeding attempts',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -408,7 +408,7 @@ class _AnimalReproductivityAndHistoryState
                     ),
                   ),
                   subtitle: Text(
-                    "${plan.spacing}",
+                    "${data.breedingattempt}",
                     style: const TextStyle(
                       fontSize: 16,
                     ),
@@ -416,7 +416,7 @@ class _AnimalReproductivityAndHistoryState
                 ),
                 ListTile(
                   title: Text(
-                    'Fertilizer name',
+                    'Breeding Success',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
