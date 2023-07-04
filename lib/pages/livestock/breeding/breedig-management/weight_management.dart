@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fms/controller/model/animal_weight_model.dart';
 import 'package:fms/dammies/constants.dart';
 import 'package:fms/pages/livestock/breeding/breedig-management/add_animal_weight.dart';
 import 'package:fms/repository/livestock_repository.dart';
+import 'package:intl/intl.dart';
 
 class AnimalWeightManagement extends StatefulWidget {
   const AnimalWeightManagement({super.key});
@@ -147,14 +149,29 @@ class _AnimalWeightManagementState extends State<AnimalWeightManagement> {
             DataColumn(label: Text('Weight (kg)')),
             DataColumn(label: Text('Weight Type')),
             DataColumn(label: Text('Remarks')),
+            DataColumn(label: Text('Action')),
           ],
-          rows: dummyData
+          rows: snapshot.data!.docs
               .map(
-                (data) => DataRow(
-                  cells: data.entries
-                      .map((entry) => DataCell(Text(entry.value)))
-                      .toList(),
-                ),
+                (DocumentSnapshot document){
+                  final weight=AnimalWeightModel.fromJson(document.data() as Map<String, dynamic>);
+                  return DataRow(
+                  cells:[
+                    DataCell(Text(weight.animalid)),
+                    DataCell(Text(DateFormat("dd-MMMM-yyyy").format(weight.weightdate!))),
+                    DataCell(Text("${weight.weight} Kgs")),
+                    DataCell(Text(weight.weighttype)),
+                    DataCell(Text(weight.remarks)),
+                    DataCell(Row(
+                      children: [
+                        IconButton(onPressed: (){}, icon: Icon(Icons.edit, color: green,)),
+                         
+                          IconButton(onPressed: (){}, icon: Icon(Icons.delete, color: red,)),
+                      ],
+                    ))
+                  ]
+                );  
+                }
               )
               .toList(),
           )
