@@ -268,74 +268,111 @@ class _AnimalReproductivityAndHistoryState
         title: const Text("Animal Productivity History"),
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: LivestockRepostory().getAllBreedingInformationsSnapshots(),
-        builder: (context, snapshot) {
-          if(snapshot.connectionState==ConnectionState.waiting){
-            return Center(child: CircularProgressIndicator(color: green,),);
-          }
-          if(snapshot.connectionState==ConnectionState.waiting){
-            return Center(child: Text("An error occured", style: TextStyle(color: red),),);
-          }
-          return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: DataTable(
-                    columns: const [
-                      DataColumn(label: Text('Animal ID')),
-                      DataColumn(label: Text('Animal Breed')),
-                      DataColumn(label: Text('Birth/Acquisition Date')),
-                      DataColumn(label: Text('Breeding Attempts')),
-                      DataColumn(label: Text('Breeding Success')),
-                      DataColumn(label: Text('Reproductive Cycles')),
-                      DataColumn(label: Text('Heat/Estrus Behavior')),
-                      DataColumn(label: Text('Conception Dates')),
-                      DataColumn(label: Text('Gestation Period')),
-                      DataColumn(label: Text('Reproductive Health')),
-                      DataColumn(label: Text('Breeding Performance')),
-                      DataColumn(label: Text('Reproductive Interventions')),
-                      DataColumn(label: Text('Observations')),
-                      DataColumn(label: Text('Breeding Program')),
-                      DataColumn(label: Text('Mating Schedule')),
-                      DataColumn(label: Text('Action')),
-                    ],
-                    rows: snapshot.data!.docs.map((DocumentSnapshot document) {
-                      final data=FertilityAndReproductiveHistoryModel.fromJson(document.data() as Map<String, dynamic>);
-                      return DataRow(cells: [
-                        DataCell(Text(data.animalid)),
-                        DataCell(Text(data.animalbreed)),
-                        DataCell(Text(DateFormat("dd-MMMM-yyyy").format(data.birthdate))),
-                        DataCell(Text("${data.breedingattempt}")),
-                        DataCell(Text("${data.breedingsuccess}")),
-                        DataCell(Text(data.reproductivecycle)),
-                        DataCell(Text(data.estrusbehaviour)),
-                        DataCell(Text(DateFormat("dd-MMMM-yyyy").format(data.conceptiondate))),
-                        DataCell(Text("${data.gestationperiod} Days")),
-                        DataCell(Text(data.reproductivehealth)),
-                        DataCell(Text("${data.breedingperformance} %")),
-                        DataCell(Text(data.reproductiveinterventions)),
-                        DataCell(Text(data.observations)),
-                        DataCell(Text(data.breedingprogram)),
-                        DataCell(Text(data.matingschedule)),
-                        DataCell(Row(
-                          children: [
-                            IconButton(onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>EditBreed(id:document.id, breed: data,)));
-                            }, icon: Icon(Icons.edit, color: green,)),
-                             IconButton(onPressed: (){}, icon: Icon(Icons.remove_red_eye_outlined, color: grey,)),
-                              IconButton(onPressed: (){
-                                showAlertForDeletion(document.id, data, context);
-                              }, icon: Icon(Icons.delete, color: red,)),
-                          ],
-                        )),
-                      ]);
-                    }).toList(),
-                  )),
-            ),
-          );
-        }
-      ),
+          stream: LivestockRepostory().getAllBreedingInformationsSnapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(
+                  color: green,
+                ),
+              );
+            }
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: Text(
+                  "An error occured",
+                  style: TextStyle(color: red),
+                ),
+              );
+            }
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: DataTable(
+                      columns: const [
+                        DataColumn(label: Text('Animal ID')),
+                        DataColumn(label: Text('Animal Breed')),
+                        DataColumn(label: Text('Birth/Acquisition Date')),
+                        DataColumn(label: Text('Breeding Attempts')),
+                        DataColumn(label: Text('Breeding Success')),
+                        DataColumn(label: Text('Reproductive Cycles')),
+                        DataColumn(label: Text('Heat/Estrus Behavior')),
+                        DataColumn(label: Text('Conception Dates')),
+                        DataColumn(label: Text('Gestation Period')),
+                        DataColumn(label: Text('Reproductive Health')),
+                        DataColumn(label: Text('Breeding Performance')),
+                        DataColumn(label: Text('Reproductive Interventions')),
+                        DataColumn(label: Text('Observations')),
+                        DataColumn(label: Text('Breeding Program')),
+                        DataColumn(label: Text('Mating Schedule')),
+                        DataColumn(label: Text('Action')),
+                      ],
+                      rows:
+                          snapshot.data!.docs.map((DocumentSnapshot document) {
+                        final data =
+                            FertilityAndReproductiveHistoryModel.fromJson(
+                                document.data() as Map<String, dynamic>);
+                        return DataRow(cells: [
+                          DataCell(Text(data.animalid)),
+                          DataCell(Text(data.animalbreed)),
+                          DataCell(Text(DateFormat("dd-MMMM-yyyy")
+                              .format(data.birthdate))),
+                          DataCell(Text("${data.breedingattempt}")),
+                          DataCell(Text("${data.breedingsuccess}")),
+                          DataCell(Text(data.reproductivecycle)),
+                          DataCell(Text(data.estrusbehaviour)),
+                          DataCell(Text(DateFormat("dd-MMMM-yyyy")
+                              .format(data.conceptiondate))),
+                          DataCell(Text("${data.gestationperiod} Days")),
+                          DataCell(Text(data.reproductivehealth)),
+                          DataCell(Text("${data.breedingperformance} %")),
+                          DataCell(Text(data.reproductiveinterventions)),
+                          DataCell(Text(data.observations)),
+                          DataCell(Text(data.breedingprogram)),
+                          DataCell(Text(data.matingschedule)),
+                          DataCell(Row(
+                            children: [
+                              IconButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => EditBreed(
+                                                  id: document.id,
+                                                  breed: data,
+                                                )));
+                                  },
+                                  icon: Icon(
+                                    Icons.edit,
+                                    color: green,
+                                  )),
+                              IconButton(
+                                  onPressed: () {
+                                    showVewDialogCard(data, context);
+                                  },
+                                  icon: Icon(
+                                    Icons.remove_red_eye_outlined,
+                                    color: grey,
+                                  )),
+                              IconButton(
+                                  onPressed: () {
+                                    showAlertForDeletion(
+                                        document.id, data, context);
+                                  },
+                                  icon: Icon(
+                                    Icons.delete,
+                                    color: red,
+                                  )),
+                            ],
+                          )),
+                        ]);
+                      }).toList(),
+                    )),
+              ),
+            );
+          }),
       floatingActionButton: FloatingActionButton(
         backgroundColor: green,
         onPressed: () {
@@ -462,8 +499,7 @@ class _AnimalReproductivityAndHistoryState
                     ),
                   ),
                 ),
-
-                   ListTile(
+                ListTile(
                   title: Text(
                     'Conception date',
                     style: TextStyle(
@@ -479,8 +515,7 @@ class _AnimalReproductivityAndHistoryState
                     ),
                   ),
                 ),
-
-                   ListTile(
+                ListTile(
                   title: Text(
                     'Gestation period',
                     style: TextStyle(
@@ -496,8 +531,7 @@ class _AnimalReproductivityAndHistoryState
                     ),
                   ),
                 ),
-
-                   ListTile(
+                ListTile(
                   title: Text(
                     'Reproductive health',
                     style: TextStyle(
@@ -513,8 +547,7 @@ class _AnimalReproductivityAndHistoryState
                     ),
                   ),
                 ),
-
-                   ListTile(
+                ListTile(
                   title: Text(
                     'Breeding performance',
                     style: TextStyle(
@@ -530,8 +563,7 @@ class _AnimalReproductivityAndHistoryState
                     ),
                   ),
                 ),
-
-                  ListTile(
+                ListTile(
                   title: Text(
                     'Reproductive intervention',
                     style: TextStyle(
@@ -547,8 +579,7 @@ class _AnimalReproductivityAndHistoryState
                     ),
                   ),
                 ),
-
-                  ListTile(
+                ListTile(
                   title: Text(
                     'Observations',
                     style: TextStyle(
@@ -564,7 +595,7 @@ class _AnimalReproductivityAndHistoryState
                     ),
                   ),
                 ),
-                  ListTile(
+                ListTile(
                   title: Text(
                     'Bredding program',
                     style: TextStyle(
@@ -580,7 +611,6 @@ class _AnimalReproductivityAndHistoryState
                     ),
                   ),
                 ),
-
                 ListTile(
                   title: Text(
                     'Mating schedule',
@@ -600,7 +630,6 @@ class _AnimalReproductivityAndHistoryState
               ],
             ),
           ),
-          
           actions: [
             TextButton(
                 onPressed: () {
@@ -615,7 +644,6 @@ class _AnimalReproductivityAndHistoryState
       },
     );
   }
-
 
   Future<void> showAlertForDeletion(id, breed, context) async {
     return showDialog(
@@ -639,8 +667,8 @@ class _AnimalReproductivityAndHistoryState
                       .then((value) => Navigator.pop(context))
                       .then((value) => ScaffoldMessenger.of(context)
                           .showSnackBar(SnackBar(
-                              content:
-                                  Text("${breed.animalid} deleted suuccessfully"))));
+                              content: Text(
+                                  "${breed.animalid} deleted suuccessfully"))));
                 },
                 child: const Text("Yes"))
           ],
