@@ -28,7 +28,11 @@ class LivestockRepostory{
   Stream<QuerySnapshot> getAnimalHealthInformationSnapshots()=>firestore.collection('health-information').snapshots();
   Future<void> deleteAnimalHealthInformation(id)=>firestore.collection('health-information').doc(id).delete();
 
-
+  // Weight management
+  Future<void> addAnimalWeight(weight)=>firestore.collection('weight-information').add(weight);
+  Future<void> updateAnimalWeight(id, weight)=>firestore.collection('weight-information').doc(id).update(weight);
+  Stream<QuerySnapshot> getAllAnimalWeightSnapshots()=>firestore.collection('weight-information').snapshots();
+  Future<void> deleteAnimalWeight(id)=>firestore.collection('weight-information').doc(id).delete();
 
 
   // Filtering data
