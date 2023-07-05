@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:fms/controller/model/animal_weight_model.dart';
 import 'package:fms/dammies/constants.dart';
 import 'package:fms/pages/livestock/breeding/breedig-management/add_animal_weight.dart';
-import 'package:fms/pages/livestock/breeding/breedig-management/edit_animal_weight.dart';
 import 'package:fms/pages/livestock/breeding/breedig-management/weight_analytics.dart';
+import 'package:fms/pages/livestock/breeding/breedig-management/weight_management_by_animal.dart';
 import 'package:fms/repository/livestock_repository.dart';
 import 'package:intl/intl.dart';
 
@@ -133,12 +133,30 @@ class _AnimalWeightManagementState extends State<AnimalWeightManagement> {
       body: StreamBuilder<QuerySnapshot>(
         stream: LivestockRepostory().getAllAnimalWeightSnapshots(),
         builder: (context, snapshot) {
+          // As the information is being loaded
           if(snapshot.connectionState==ConnectionState.waiting){
             return Center( child: CircularProgressIndicator(color: green,),);
           }
+          // If an error is encountered during loading of data
           if(snapshot.connectionState==ConnectionState.waiting){
             return Center( child: Text("An error occured", style: TextStyle(color: green, fontSize: 18),),);
           }
+
+          // Grouping the weight according the particula animal
+          final List<AnimalWeightModel> animalweights=snapshot.data!.docs.map((DocumentSnapshot animal)=>AnimalWeightModel.fromJson(animal.data() as Map<String, dynamic>)).toList();
+
+          List<AnimalWeightModel> groupedanimals=[];
+          Set<String> ids=Set();
+          for(AnimalWeightModel weight in animalweights){
+              ids.add(weight.animalid);
+          }
+          
+          for(String id in ids){
+            final animal=animalweights.firstWhere((animal) => animal.animalid==id);
+            groupedanimals.add(animal);
+          }
+
+        // Dispalying the animal to user without duplication of the animal
           return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -153,11 +171,8 @@ class _AnimalWeightManagementState extends State<AnimalWeightManagement> {
             DataColumn(label: Text('Remarks')),
             DataColumn(label: Text('Action')),
           ],
-          rows: snapshot.data!.docs
-              .map(
-                (DocumentSnapshot document){
-                  final weight=AnimalWeightModel.fromJson(document.data() as Map<String, dynamic>);
-                  return DataRow(
+          rows: groupedanimals.map((AnimalWeightModel weight){
+            return DataRow(
                   cells:[
                     DataCell(Text(weight.animalid)),
                     DataCell(Text(DateFormat.yMMMMEEEEd().format(weight.weightdate!))),
@@ -168,21 +183,16 @@ class _AnimalWeightManagementState extends State<AnimalWeightManagement> {
                       children: [
                           IconButton(onPressed: (){
                             Navigator.push(context, MaterialPageRoute(builder: (_)=>AnimalWeightAnalytics(animalid: weight.animalid,)));
-                          }, icon: const Icon(Icons.analytics, color: analyticscolor,)),
-                        IconButton(onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (_)=>EditWeight(id: document.id, weight: weight,)));
-                        }, icon: Icon(Icons.edit, color: green,)),
-                         
+                          }, icon: const Icon(Icons.analytics, color: analyticscolor,), ),
                           IconButton(onPressed: (){
-                            showAlertForDeletion(document.id, weight, context);
-                          }, icon: Icon(Icons.delete, color: red,)),
+                            Navigator.push(context, MaterialPageRoute(builder: (_)=>AnimalWeightManagementByParticularAnimal(animalid: weight.animalid,)));
+                          }, icon:
+                          Icon(Icons.remove_red_eye_outlined, color: grey,)),
                       ],
                     ))
                   ]
-                );  
-                }
-              )
-              .toList(),
+                );
+          }).toList()
           )
               ),
             ),

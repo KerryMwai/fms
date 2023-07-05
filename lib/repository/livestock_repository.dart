@@ -31,37 +31,8 @@ class LivestockRepostory{
   // Weight management
   Future<void> addAnimalWeight(weight)=>firestore.collection('weight-information').add(weight);
   Future<void> updateAnimalWeight(id, weight)=>firestore.collection('weight-information').doc(id).update(weight);
-  Stream<QuerySnapshot> getAllAnimalWeightSnapshots()=>firestore.collection('weight-information').snapshots();
-   Stream<QuerySnapshot> getAllAnimalWeightSnapshotsForParticularAnimal(animalid)=>firestore.collection('weight-information').where("animalid", isEqualTo: animalid).snapshots();
+  Stream<QuerySnapshot> getAllAnimalWeightSnapshots()=>firestore.collection('weight-information').orderBy("weightdate", descending: false).snapshots();
+  Stream<QuerySnapshot> getAllAnimalWeightSnapshotsForParticularAnimal(animalid)=>firestore.collection('weight-information').where("animalid", isEqualTo: animalid).snapshots();
   Future<void> deleteAnimalWeight(id)=>firestore.collection('weight-information').doc(id).delete();
-
-
-  // Filtering data
-  Future<void> fetchFilteredData(collection,filterfiled,fieltervalue, fieldtogroupby) async {
-  final collectionReference = firestore.collection(collection);
-
-  // Apply filters
-  final querySnapshot = await collectionReference
-      .where(filterfiled, isEqualTo: fieltervalue)
-      .get();
-
-  // Group data based on a certain field
-  final groupedData = <String, List<DocumentSnapshot>>{};
-  for (var doc in querySnapshot.docs) {
-    final fieldValue = doc.data()[fieldtogroupby];
-    if (!groupedData.containsKey(fieldValue)) {
-      groupedData[fieldValue] = [];
-    }
-    groupedData[fieldValue]!.add(doc);
-  }
-
-  // Access the grouped data
-  groupedData.forEach((key, value) {
-    print('Group: $key');
-    value.forEach((doc) {
-      print('Document: ${doc.data()}');
-    });
-  });
-}
 
 }
