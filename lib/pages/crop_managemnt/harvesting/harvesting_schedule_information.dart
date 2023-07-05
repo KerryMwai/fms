@@ -59,8 +59,12 @@ class HarvestingScheduleInformation extends StatelessWidget {
                         IconButton(onPressed: (){
                           Navigator.push(context, MaterialPageRoute(builder: (context)=>EditHarvestSchedule(id: document.id, schedule: schedule,)));
                         }, icon: Icon(Icons.edit, color: green,)),
-                        IconButton(onPressed: (){}, icon: Icon(Icons.remove_red_eye_outlined, color: grey,)),
-                        IconButton(onPressed: (){}, icon: Icon(Icons.delete, color: red,)),
+                        IconButton(onPressed: (){
+                          showVewDialogCard(schedule, context);
+                        }, icon: Icon(Icons.remove_red_eye_outlined, color: grey,)),
+                        IconButton(onPressed: (){
+                          showAlertForDeletion(document.id, schedule, context);
+                        }, icon: Icon(Icons.delete, color: red,)),
                       ],)),
                     ]);
                   }).toList(),
