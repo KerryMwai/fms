@@ -249,7 +249,7 @@ class HarvestingScheduleInformation extends StatelessWidget {
             TextButton(
                 onPressed: () {
                   HarvestingRepository()
-                      .deleteHarvestingPlan(id)
+                      .deleteHarvestingSchedule(id)
                       .then((value) => Navigator.pop(context))
                       .then((value) => ScaffoldMessenger.of(context)
                           .showSnackBar(SnackBar(
