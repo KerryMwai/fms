@@ -31,8 +31,8 @@ class LivestockRepostory{
   // Weight management
   Future<void> addAnimalWeight(weight)=>firestore.collection('weight-information').add(weight);
   Future<void> updateAnimalWeight(id, weight)=>firestore.collection('weight-information').doc(id).update(weight);
-  Stream<QuerySnapshot> getAllAnimalWeightSnapshots()=>firestore.collection('weight-information').orderBy("weightdate", descending: false).snapshots();
-  Stream<QuerySnapshot> getAllAnimalWeightSnapshotsForParticularAnimal(animalid)=>firestore.collection('weight-information').where("animalid", isEqualTo: animalid).snapshots();
+  Stream<QuerySnapshot> getAllAnimalWeightSnapshots()=>firestore.collection('weight-information').orderBy("animalid", descending: false).snapshots();
+  Stream<QuerySnapshot> getAllAnimalWeightSnapshotsForParticularAnimal(animalid)=>firestore.collection('weight-information').where("animalid", isEqualTo: animalid).orderBy("weightdate").snapshots();
   Future<void> deleteAnimalWeight(id)=>firestore.collection('weight-information').doc(id).delete();
 
 }
