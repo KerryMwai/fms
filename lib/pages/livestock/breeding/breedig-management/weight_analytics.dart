@@ -62,7 +62,7 @@ class AnimalWeightAnalyticsState extends State<AnimalWeightAnalytics> {
                     child: SfCartesianChart(
                         primaryXAxis: CategoryAxis(),
                         // Chart title
-                        title: ChartTitle(text: 'Weight Analytics of Animal X'),
+                        title: ChartTitle(text: 'Weight Analytics of Animal ${widget.animalid}'),
                         // Enable legend
                         legend: Legend(isVisible: true),
                         // Enable tooltip

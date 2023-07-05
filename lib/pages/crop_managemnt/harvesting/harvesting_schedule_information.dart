@@ -70,9 +70,192 @@ class HarvestingScheduleInformation extends StatelessWidget {
           );
         }
       ),
-      floatingActionButton: FloatingActionButton(onPressed: (){
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: green,
+        onPressed: (){
         Navigator.push(context, MaterialPageRoute(builder: (context)=>const CreateHarvestSchedule()));
       }, child:const Icon(Icons.add),),
+    );
+  }
+
+    Future<void> showVewDialogCard(schedule, context) async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("${schedule.crop}"),
+          content: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Crop: ${schedule.crop}',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                ListTile(
+                  title: Text(
+                    'Crop Name',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    "${schedule.crop}",
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    'Crop Variety',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                   schedule.variety,
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    'Crop Maturity',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    "${schedule.maturitydays} Days",
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    'Harvesting factors',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    schedule.harvestinfactors,
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    'Labor & Equipment Availability',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    schedule.laborandequipmentavailability,
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    'Crop storage',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    schedule.storage,
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                 ListTile(
+                  title: Text(
+                    'Plan Adjustment',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  subtitle: Text(
+                    schedule.planadjustment,
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text("Ok")),
+            const SizedBox(
+              width: 10,
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> showAlertForDeletion(id, schedule, context) async {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: Text("Are you sure you want to delete ${schedule.crop}"),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text("No")),
+            const SizedBox(
+              width: 10,
+            ),
+            TextButton(
+                onPressed: () {
+                  HarvestingRepository()
+                      .deleteHarvestingPlan(id)
+                      .then((value) => Navigator.pop(context))
+                      .then((value) => ScaffoldMessenger.of(context)
+                          .showSnackBar(SnackBar(
+                              content: Text(
+                                  "${schedule.crop} deleted suuccessfully"))));
+                },
+                child: const Text("Yes"))
+          ],
+        );
+      },
     );
   }
 }

@@ -475,12 +475,12 @@ class _HarvestingInformationState extends State<HarvestingInformation> {
     );
   }
 
-  Future<void> showAlertForDeletion(id, assignment, context) async {
+  Future<void> showAlertForDeletion(id, plan, context) async {
     return showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          content: Text("Are you sure you want to delete ${assignment.crop}"),
+          content: Text("Are you sure you want to delete ${plan.crop}"),
           actions: [
             TextButton(
                 onPressed: () {
@@ -498,7 +498,7 @@ class _HarvestingInformationState extends State<HarvestingInformation> {
                       .then((value) => ScaffoldMessenger.of(context)
                           .showSnackBar(SnackBar(
                               content: Text(
-                                  "${assignment.crop} deleted suuccessfully"))));
+                                  "${plan.crop} deleted suuccessfully"))));
                 },
                 child: const Text("Yes"))
           ],
