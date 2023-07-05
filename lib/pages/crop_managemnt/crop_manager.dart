@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:fms/dammies/constants.dart';
 import 'package:fms/pages/crop_managemnt/crop/records_growth_stages.dart';
 import 'package:fms/pages/crop_managemnt/crop/view_crop_plans.dart';
-import 'package:fms/pages/crop_managemnt/field/field_information.dart';
 
 class CropManager extends StatefulWidget {
   const CropManager({super.key});
@@ -53,7 +52,7 @@ class _CropManagerState extends State<CropManager> {
                   ],
                 ),
               );
-            } else if (index == 1) {
+            } else {
               return GestureDetector(
                 onTap: () {
                   Navigator.push(

@@ -302,6 +302,7 @@ class _HarvestingInformationState extends State<HarvestingInformation> {
           }
         ),
         floatingActionButton: FloatingActionButton(
+          backgroundColor: green,
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context)=>const CreateHarvestPlan()));
           },
