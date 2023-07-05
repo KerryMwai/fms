@@ -21,7 +21,7 @@ class _AnimalWeightManagementByParticularAnimalState extends State<AnimalWeightM
     return Scaffold(
       appBar: AppBar(
         backgroundColor: blueGrey,
-        title:  Text("Animal Weight information for ${widget.animalid}"),
+        title:  Text("Animal Weight for ${widget.animalid}"),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: LivestockRepostory().getAllAnimalWeightSnapshotsForParticularAnimal(widget.animalid),

@@ -34,7 +34,7 @@ class AnimalWeightAnalyticsState extends State<AnimalWeightAnalytics> {
                   ),
                 );
               }
-              if (snapshot.connectionState == ConnectionState.waiting) {
+              if (snapshot.hasError) {
                 return Center(
                   child: Text(
                     "An error occured",
