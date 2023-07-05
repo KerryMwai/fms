@@ -4,7 +4,6 @@ import 'package:fms/controller/model/animal_weight_model.dart';
 import 'package:fms/dammies/constants.dart';
 import 'package:fms/pages/livestock/breeding/breedig-management/add_animal_weight.dart';
 import 'package:fms/pages/livestock/breeding/breedig-management/edit_animal_weight.dart';
-import 'package:fms/pages/livestock/breeding/breedig-management/weight_analytics.dart';
 import 'package:fms/repository/livestock_repository.dart';
 import 'package:intl/intl.dart';
 
@@ -59,9 +58,6 @@ class _AnimalWeightManagementByParticularAnimalState extends State<AnimalWeightM
                     DataCell(Text(weight.remarks)),
                     DataCell(Row(
                       children: [
-                          IconButton(onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (_)=>AnimalWeightAnalytics(animalid: weight.animalid,)));
-                          }, icon: const Icon(Icons.analytics, color: analyticscolor,)),
                         IconButton(onPressed: (){
                           Navigator.push(context, MaterialPageRoute(builder: (_)=>EditWeight(id: document.id, weight: weight,)));
                         }, icon: Icon(Icons.edit, color: green,)),
