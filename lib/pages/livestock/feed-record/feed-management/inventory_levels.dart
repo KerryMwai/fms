@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fms/dammies/constants.dart';
 // https://fluttergems.dev/table/
 class InventoryLevels extends StatefulWidget {
   const InventoryLevels({super.key});
@@ -175,6 +176,7 @@ class _InventoryLevelsState extends State<InventoryLevels> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: green,
         appBar: AppBar(
           title: const Text("Inventory Levels"),
           centerTitle: true,
@@ -191,7 +193,6 @@ class _InventoryLevelsState extends State<InventoryLevels> {
                   DataColumn(label: Text('Feed Type')),
                   DataColumn(label: Text('Quantity')),
                   DataColumn(label: Text('Cost')),
-                  DataColumn(label: Text('Reorder Level')),
                   DataColumn(label: Text('Supplier')),
                   DataColumn(label: Text('Purchase Date')),
                   DataColumn(label: Text('Action')),
@@ -202,7 +203,6 @@ class _InventoryLevelsState extends State<InventoryLevels> {
                     DataCell(Text(data['feedType'])),
                     DataCell(Text(data['feedQuantity'])),
                     DataCell(Text(data['feedCost'])),
-                    DataCell(Text(data['reorderLevel'])),
                     DataCell(Text(data['supplier'])),
                     DataCell(Text(data['purchaseDate'])),
                     DataCell(Row(children: [
