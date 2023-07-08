@@ -390,12 +390,12 @@ class DetailsPAge extends StatelessWidget {
                   }),
             );
           }),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await _showFormDialog(context);
-        },
-        child: const Icon(Icons.add),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () async {
+      //     await _showFormDialog(context);
+      //   },
+      //   child: const Icon(Icons.add),
+      // ),
     );
   }
 

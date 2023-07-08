@@ -294,7 +294,7 @@ class _AnimalReproductivityAndHistoryState
                       columns: const [
                         DataColumn(label: Text('Animal ID')),
                         DataColumn(label: Text('Animal Breed')),
-                        DataColumn(label: Text('Birth/Acquisition Date')),
+                        DataColumn(label: Text('Acquisition Date')),
                         DataColumn(label: Text('Breeding Attempts')),
                         DataColumn(label: Text('Breeding Success')),
                         DataColumn(label: Text('Reproductive Cycles')),

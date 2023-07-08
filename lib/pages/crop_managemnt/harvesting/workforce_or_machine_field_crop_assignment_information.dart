@@ -254,6 +254,7 @@ class _WorkforceMachineFieldCropAssignmentInformationState
             );
           }),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: green,
         onPressed: () {
           Navigator.push(
               context,

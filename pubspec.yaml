@@ -40,6 +40,7 @@ dependencies:
   telephony: 
   flutter_email_sender: 
   easy_rich_text: 
+  firebase_messaging: ^14.6.4
 
 
 dev_dependencies:
