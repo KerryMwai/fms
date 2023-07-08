@@ -1,3 +1,4 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fms/controller/model/animal_health_model.dart';
 import 'package:fms/dammies/constants.dart';
@@ -7,6 +8,7 @@ import 'package:fms/repository/livestock_repository.dart';
 class IndividualAnimalHealth extends StatefulWidget {
   final String id;
   final String animalId;
+  final String imagename;
   final String imageaddress;
   final double bodyTemperature;
   final int heartRate;
@@ -23,7 +25,7 @@ class IndividualAnimalHealth extends StatefulWidget {
       required this.weight,
       required this.respiratoryRate,
       required this.status,
-      required this.id});
+      required this.id, required this.imagename});
 
   @override
   State<IndividualAnimalHealth> createState() => _IndividualAnimalHealthState();
@@ -103,10 +105,11 @@ class _IndividualAnimalHealthState extends State<IndividualAnimalHealth> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (_) => AddAnimalHealthInformation(
+                              builder: (_) => EditAnimalHealthInformation(
                                     id: widget.id,
                                     health: AnimalHealthModel(
                                         animalid: widget.animalId,
+                                        imagename: widget.imagename,
                                         imageaddress: widget.imageaddress,
                                         bodytemperature: widget.bodyTemperature,
                                         heartrate: widget.heartRate,
@@ -121,8 +124,8 @@ class _IndividualAnimalHealthState extends State<IndividualAnimalHealth> {
                       color: Colors.green,
                     )),
                 IconButton(
-                    onPressed: () {
-                      showAlertForDeletion(widget.id, widget.animalId, context);
+                    onPressed: () async{
+                      showAlertForDeletion(widget.id, widget.animalId, widget.imagename, context);
                     },
                     splashColor: Colors.red[100],
                     icon: const Icon(
@@ -137,7 +140,7 @@ class _IndividualAnimalHealthState extends State<IndividualAnimalHealth> {
     );
   }
 
-  Future<void> showAlertForDeletion(id, animalid, context) async {
+  Future<void> showAlertForDeletion(id, animalid, imagename, context) async {
     return showDialog(
       context: context,
       builder: (context) {
@@ -157,6 +160,7 @@ class _IndividualAnimalHealthState extends State<IndividualAnimalHealth> {
                   LivestockRepostory()
                       .deleteAnimalHealthInformation(id)
                       .then((value) => Navigator.pop(context))
+                      .then((value) => FirebaseStorage.instance.ref().child("livestocks/${widget.imagename}").delete())
                       .then((value) => ScaffoldMessenger.of(context)
                           .showSnackBar(SnackBar(
                               content:

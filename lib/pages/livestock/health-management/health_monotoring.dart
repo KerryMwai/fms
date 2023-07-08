@@ -94,7 +94,7 @@ class _LivestockHealthMonotoringState extends State<LivestockHealthMonotoring> {
           itemCount: healthinfors.length,
           itemBuilder: (context, index) {
             final animalh=healthinfors[index];
-            return IndividualAnimalHealth(id: ids[index], animalId: animalh.animalid, imageaddress: animalh.imageaddress, bodyTemperature: animalh.bodytemperature, heartRate: animalh.heartrate, weight: animalh.weight, respiratoryRate: animalh.respiratoryrate, status: animalh.status);
+            return IndividualAnimalHealth(id: ids[index], imagename: animalh.imagename, animalId: animalh.animalid, imageaddress: animalh.imageaddress, bodyTemperature: animalh.bodytemperature, heartRate: animalh.heartrate, weight: animalh.weight, respiratoryRate: animalh.respiratoryrate, status: animalh.status);
           },
         );
       }

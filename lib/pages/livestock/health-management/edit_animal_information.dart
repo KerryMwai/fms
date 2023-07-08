@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fms/controller/model/animal_health_model.dart';
 import 'package:fms/dammies/constants.dart';
@@ -5,19 +9,19 @@ import 'package:fms/pages/nested-details-page.dart';
 import 'package:fms/repository/livestock_repository.dart';
 import 'package:fms/widgets/feed_widgets/custom_form_field.dart';
 
-class AddAnimalHealthInformation extends StatefulWidget {
+class EditAnimalHealthInformation extends StatefulWidget {
   final String id;
   final AnimalHealthModel health;
-  const AddAnimalHealthInformation(
+  const EditAnimalHealthInformation(
       {super.key, required this.id, required this.health});
 
   @override
-  State<AddAnimalHealthInformation> createState() =>
-      _AddAnimalHealthInformationState();
+  State<EditAnimalHealthInformation> createState() =>
+      _EditAnimalHealthInformationState();
 }
 
-class _AddAnimalHealthInformationState
-    extends State<AddAnimalHealthInformation> {
+class _EditAnimalHealthInformationState
+    extends State<EditAnimalHealthInformation> {
   final livestockid = TextEditingController();
   final bodytemperature = TextEditingController();
   final heartrate = TextEditingController();
@@ -25,6 +29,63 @@ class _AddAnimalHealthInformationState
   final respiratoryrate = TextEditingController();
   final status = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+
+  PlatformFile? imagePicked;
+  UploadTask? uploadTask;
+  String url = '';
+  Future selectImage() async {
+    final result = await FilePicker.platform.pickFiles();
+    setState(() {
+      imagePicked = result?.files.first;
+    });
+  }
+
+  Future uploadImage() async {
+    final path = 'livestocks/${imagePicked!.name}';
+    final file = File(imagePicked!.path!);
+    final ref = FirebaseStorage.instance.ref().child(path);
+    setState(() {
+      uploadTask = ref.putFile(file);
+    });
+
+    final snapshot = await uploadTask!.whenComplete(() {});
+    url = await snapshot.ref.getDownloadURL();
+    uploadTask = null;
+  }
+
+  buildProgress() => StreamBuilder<TaskSnapshot>(
+      stream: uploadTask?.snapshotEvents,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final data = snapshot.data!;
+          double progress = data.bytesTransferred / data.totalBytes;
+
+          return SizedBox(
+            height: 50,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                LinearProgressIndicator(
+                  value: progress,
+                  backgroundColor: Colors.grey,
+                  color: Colors.green,
+                ),
+                Center(
+                  child: Text(
+                    '${(100 * progress).roundToDouble()}%',
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                )
+              ],
+            ),
+          );
+        } else {
+          return const SizedBox(
+            height: 20,
+          );
+        }
+      });
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -46,6 +107,72 @@ class _AddAnimalHealthInformationState
           key: _formKey,
           child: ListView(
             children: [
+                const SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    imagePicked == null
+                        ? const Center(child: Text("Please pick a file"))
+                        : Container(
+                          // width: 100,
+                          height: 100,
+                        color: blue[100],
+                        child: Center(
+                          // child: Text(pickedFile!.name),
+                          child: Image.file(
+                            File(imagePicked!.path!),
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                          ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll(green)
+                          ),
+                            onPressed: () {
+                              selectImage();
+                            },
+                            child: const Text(
+                              "Select File",
+                              style: TextStyle(color: white, fontSize: 18),
+                            )),
+                        const SizedBox(
+                          width: 40,
+                        ),
+                        ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll(green)
+                          ),
+                            onPressed: () {
+                              uploadImage();
+                            },
+                            child: const Text(
+                              "Upload File",
+                              style: TextStyle(color: white, fontSize: 18),
+                            )),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    buildProgress()
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
               FeedFormField(
                   controller: livestockid,
                   labelText: "Livestock id",
@@ -79,15 +206,19 @@ class _AddAnimalHealthInformationState
                     child: ElevatedButton(
                         style: ButtonStyle(
                             backgroundColor: MaterialStatePropertyAll(green)),
-                        onPressed: () {
+                        onPressed: () async{
                           if (_formKey.currentState!.validate()) {
+                          final ref = FirebaseStorage.instance.ref();
+                          final desertRef = ref.child('livesticks/${widget.health.imagename}');
+                          await desertRef.delete();
+                            
                             LivestockRepostory()
                                 .updateAnimalHealthInformation(
                                     widget.id,
                                     AnimalHealthModel(
                                             animalid: livestockid.text,
-                                            imageaddress:
-                                                "https://cdn.pixabay.com/photo/2016/07/11/08/29/cow-1509258_640.jpg",
+                                            imagename: imagePicked==null?widget.health.imagename:imagePicked!.name,
+                                            imageaddress:imagePicked==null?widget.health.imageaddress:url,
                                             bodytemperature: double.parse(
                                                 bodytemperature.text),
                                             heartrate:

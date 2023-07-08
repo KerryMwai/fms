@@ -128,6 +128,9 @@ class _AddAnimalHealthInformationState
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll(green)
+                          ),
                             onPressed: () {
                               selectImage();
                             },
@@ -139,6 +142,9 @@ class _AddAnimalHealthInformationState
                           width: 40,
                         ),
                         ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll(green)
+                          ),
                             onPressed: () {
                               uploadImage();
                             },
@@ -196,8 +202,8 @@ class _AddAnimalHealthInformationState
                             LivestockRepostory()
                                 .addAnimalHealthInformation(AnimalHealthModel(
                                         animalid: livestockid.text,
-                                        imageaddress:
-                                            "https://cdn.pixabay.com/photo/2016/07/11/08/29/cow-1509258_640.jpg",
+                                        imagename: imagePicked!.name.isNotEmpty?imagePicked!.name:"No image saved please pick an image",
+                                        imageaddress:url,
                                         bodytemperature:
                                             double.parse(bodytemperature.text),
                                         heartrate: int.parse(heartrate.text),
