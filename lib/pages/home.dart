@@ -8,12 +8,22 @@ import 'package:fms/widgets/custom_drawer.dart';
 import 'package:fms/widgets/text_logreg_field.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  
+
   final TextEditingController nameController = TextEditingController();
+
   final TextEditingController descriptionController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

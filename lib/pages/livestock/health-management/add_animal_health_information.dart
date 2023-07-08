@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fms/controller/model/animal_health_model.dart';
 import 'package:fms/dammies/constants.dart';
@@ -22,6 +26,63 @@ class _AddAnimalHealthInformationState
   final respiratoryrate = TextEditingController();
   final status = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+// Image selection from the device gallery and submitting the data
+  PlatformFile? imagePicked;
+  UploadTask? uploadTask;
+  String url = '';
+  Future selectImage() async {
+    final result = await FilePicker.platform.pickFiles();
+    setState(() {
+      imagePicked = result?.files.first;
+    });
+  }
+
+  Future uploadImage() async {
+    final path = 'livestocks/${imagePicked!.name}';
+    final file = File(imagePicked!.path!);
+    final ref = FirebaseStorage.instance.ref().child(path);
+    setState(() {
+      uploadTask = ref.putFile(file);
+    });
+
+    final snapshot = await uploadTask!.whenComplete(() {});
+    url = await snapshot.ref.getDownloadURL();
+    uploadTask = null;
+  }
+
+  buildProgress() => StreamBuilder<TaskSnapshot>(
+      stream: uploadTask?.snapshotEvents,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final data = snapshot.data!;
+          double progress = data.bytesTransferred / data.totalBytes;
+
+          return SizedBox(
+            height: 50,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                LinearProgressIndicator(
+                  value: progress,
+                  backgroundColor: Colors.grey,
+                  color: Colors.green,
+                ),
+                Center(
+                  child: Text(
+                    '${(100 * progress).roundToDouble()}%',
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                )
+              ],
+            ),
+          );
+        } else {
+          return const SizedBox(
+            height: 20,
+          );
+        }
+      });
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -37,6 +98,66 @@ class _AddAnimalHealthInformationState
           key: _formKey,
           child: ListView(
             children: [
+              const SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    imagePicked == null
+                        ? const Center(child: Text("Please pick a file"))
+                        : Container(
+                          // width: 100,
+                          height: 100,
+                        color: blue[100],
+                        child: Center(
+                          // child: Text(pickedFile!.name),
+                          child: Image.file(
+                            File(imagePicked!.path!),
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                          ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                            onPressed: () {
+                              selectImage();
+                            },
+                            child: const Text(
+                              "Select File",
+                              style: TextStyle(color: white, fontSize: 18),
+                            )),
+                        const SizedBox(
+                          width: 40,
+                        ),
+                        ElevatedButton(
+                            onPressed: () {
+                              uploadImage();
+                            },
+                            child: const Text(
+                              "Upload File",
+                              style: TextStyle(color: white, fontSize: 18),
+                            )),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    buildProgress()
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
               FeedFormField(
                   controller: livestockid,
                   labelText: "Livestock id",
