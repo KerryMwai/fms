@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fms/controller/model/crop_plan_model.dart';
 import 'package:fms/dammies/constants.dart';
 import 'package:fms/pages/crop_managemnt/crop/create_crop_plan.dart';
+import 'package:fms/pages/crop_managemnt/crop/crop_plans_pdf.dart';
 import 'package:fms/pages/crop_managemnt/crop/edit_crop_plan.dart';
 import 'package:fms/repository/crops_repository.dart';
 import 'package:intl/intl.dart';
@@ -15,156 +16,11 @@ class CropPlansPage extends StatefulWidget {
 }
 
 class CropPlansPageState extends State<CropPlansPage> {
-  List<Map<String, dynamic>> cropManagementList = [
-    {
-      'id': 1,
-      'crop': 'Wheat',
-      'planting_date': DateTime(2023, 5, 15),
-      'spacing': 0.5,
-      'fertilizer': {
-        'type': 'Organic',
-        'name': 'Organic Fertilizer XYZ',
-      },
-      'pest_management_required': true,
-    },
-    {
-      'id': 2,
-      'crop': 'Corn',
-      'planting_date': DateTime(2023, 6, 1),
-      'spacing': 0.6,
-      'fertilizer': {
-        'type': 'Synthetic',
-        'name': 'Synthetic Fertilizer ABC',
-      },
-      'pest_management_required': false,
-    },
-    // Add more dummy data below
-    {
-      'id': 3,
-      'crop': 'Rice',
-      'planting_date': DateTime(2023, 6, 10),
-      'spacing': 0.7,
-      'fertilizer': {
-        'type': 'Organic',
-        'name': 'Organic Fertilizer PQR',
-      },
-      'pest_management_required': true,
-    },
-    {
-      'id': 4,
-      'crop': 'Tomato',
-      'planting_date': DateTime(2023, 6, 5),
-      'spacing': 0.4,
-      'fertilizer': {
-        'type': 'Synthetic',
-        'name': 'Synthetic Fertilizer DEF',
-      },
-      'pest_management_required': true,
-    },
-    {
-      'id': 5,
-      'crop': 'Potato',
-      'planting_date': DateTime(2023, 7, 1),
-      'spacing': 0.6,
-      'fertilizer': {
-        'type': 'Organic',
-        'name': 'Organic Fertilizer LMN',
-      },
-      'pest_management_required': false,
-    },
-    {
-      'id': 6,
-      'crop': 'Soybean',
-      'planting_date': DateTime(2023, 6, 15),
-      'spacing': 0.5,
-      'fertilizer': {
-        'type': 'Synthetic',
-        'name': 'Synthetic Fertilizer GHI',
-      },
-      'pest_management_required': true,
-    },
-    {
-      'id': 7,
-      'crop': 'Cabbage',
-      'planting_date': DateTime(2023, 7, 10),
-      'spacing': 0.4,
-      'fertilizer': {
-        'type': 'Organic',
-        'name': 'Organic Fertilizer UVW',
-      },
-      'pest_management_required': true,
-    },
-    {
-      'id': 8,
-      'crop': 'Lettuce',
-      'planting_date': DateTime(2023, 6, 20),
-      'spacing': 0.3,
-      'fertilizer': {
-        'type': 'Synthetic',
-        'name': 'Synthetic Fertilizer JKL',
-      },
-      'pest_management_required': false,
-    },
-    {
-      'id': 9,
-      'crop': 'Carrot',
-      'planting_date': DateTime(2023, 6, 8),
-      'spacing': 0.4,
-      'fertilizer': {
-        'type': 'Organic',
-        'name': 'Organic Fertilizer XYZ',
-      },
-      'pest_management_required': true,
-    },
-    {
-      'id': 10,
-      'crop': 'Apple',
-      'planting_date': DateTime(2023, 8, 1),
-      'spacing': 0.8,
-      'fertilizer': {
-        'type': 'Synthetic',
-        'name': 'Synthetic Fertilizer ABC',
-      },
-      'pest_management_required': false,
-    },
-    {
-      'id': 11,
-      'crop': 'Orange',
-      'planting_date': DateTime(2023, 7, 5),
-      'spacing': 0.9,
-      'fertilizer': {
-        'type': 'Organic',
-        'name': 'Organic Fertilizer PQR',
-      },
-      'pest_management_required': true,
-    },
-    {
-      'id': 12,
-      'crop': 'Banana',
-      'planting_date': DateTime(2023, 8, 10),
-      'spacing': 0.7,
-      'fertilizer': {
-        'type': 'Synthetic',
-        'name': 'Synthetic Fertilizer DEF',
-      },
-      'pest_management_required': true,
-    },
-    {
-      'id': 13,
-      'crop': 'Grapes',
-      'planting_date': DateTime(2023, 7, 15),
-      'spacing': 0.6,
-      'fertilizer': {
-        'type': 'Organic',
-        'name': 'Organic Fertilizer LMN',
-      },
-      'pest_management_required': false,
-    },
-    // Add more dummy data as needed
-  ];
+
 
   @override
   Widget build(BuildContext context) {
+    double w=MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: blueGrey,
@@ -189,8 +45,26 @@ class CropPlansPageState extends State<CropPlansPage> {
                 ),
               );
             }
-            return ListView(
+            final plans=snapshot.data!.docs.map((plan)=>CropPlan.fromJson(plan.data() as Map<String, dynamic>)).toList();
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                 Container(
+                  margin: const EdgeInsets.only(left: 20),
+                  width: w*0.45,
+                  child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll(green)
+                        ),
+                        onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>CropPlansPdfPreviewPage(cropplans: plans,)));
+                      }, child:const Row(
+                        children: [
+                          Icon(Icons.picture_as_pdf),
+                          SizedBox(width: 6,),
+                          Text("Generate PDF")
+                      ],)),
+                 ),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Padding(

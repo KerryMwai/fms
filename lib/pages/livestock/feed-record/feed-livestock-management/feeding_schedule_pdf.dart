@@ -1,35 +1,35 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:fms/controller/model/feed_model.dart';
+import 'package:fms/controller/model/feed_schedule_model.dart';
 import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pdfw;
 import 'package:printing/printing.dart';
 
-class FeedConsumptionHistoryPdfPreviewPage extends StatefulWidget {
-  final List<FeedModel> feedModel;
-  const FeedConsumptionHistoryPdfPreviewPage(
-      {super.key, required this.feedModel});
+class FeedSchedulePdfPreviewPage extends StatefulWidget {
+  final List<FeedScheduleModel> feedschedule;
+  const FeedSchedulePdfPreviewPage(
+      {super.key, required this.feedschedule});
 
   @override
-  State<FeedConsumptionHistoryPdfPreviewPage> createState() =>
-      _FeedConsumptionHistoryPdfPreviewPageState();
+  State<FeedSchedulePdfPreviewPage> createState() =>
+      _FeedSchedulePdfPreviewPageState();
 }
 
-class _FeedConsumptionHistoryPdfPreviewPageState
-    extends State<FeedConsumptionHistoryPdfPreviewPage> {
+class _FeedSchedulePdfPreviewPageState
+    extends State<FeedSchedulePdfPreviewPage> {
   @override
   Widget build(BuildContext context) {
     // Size size=MediaQuery.of(context).size;
     return Scaffold(
         
         appBar: AppBar(
-          title: const Text("Feed Consumption History"),
+          title: const Text("Feed Schedule Pdf"),
         ),
         body: PdfPreview(
           // maxPageWidth:size.width,
-          build: (context)=>makePdf(widget.feedModel))
+          build: (context)=>makePdf(widget.feedschedule))
         );
   }
 
@@ -69,7 +69,7 @@ class _FeedConsumptionHistoryPdfPreviewPageState
                 child: pdfw.Padding(
                   padding: const pdfw.EdgeInsets.all(20),
                   child: pdfw.Text(
-                    'Animal Weight',
+                    'Feeding Interval',
                     style: const pdfw.TextStyle(
                         color: PdfColors.black, fontSize: 20),
                     textAlign: pdfw.TextAlign.center,
@@ -105,7 +105,7 @@ class _FeedConsumptionHistoryPdfPreviewPageState
                 child: pdfw.Padding(
                   padding: const pdfw.EdgeInsets.all(20),
                   child: pdfw.Text(
-                    'Quantity/day',
+                    'Quantity',
                     style: const pdfw.TextStyle(
                         color: PdfColors.black, fontSize: 20),
                     textAlign: pdfw.TextAlign.center,
@@ -124,18 +124,6 @@ class _FeedConsumptionHistoryPdfPreviewPageState
                   ),
                 ),
               ),
-              pdfw.Expanded(
-                flex: 20,
-                child: pdfw.Padding(
-                  padding: const pdfw.EdgeInsets.all(20),
-                  child: pdfw.Text(
-                    'Date',
-                    style: const pdfw.TextStyle(
-                        color: PdfColors.black, fontSize: 20),
-                    textAlign: pdfw.TextAlign.center,
-                  ), 
-                ),
-              ),
             ]),
             ...feedhistories.map((feed) => pdfw.TableRow(children: [
                   pdfw.Expanded(
@@ -147,13 +135,14 @@ class _FeedConsumptionHistoryPdfPreviewPageState
                   pdfw.Expanded(
                     child: pdfw.Padding(
                         padding: const pdfw.EdgeInsets.all(15),
-                        child: pdfw.Text(feed.livestockname)),
+                        child: pdfw.Text(feed.livestocktype)),
                     flex: 3,
                   ),
                   pdfw.Expanded(
                     child: pdfw.Padding(
                         padding: const pdfw.EdgeInsets.all(15),
-                        child: pdfw.Text("${feed.animalweight} Kgs")),
+                        child: pdfw.Text(
+                            "${DateFormat("h:mm a").format(feed.feedingintervalfrom)} — ${DateFormat("h:mm a").format(feed.feedingintervalto)}")),
                     flex: 2,
                   ),
                   pdfw.Expanded(
@@ -171,7 +160,7 @@ class _FeedConsumptionHistoryPdfPreviewPageState
                   pdfw.Expanded(
                     child: pdfw.Padding(
                         padding: const pdfw.EdgeInsets.all(15),
-                        child: pdfw.Text("${feed.quantityaday} Kgs")),
+                        child: pdfw.Text("${feed.feedquantity} Kgs")),
                     flex: 2,
                   ),
                   pdfw.Expanded(
@@ -179,13 +168,7 @@ class _FeedConsumptionHistoryPdfPreviewPageState
                         padding: const pdfw.EdgeInsets.all(15),
                         child: pdfw.Text(feed.feedingmethod)),
                     flex: 5,
-                  ),
-                  pdfw.Expanded(
-                    child: pdfw.Padding(
-                        padding: const pdfw.EdgeInsets.all(15),
-                        child: pdfw.Text(DateFormat("dd-MMMM-yyyy").format(feed.date))),
-                    flex: 3,
-                  ),
+                  )
                 ]))
           ]);
     }));

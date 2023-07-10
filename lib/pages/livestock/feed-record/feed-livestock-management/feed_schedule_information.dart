@@ -4,6 +4,7 @@ import 'package:fms/controller/model/feed_schedule_model.dart';
 import 'package:fms/dammies/constants.dart';
 import 'package:fms/pages/livestock/feed-record/feed-livestock-management/add_feed_schedule.dart';
 import 'package:fms/pages/livestock/feed-record/feed-livestock-management/edit_feed_schedule.dart';
+import 'package:fms/pages/livestock/feed-record/feed-livestock-management/feeding_schedule_pdf.dart';
 import 'package:fms/repository/livestock_repository.dart';
 import 'package:intl/intl.dart';
 
@@ -120,6 +121,7 @@ class _FeedScheduleInformationState extends State<FeedScheduleInformation> {
   ];
   @override
   Widget build(BuildContext context) {
+    Size size=MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: green,
@@ -144,76 +146,100 @@ class _FeedScheduleInformationState extends State<FeedScheduleInformation> {
                 ),
               );
             }
-            return Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: SingleChildScrollView(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: DataTable(
-                    columns: const [
-                      DataColumn(label: Text('Livestock ID')),
-                      DataColumn(label: Text('Breed')),
-                      DataColumn(label: Text('Feeding interval')),
-                      DataColumn(label: Text('Feed name')),
-                      DataColumn(label: Text('Feed type')),
-                      DataColumn(label: Text('Quantity')),
-                      DataColumn(label: Text('Feeding method')),
-                      DataColumn(label: Text('Action')),
+            final feedschedules=snapshot.data!.docs.map((schedule) =>FeedScheduleModel.fromJson(schedule.data() as Map<String, dynamic>) ,).toList();
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding:const  EdgeInsets.only(left: 20),
+                  width: size.width*0.5,
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(green)
+                    ),
+                    onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> FeedSchedulePdfPreviewPage(feedschedule: feedschedules,)));
+                  }, child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Icon(Icons.picture_as_pdf),
+                      SizedBox(width: 6,),
+                      Text("Generate Pdf")
                     ],
-                    rows: snapshot.data!.docs.map((DocumentSnapshot document) {
-                      final schedule = FeedScheduleModel.fromJson(
-                          document.data() as Map<String, dynamic>);
-                      return DataRow(cells: [
-                        DataCell(Text(schedule.livestockid)),
-                        DataCell(Text(schedule.livestocktype)),
-                        DataCell(Text(
-                            "${DateFormat("h:mm a").format(schedule.feedingintervalfrom)} — ${DateFormat("h:mm a").format(schedule.feedingintervalto)}")),
-                        DataCell(Text(schedule.feedname)),
-                        DataCell(Text(schedule.feedtype)),
-                        DataCell(Text("${schedule.feedquantity} Kgs")),
-                        DataCell(Text(schedule.feedingmethod)),
-                        DataCell(Row(
-                          children: [
-                            IconButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => EditFeedingSchedule(
-                                              feedschedule: schedule,
-                                              id: document.id)));
-                                },
-                                icon: const Icon(
-                                  Icons.edit,
-                                  color: Colors.green,
-                                  size: 25,
-                                )),
-                            IconButton(
-                                onPressed: () {
-                                  showVewDialogCard(schedule, context);
-                                },
-                                icon: const Icon(
-                                  Icons.remove_red_eye_outlined,
-                                  color: Colors.grey,
-                                  size: 30,
-                                )),
-                            IconButton(
-                                onPressed: () {
-                                  showAlertForDeletion(
-                                      document.id, schedule, context);
-                                },
-                                icon: const Icon(
-                                  Icons.delete,
-                                  color: Colors.red,
-                                  size: 25,
-                                )),
-                          ],
-                        )),
-                      ]);
-                    }).toList(),
+                  )),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: SingleChildScrollView(
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: DataTable(
+                        columns: const [
+                          DataColumn(label: Text('Livestock ID')),
+                          DataColumn(label: Text('Breed')),
+                          DataColumn(label: Text('Feeding interval')),
+                          DataColumn(label: Text('Feed name')),
+                          DataColumn(label: Text('Feed type')),
+                          DataColumn(label: Text('Quantity')),
+                          DataColumn(label: Text('Feeding method')),
+                          DataColumn(label: Text('Action')),
+                        ],
+                        rows: snapshot.data!.docs.map((DocumentSnapshot document) {
+                          final schedule = FeedScheduleModel.fromJson(
+                              document.data() as Map<String, dynamic>);
+                          return DataRow(cells: [
+                            DataCell(Text(schedule.livestockid)),
+                            DataCell(Text(schedule.livestocktype)),
+                            DataCell(Text(
+                                "${DateFormat("h:mm a").format(schedule.feedingintervalfrom)} — ${DateFormat("h:mm a").format(schedule.feedingintervalto)}")),
+                            DataCell(Text(schedule.feedname)),
+                            DataCell(Text(schedule.feedtype)),
+                            DataCell(Text("${schedule.feedquantity} Kgs")),
+                            DataCell(Text(schedule.feedingmethod)),
+                            DataCell(Row(
+                              children: [
+                                IconButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => EditFeedingSchedule(
+                                                  feedschedule: schedule,
+                                                  id: document.id)));
+                                    },
+                                    icon: const Icon(
+                                      Icons.edit,
+                                      color: Colors.green,
+                                      size: 25,
+                                    )),
+                                IconButton(
+                                    onPressed: () {
+                                      showVewDialogCard(schedule, context);
+                                    },
+                                    icon: const Icon(
+                                      Icons.remove_red_eye_outlined,
+                                      color: Colors.grey,
+                                      size: 30,
+                                    )),
+                                IconButton(
+                                    onPressed: () {
+                                      showAlertForDeletion(
+                                          document.id, schedule, context);
+                                    },
+                                    icon: const Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                      size: 25,
+                                    )),
+                              ],
+                            )),
+                          ]);
+                        }).toList(),
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             );
           }),
       floatingActionButton: FloatingActionButton(
