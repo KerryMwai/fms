@@ -66,107 +66,157 @@ class _FeedConsumptionHistoryPdfPreviewPageState
       return pdfw.Table(
           border: pdfw.TableBorder.all(color: PdfColors.black),
           children: [
-            pdfw.TableRow(
-              children: [
+            pdfw.TableRow(children: [
               pdfw.Expanded(
                 flex: 2,
                 child: pdfw.Padding(
-                padding: const pdfw.EdgeInsets.all(20),
-                child: pdfw.Text(
-                  'Livestock ID',
-                  style: const pdfw.TextStyle(
-                      color: PdfColors.black, fontSize: 20),
-                  textAlign: pdfw.TextAlign.center,
+                  padding: const pdfw.EdgeInsets.all(20),
+                  child: pdfw.Text(
+                    'Livestock ID',
+                    style: const pdfw.TextStyle(
+                        color: PdfColors.black, fontSize: 20),
+                    textAlign: pdfw.TextAlign.center,
+                  ),
                 ),
-              ),),
+              ),
               pdfw.Expanded(
                 flex: 2,
                 child: pdfw.Padding(
-                padding: const pdfw.EdgeInsets.all(20),
-                child: pdfw.Text(
-                  'Breed',
-                  style: const pdfw.TextStyle(
-                      color: PdfColors.black, fontSize: 20),
-                  textAlign: pdfw.TextAlign.center,
+                  padding: const pdfw.EdgeInsets.all(20),
+                  child: pdfw.Text(
+                    'Breed',
+                    style: const pdfw.TextStyle(
+                        color: PdfColors.black, fontSize: 20),
+                    textAlign: pdfw.TextAlign.center,
+                  ),
                 ),
-              ),),
-             pdfw.Expanded(
+              ),
+              pdfw.Expanded(
                 flex: 2,
                 child: pdfw.Padding(
-                padding: const pdfw.EdgeInsets.all(20),
-                child: pdfw.Text(
-                  'Animal Weight',
-                  style: const pdfw.TextStyle(
-                      color: PdfColors.black, fontSize: 20),
-                  textAlign: pdfw.TextAlign.center,
+                  padding: const pdfw.EdgeInsets.all(20),
+                  child: pdfw.Text(
+                    'Animal Weight',
+                    style: const pdfw.TextStyle(
+                        color: PdfColors.black, fontSize: 20),
+                    textAlign: pdfw.TextAlign.center,
+                  ),
                 ),
-              ),),
-               pdfw.Expanded(
+              ),
+              pdfw.Expanded(
                 flex: 2,
                 child: pdfw.Padding(
-                padding: const pdfw.EdgeInsets.all(20),
-                child: pdfw.Text(
-                  'Feed name',
-                  style: const pdfw.TextStyle(
-                      color: PdfColors.black, fontSize: 20),
-                  textAlign: pdfw.TextAlign.center,
+                  padding: const pdfw.EdgeInsets.all(20),
+                  child: pdfw.Text(
+                    'Feed name',
+                    style: const pdfw.TextStyle(
+                        color: PdfColors.black, fontSize: 20),
+                    textAlign: pdfw.TextAlign.center,
+                  ),
                 ),
-              ),),
-               pdfw.Expanded(
+              ),
+              pdfw.Expanded(
                 flex: 2,
                 child: pdfw.Padding(
-                padding: const pdfw.EdgeInsets.all(20),
-                child: pdfw.Text(
-                  'Feed type',
-                  style: const pdfw.TextStyle(
-                      color: PdfColors.black, fontSize: 20),
-                  textAlign: pdfw.TextAlign.center,
+                  padding: const pdfw.EdgeInsets.all(20),
+                  child: pdfw.Text(
+                    'Feed type',
+                    style: const pdfw.TextStyle(
+                        color: PdfColors.black, fontSize: 20),
+                    textAlign: pdfw.TextAlign.center,
+                  ),
                 ),
-              ),),
-               pdfw.Expanded(
+              ),
+              pdfw.Expanded(
                 flex: 2,
                 child: pdfw.Padding(
-                padding: const pdfw.EdgeInsets.all(20),
-                child: pdfw.Text(
-                  'Quantity/day',
-                  style: const pdfw.TextStyle(
-                      color: PdfColors.black, fontSize: 20),
-                  textAlign: pdfw.TextAlign.center,
+                  padding: const pdfw.EdgeInsets.all(20),
+                  child: pdfw.Text(
+                    'Quantity/day',
+                    style: const pdfw.TextStyle(
+                        color: PdfColors.black, fontSize: 20),
+                    textAlign: pdfw.TextAlign.center,
+                  ),
                 ),
-              ),),
-               pdfw.Expanded(
+              ),
+              pdfw.Expanded(
                 flex: 2,
                 child: pdfw.Padding(
-                padding: const pdfw.EdgeInsets.all(20),
-                child: pdfw.Text(
-                  'Feeding Method',
-                  style: const pdfw.TextStyle(
-                      color: PdfColors.black, fontSize: 20),
-                  textAlign: pdfw.TextAlign.center,
+                  padding: const pdfw.EdgeInsets.all(20),
+                  child: pdfw.Text(
+                    'Feeding Method',
+                    style: const pdfw.TextStyle(
+                        color: PdfColors.black, fontSize: 20),
+                    textAlign: pdfw.TextAlign.center,
+                  ),
                 ),
-              ),),
-            
-               pdfw.Expanded(
+              ),
+              pdfw.Expanded(
                 flex: 2,
                 child: pdfw.Padding(
-                padding: const pdfw.EdgeInsets.all(20),
-                child: pdfw.Text(
-                  'Date',
-                  style: const pdfw.TextStyle(
-                      color: PdfColors.black, fontSize: 20),
-                  textAlign: pdfw.TextAlign.center,
+                  padding: const pdfw.EdgeInsets.all(20),
+                  child: pdfw.Text(
+                    'Date',
+                    style: const pdfw.TextStyle(
+                        color: PdfColors.black, fontSize: 20),
+                    textAlign: pdfw.TextAlign.center,
+                  ),
                 ),
-              ),),
+              ),
             ]),
-
-            ...feedhistories.map((feed)=>pdfw.TableRow(children: [
-               pdfw.Expanded(
-            child: pdfw.Padding(padding:const  pdfw.EdgeInsets.all(15)),
-            flex: 2,
-          ),
-            ]))
+            ...feedhistories.map((feed) => pdfw.TableRow(children: [
+                  pdfw.Expanded(
+                    child: pdfw.Padding(
+                        padding: const pdfw.EdgeInsets.all(15),
+                        child: pdfw.Text(feedhistories.livestockid)),
+                    flex: 2,
+                  ),
+                  pdfw.Expanded(
+                    child: pdfw.Padding(
+                        padding: const pdfw.EdgeInsets.all(15),
+                        child: pdfw.Text(feedhistories.livestockname)),
+                    flex: 2,
+                  ),
+                  pdfw.Expanded(
+                    child: pdfw.Padding(
+                        padding: const pdfw.EdgeInsets.all(15),
+                        child: pdfw.Text("${feedhistories.animalweight} Kgs")),
+                    flex: 2,
+                  ),
+                  pdfw.Expanded(
+                    child: pdfw.Padding(
+                        padding: const pdfw.EdgeInsets.all(15),
+                        child: pdfw.Text(feedhistories.feedname)),
+                    flex: 2,
+                  ),
+                  pdfw.Expanded(
+                    child: pdfw.Padding(
+                        padding: const pdfw.EdgeInsets.all(15),
+                        child: pdfw.Text(feedhistories.feedtype)),
+                    flex: 2,
+                  ),
+                  pdfw.Expanded(
+                    child: pdfw.Padding(
+                        padding: const pdfw.EdgeInsets.all(15),
+                        child: pdfw.Text("${feedhistories.quantityaday} Kgs")),
+                    flex: 2,
+                  ),
+                  pdfw.Expanded(
+                    child: pdfw.Padding(
+                        padding: const pdfw.EdgeInsets.all(15),
+                        child: pdfw.Text(feedhistories.feedingmethod)),
+                    flex: 2,
+                  ),
+                  pdfw.Expanded(
+                    child: pdfw.Padding(
+                        padding: const pdfw.EdgeInsets.all(15),
+                        child: pdfw.Text(DateFormat("dd-MMMM-yyyy").format(feedhistories.date))),
+                    flex: 2,
+                  ),
+                ]))
           ]);
     }));
+
+    return pdf.save();
   }
 }
-
