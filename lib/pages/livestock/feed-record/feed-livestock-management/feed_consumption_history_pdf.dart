@@ -2,7 +2,6 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:fms/controller/model/feed_model.dart';
-import 'package:fms/dammies/constants.dart';
 import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pdfw;
@@ -22,12 +21,15 @@ class _FeedConsumptionHistoryPdfPreviewPageState
     extends State<FeedConsumptionHistoryPdfPreviewPage> {
   @override
   Widget build(BuildContext context) {
+    // Size size=MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: green,
+        
         appBar: AppBar(
           title: const Text("Feed Consumption History"),
         ),
-        body: PdfPreview(build: (context)=>makePdf(widget.feedModel))
+        body: PdfPreview(
+          // maxPageWidth:size.width,
+          build: (context)=>makePdf(widget.feedModel))
         );
   }
 
@@ -39,7 +41,7 @@ class _FeedConsumptionHistoryPdfPreviewPageState
           children: [
             pdfw.TableRow(children: [
               pdfw.Expanded(
-                flex: 2,
+                flex: 20,
                 child: pdfw.Padding(
                   padding: const pdfw.EdgeInsets.all(20),
                   child: pdfw.Text(
@@ -51,7 +53,7 @@ class _FeedConsumptionHistoryPdfPreviewPageState
                 ),
               ),
               pdfw.Expanded(
-                flex: 2,
+                flex: 13,
                 child: pdfw.Padding(
                   padding: const pdfw.EdgeInsets.all(20),
                   child: pdfw.Text(
@@ -63,7 +65,7 @@ class _FeedConsumptionHistoryPdfPreviewPageState
                 ),
               ),
               pdfw.Expanded(
-                flex: 2,
+                flex: 16,
                 child: pdfw.Padding(
                   padding: const pdfw.EdgeInsets.all(20),
                   child: pdfw.Text(
@@ -75,7 +77,7 @@ class _FeedConsumptionHistoryPdfPreviewPageState
                 ),
               ),
               pdfw.Expanded(
-                flex: 2,
+                flex: 15,
                 child: pdfw.Padding(
                   padding: const pdfw.EdgeInsets.all(20),
                   child: pdfw.Text(
@@ -87,7 +89,7 @@ class _FeedConsumptionHistoryPdfPreviewPageState
                 ),
               ),
               pdfw.Expanded(
-                flex: 2,
+                flex: 13,
                 child: pdfw.Padding(
                   padding: const pdfw.EdgeInsets.all(20),
                   child: pdfw.Text(
@@ -99,7 +101,7 @@ class _FeedConsumptionHistoryPdfPreviewPageState
                 ),
               ),
               pdfw.Expanded(
-                flex: 2,
+                flex: 11,
                 child: pdfw.Padding(
                   padding: const pdfw.EdgeInsets.all(20),
                   child: pdfw.Text(
@@ -111,7 +113,7 @@ class _FeedConsumptionHistoryPdfPreviewPageState
                 ),
               ),
               pdfw.Expanded(
-                flex: 2,
+                flex: 18,
                 child: pdfw.Padding(
                   padding: const pdfw.EdgeInsets.all(20),
                   child: pdfw.Text(
@@ -123,7 +125,7 @@ class _FeedConsumptionHistoryPdfPreviewPageState
                 ),
               ),
               pdfw.Expanded(
-                flex: 2,
+                flex: 20,
                 child: pdfw.Padding(
                   padding: const pdfw.EdgeInsets.all(20),
                   child: pdfw.Text(
@@ -146,7 +148,7 @@ class _FeedConsumptionHistoryPdfPreviewPageState
                     child: pdfw.Padding(
                         padding: const pdfw.EdgeInsets.all(15),
                         child: pdfw.Text(feed.livestockname)),
-                    flex: 2,
+                    flex: 3,
                   ),
                   pdfw.Expanded(
                     child: pdfw.Padding(
@@ -158,13 +160,13 @@ class _FeedConsumptionHistoryPdfPreviewPageState
                     child: pdfw.Padding(
                         padding: const pdfw.EdgeInsets.all(15),
                         child: pdfw.Text(feed.feedname)),
-                    flex: 2,
+                    flex: 3,
                   ),
                   pdfw.Expanded(
                     child: pdfw.Padding(
                         padding: const pdfw.EdgeInsets.all(15),
                         child: pdfw.Text(feed.feedtype)),
-                    flex: 2,
+                    flex: 3,
                   ),
                   pdfw.Expanded(
                     child: pdfw.Padding(
@@ -176,13 +178,13 @@ class _FeedConsumptionHistoryPdfPreviewPageState
                     child: pdfw.Padding(
                         padding: const pdfw.EdgeInsets.all(15),
                         child: pdfw.Text(feed.feedingmethod)),
-                    flex: 2,
+                    flex: 5,
                   ),
                   pdfw.Expanded(
                     child: pdfw.Padding(
                         padding: const pdfw.EdgeInsets.all(15),
                         child: pdfw.Text(DateFormat("dd-MMMM-yyyy").format(feed.date))),
-                    flex: 2,
+                    flex: 3,
                   ),
                 ]))
           ]);
