@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_rich_text/easy_rich_text.dart';
 import 'package:flutter/material.dart';
+import 'package:fms/controller/model/crop_growth_model.dart';
 import 'package:fms/dammies/constants.dart';
+import 'package:fms/pages/crop_managemnt/crop/crop_growth_pdf.dart';
 import 'package:fms/pages/crop_managemnt/crop/edit_crop_growth.dart';
 import 'package:fms/pages/crop_managemnt/crop/track_crop_stages.dart';
 import 'package:fms/repository/crops_repository.dart';
@@ -223,6 +225,7 @@ class CropGrowthRecords extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double w=MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: blueGrey,
@@ -247,11 +250,31 @@ class CropGrowthRecords extends StatelessWidget {
                 ),
               );
             }
+
+            final cropgrowths=snapshot.data!.docs.map((cropgrowth)=>CropGrowthModel.fromJson(cropgrowth.data()! as Map<String, dynamic>)).toList();
             return Padding(
               padding: const EdgeInsets.all(16.0),
               child: SingleChildScrollView(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(
+                  width: w*0.5,
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(green)
+                    ),
+                    onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> CropGrowthPdfPreviewPage(cropgrowths: cropgrowths,)));
+                  }, child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Icon(Icons.picture_as_pdf),
+                      SizedBox(width: 6,),
+                      Text("Generate Pdf")
+                    ],
+                  )),
+                ),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Table(
