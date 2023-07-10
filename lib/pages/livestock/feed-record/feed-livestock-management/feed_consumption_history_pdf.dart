@@ -2,9 +2,11 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:fms/controller/model/feed_model.dart';
+import 'package:fms/dammies/constants.dart';
 import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pdfw;
+import 'package:printing/printing.dart';
 
 class FeedConsumptionHistoryPdfPreviewPage extends StatefulWidget {
   final List<FeedModel> feedModel;
@@ -21,43 +23,12 @@ class _FeedConsumptionHistoryPdfPreviewPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: green,
         appBar: AppBar(
           title: const Text("Feed Consumption History"),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: SingleChildScrollView(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: DataTable(
-                border: TableBorder.all(),
-                columns: const [
-                  DataColumn(label: Text('Livestock ID')),
-                  DataColumn(label: Text('Breed')),
-                  DataColumn(label: Text('Animal Weight')),
-                  DataColumn(label: Text('Feed name')),
-                  DataColumn(label: Text('Feed type')),
-                  DataColumn(label: Text('Quantity/day')),
-                  DataColumn(label: Text('Feeding Method')),
-                  DataColumn(label: Text('Date')),
-                ],
-                rows: widget.feedModel.map((document) {
-                  return DataRow(cells: [
-                    DataCell(Text(document.livestockid)),
-                    DataCell(Text(document.livestockname)),
-                    DataCell(Text("${document.animalweight} Kgs")),
-                    DataCell(Text(document.feedname)),
-                    DataCell(Text(document.feedtype)),
-                    DataCell(Text("${document.quantityaday} Kgs")),
-                    DataCell(Text(document.feedingmethod)),
-                    DataCell(
-                        Text(DateFormat("dd-MMMM-yyyy").format(document.date))),
-                  ]);
-                }).toList(),
-              ),
-            ),
-          ),
-        ));
+        body: PdfPreview(build: (context)=>makePdf(widget.feedModel))
+        );
   }
 
   Future<Uint8List> makePdf(feedhistories) async {
@@ -168,49 +139,49 @@ class _FeedConsumptionHistoryPdfPreviewPageState
                   pdfw.Expanded(
                     child: pdfw.Padding(
                         padding: const pdfw.EdgeInsets.all(15),
-                        child: pdfw.Text(feedhistories.livestockid)),
+                        child: pdfw.Text(feed.livestockid)),
                     flex: 2,
                   ),
                   pdfw.Expanded(
                     child: pdfw.Padding(
                         padding: const pdfw.EdgeInsets.all(15),
-                        child: pdfw.Text(feedhistories.livestockname)),
+                        child: pdfw.Text(feed.livestockname)),
                     flex: 2,
                   ),
                   pdfw.Expanded(
                     child: pdfw.Padding(
                         padding: const pdfw.EdgeInsets.all(15),
-                        child: pdfw.Text("${feedhistories.animalweight} Kgs")),
+                        child: pdfw.Text("${feed.animalweight} Kgs")),
                     flex: 2,
                   ),
                   pdfw.Expanded(
                     child: pdfw.Padding(
                         padding: const pdfw.EdgeInsets.all(15),
-                        child: pdfw.Text(feedhistories.feedname)),
+                        child: pdfw.Text(feed.feedname)),
                     flex: 2,
                   ),
                   pdfw.Expanded(
                     child: pdfw.Padding(
                         padding: const pdfw.EdgeInsets.all(15),
-                        child: pdfw.Text(feedhistories.feedtype)),
+                        child: pdfw.Text(feed.feedtype)),
                     flex: 2,
                   ),
                   pdfw.Expanded(
                     child: pdfw.Padding(
                         padding: const pdfw.EdgeInsets.all(15),
-                        child: pdfw.Text("${feedhistories.quantityaday} Kgs")),
+                        child: pdfw.Text("${feed.quantityaday} Kgs")),
                     flex: 2,
                   ),
                   pdfw.Expanded(
                     child: pdfw.Padding(
                         padding: const pdfw.EdgeInsets.all(15),
-                        child: pdfw.Text(feedhistories.feedingmethod)),
+                        child: pdfw.Text(feed.feedingmethod)),
                     flex: 2,
                   ),
                   pdfw.Expanded(
                     child: pdfw.Padding(
                         padding: const pdfw.EdgeInsets.all(15),
-                        child: pdfw.Text(DateFormat("dd-MMMM-yyyy").format(feedhistories.date))),
+                        child: pdfw.Text(DateFormat("dd-MMMM-yyyy").format(feed.date))),
                     flex: 2,
                   ),
                 ]))

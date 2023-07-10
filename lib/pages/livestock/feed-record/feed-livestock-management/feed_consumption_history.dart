@@ -20,6 +20,7 @@ class _FeedConsumptionHistoryState extends State<FeedConsumptionHistory> {
   late List<FeedModel> feedhistories;
   @override
   Widget build(BuildContext context) {
+  Size size=MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: green,
@@ -51,91 +52,101 @@ class _FeedConsumptionHistoryState extends State<FeedConsumptionHistory> {
               child: SingleChildScrollView(
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  child: DataTable(
-                    border: TableBorder.all(),
-                    columns: const [
-                      DataColumn(label: Text('Livestock ID')),
-                      DataColumn(label: Text('Breed')),
-                      DataColumn(label: Text('Animal Weight')),
-                      DataColumn(label: Text('Feed name')),
-                      DataColumn(label: Text('Feed type')),
-                      DataColumn(label: Text('Quantity/day')),
-                      DataColumn(label: Text('Feeding Method')),
-                      DataColumn(label: Text('Date')),
-                      DataColumn(label: Text('Action')),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll(green)
+                        ),
+                        onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>FeedConsumptionHistoryPdfPreviewPage(feedModel: feedhistories,)));
+                      }, child:const Row(
+                        children: [
+                          Icon(Icons.picture_as_pdf),
+                          SizedBox(width: 6,),
+                          Text("Generate PDF")
+                      ],)),
+                      SizedBox(
+                        height: size.height*0.8,
+                        child: Expanded(
+                          child: DataTable(
+                            border: TableBorder.all(),
+                            columns: const [
+                              DataColumn(label: Text('Livestock ID')),
+                              DataColumn(label: Text('Breed')),
+                              DataColumn(label: Text('Animal Weight')),
+                              DataColumn(label: Text('Feed name')),
+                              DataColumn(label: Text('Feed type')),
+                              DataColumn(label: Text('Quantity/day')),
+                              DataColumn(label: Text('Feeding Method')),
+                              DataColumn(label: Text('Date')),
+                              DataColumn(label: Text('Action')),
+                            ],
+                            rows: snapshot.data!.docs.map((DocumentSnapshot document) {
+                              final history = FeedModel.fromJson(
+                                  document.data() as Map<String, dynamic>);
+                              return DataRow(cells: [
+                                DataCell(Text(history.livestockid)),
+                                DataCell(Text(history.livestockname)),
+                                DataCell(Text("${history.animalweight} Kgs")),
+                                DataCell(Text(history.feedname)),
+                                DataCell(Text(history.feedtype)),
+                                DataCell(Text("${history.quantityaday} Kgs")),
+                                DataCell(Text(history.feedingmethod)),
+                                DataCell(Text(
+                                    DateFormat("dd-MMMM-yyyy").format(history.date))),
+                                DataCell(Row(
+                                  children: [
+                                    IconButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      EditLiveStockFeedType(
+                                                        id: document.id,
+                                                        feed: history,
+                                                      )));
+                                        },
+                                        icon: const Icon(
+                                          Icons.edit,
+                                          color: Colors.green,
+                                          size: 25,
+                                        )),
+                                    IconButton(
+                                        onPressed: () {
+                                          showVewDialogCard(history, context);
+                                        },
+                                        icon: const Icon(
+                                          Icons.remove_red_eye_outlined,
+                                          color: Colors.grey,
+                                          size: 30,
+                                        )),
+                                    IconButton(
+                                        onPressed: () {
+                                          showAlertForDeletion(
+                                              document.id, history, context);
+                                        },
+                                        icon: const Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                          size: 25,
+                                        )),
+                                  ],
+                                )),
+                              ]);
+                            }).toList(),
+                          ),
+                        ),
+                      ),
                     ],
-                    rows: snapshot.data!.docs.map((DocumentSnapshot document) {
-                      final history = FeedModel.fromJson(
-                          document.data() as Map<String, dynamic>);
-                      return DataRow(cells: [
-                        DataCell(Text(history.livestockid)),
-                        DataCell(Text(history.livestockname)),
-                        DataCell(Text("${history.animalweight} Kgs")),
-                        DataCell(Text(history.feedname)),
-                        DataCell(Text(history.feedtype)),
-                        DataCell(Text("${history.quantityaday} Kgs")),
-                        DataCell(Text(history.feedingmethod)),
-                        DataCell(Text(
-                            DateFormat("dd-MMMM-yyyy").format(history.date))),
-                        DataCell(Row(
-                          children: [
-                            IconButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              EditLiveStockFeedType(
-                                                id: document.id,
-                                                feed: history,
-                                              )));
-                                },
-                                icon: const Icon(
-                                  Icons.edit,
-                                  color: Colors.green,
-                                  size: 25,
-                                )),
-                            IconButton(
-                                onPressed: () {
-                                  showVewDialogCard(history, context);
-                                },
-                                icon: const Icon(
-                                  Icons.remove_red_eye_outlined,
-                                  color: Colors.grey,
-                                  size: 30,
-                                )),
-                            IconButton(
-                                onPressed: () {
-                                  showAlertForDeletion(
-                                      document.id, history, context);
-                                },
-                                icon: const Icon(
-                                  Icons.delete,
-                                  color: Colors.red,
-                                  size: 25,
-                                )),
-                          ],
-                        )),
-                      ]);
-                    }).toList(),
                   ),
                 ),
               ),
             );
           }),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-          backgroundColor: green,
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => FeedConsumptionHistoryPdfPreviewPage(feedModel: feedhistories,)));
-          },
-          child: const Icon(Icons.picture_as_pdf)),
-          const SizedBox(height: 10,),
+      floatingActionButton:
           FloatingActionButton(
               backgroundColor: green,
               onPressed: () {
@@ -145,8 +156,6 @@ class _FeedConsumptionHistoryState extends State<FeedConsumptionHistory> {
                         builder: (context) => const AddLiveStockFeedType()));
               },
               child: const Icon(Icons.add)),
-        ],
-      ),
     );
   }
 
