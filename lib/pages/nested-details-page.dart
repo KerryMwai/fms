@@ -16,7 +16,6 @@ import 'package:fms/pages/users/role-management.dart';
 import 'package:fms/pages/users/user-creation.dart';
 import 'package:fms/pages/users/users-details.dart';
 import 'package:fms/pages/users/users-list-page.dart';
-import 'package:fms/widgets/custom_drawer.dart';
 
 
 // ignore: must_be_immutable
@@ -38,7 +37,7 @@ class _SubDetailsPageState extends State<SubDetailsPage> {
         centerTitle: true,
         actions: const [],
       ),
-      drawer:const CustomDrawer(),
+      // drawer:const CustomDrawer(),
       body: sectionToRoute(widget.name),
       floatingActionButton: FloatingActionButton(
         backgroundColor: green,

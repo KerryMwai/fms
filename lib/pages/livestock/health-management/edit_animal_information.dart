@@ -206,12 +206,8 @@ class _EditAnimalHealthInformationState
                     child: ElevatedButton(
                         style: ButtonStyle(
                             backgroundColor: MaterialStatePropertyAll(green)),
-                        onPressed: () async{
-                          if (_formKey.currentState!.validate()) {
-                          final ref = FirebaseStorage.instance.ref();
-                          final desertRef = ref.child('livesticks/${widget.health.imagename}');
-                          await desertRef.delete();
-                            
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {                           
                             LivestockRepostory()
                                 .updateAnimalHealthInformation(
                                     widget.id,

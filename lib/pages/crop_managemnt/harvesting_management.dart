@@ -5,6 +5,7 @@ import 'package:fms/pages/crop_managemnt/harvesting/harvesting_information.dart'
 import 'package:fms/pages/crop_managemnt/harvesting/harvesting_schedule_information.dart';
 import 'package:fms/pages/crop_managemnt/harvesting/workforce_or_machine_field_crop_assignment_information.dart';
 import 'package:fms/pages/crop_managemnt/labor/labor_management_information.dart';
+import 'package:fms/pages/inventories/equipment/equipment_inventories_information.dart';
 
 class HarvestingManager extends StatefulWidget {
   const HarvestingManager({super.key});
@@ -20,7 +21,7 @@ class _HarvestingManagerState extends State<HarvestingManager> {
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: GridView.builder(
-          itemCount: 5,
+          itemCount: 6,
           gridDelegate:
               const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -28,14 +29,14 @@ class _HarvestingManagerState extends State<HarvestingManager> {
                 crossAxisSpacing: 10
                 ),
           itemBuilder: (context, index) {
-            if (index == 1) {
+            if (index == 0) {
               return GestureDetector(
                 onTap: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              const HarvestingInformation()));
+                              const EquipmentInventoryInformation()));
                 },
                 child: Column(
                   children: [
@@ -43,7 +44,7 @@ class _HarvestingManagerState extends State<HarvestingManager> {
                       height: size.width * 0.33,
                       decoration: BoxDecoration(
                           image: const DecorationImage(
-                              image: AssetImage("asset/images/harvestinfor.jpg"),
+                              image: AssetImage("asset/images/farminfor.jpg"),
                               fit: BoxFit.cover),
                           borderRadius: BorderRadius.circular(10)),
                     ),
@@ -51,7 +52,7 @@ class _HarvestingManagerState extends State<HarvestingManager> {
                       height: 20,
                     ),
                     Text(
-                      "Harvesting Information",
+                      "Equipments Information",
                       style: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w500,
@@ -60,73 +61,7 @@ class _HarvestingManagerState extends State<HarvestingManager> {
                   ],
                 ),
               );
-            } else if (index == 2) {
-                return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              const WorkforceMachineFieldCropAssignmentInformation()));
-                },
-                child: Column(
-                  children: [
-                    Container(
-                      height: size.width * 0.33,
-                      decoration: BoxDecoration(
-                          image: const DecorationImage(
-                              image: AssetImage("asset/images/assignment.png"),
-                              fit: BoxFit.cover),
-                          borderRadius: BorderRadius.circular(10)),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      "Harvesting Crop Field Assignments",
-                      style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w500,
-                          color: green),
-                    )
-                  ],
-                ),
-              );
-            } else if (index == 3) {
-               return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              const HarvestingScheduleInformation()));
-                },
-                child: Column(
-                  children: [
-                    Container(
-                      height: size.width * 0.33,
-                      decoration: BoxDecoration(
-                          image: const DecorationImage(
-                              image: AssetImage("asset/images/schedule.png"),
-                              fit: BoxFit.cover),
-                          borderRadius: BorderRadius.circular(10)),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      "Harvesting Schedules",
-                      style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w500,
-                          color: green),
-                    )
-                  ],
-                ),
-              );
-            
-            }
-            if (index == 4) {
+            }else if (index == 1) {
                  return GestureDetector(
                 onTap: () {
                   Navigator.push(
@@ -159,6 +94,104 @@ class _HarvestingManagerState extends State<HarvestingManager> {
                 ),
               );
               
+            }
+            else if (index == 2) {
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const HarvestingInformation()));
+                },
+                child: Column(
+                  children: [
+                    Container(
+                      height: size.width * 0.33,
+                      decoration: BoxDecoration(
+                          image: const DecorationImage(
+                              image: AssetImage("asset/images/harvestinfor.jpg"),
+                              fit: BoxFit.cover),
+                          borderRadius: BorderRadius.circular(10)),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "Harvesting Information",
+                      style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                          color: green),
+                    )
+                  ],
+                ),
+              );
+            } else if (index == 3) {
+                return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const WorkforceMachineFieldCropAssignmentInformation()));
+                },
+                child: Column(
+                  children: [
+                    Container(
+                      height: size.width * 0.33,
+                      decoration: BoxDecoration(
+                          image: const DecorationImage(
+                              image: AssetImage("asset/images/assignment.png"),
+                              fit: BoxFit.cover),
+                          borderRadius: BorderRadius.circular(10)),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "Harvesting Crop Field Assignments",
+                      style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                          color: green),
+                    )
+                  ],
+                ),
+              );
+            } else if (index == 4) {
+               return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const HarvestingScheduleInformation()));
+                },
+                child: Column(
+                  children: [
+                    Container(
+                      height: size.width * 0.33,
+                      decoration: BoxDecoration(
+                          image: const DecorationImage(
+                              image: AssetImage("asset/images/schedule.png"),
+                              fit: BoxFit.cover),
+                          borderRadius: BorderRadius.circular(10)),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "Harvesting Schedules",
+                      style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                          color: green),
+                    )
+                  ],
+                ),
+              );
+            
             } else {
     // Equipment management
               return GestureDetector(
@@ -197,3 +230,5 @@ class _HarvestingManagerState extends State<HarvestingManager> {
     );
   }
 }
+
+// EquipmentInventoryInformation

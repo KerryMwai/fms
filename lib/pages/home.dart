@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
       drawer: const CustomDrawer(),
       body: Container(
         height: size.height,
-        margin: const EdgeInsets.all(15),
+        margin: const EdgeInsets.only(left: 15,right: 15, top: 100),
         child: StreamBuilder<QuerySnapshot>(
             stream: context.read<UserController>().getalldepartments(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {

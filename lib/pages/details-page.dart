@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:fms/controller/model/farm.dart';
 import 'package:fms/dammies/constants.dart';
 import 'package:fms/pages/nested-details-page.dart';
-import 'package:fms/widgets/custom_drawer.dart';
 import 'package:fms/widgets/text_logreg_field.dart';
 import 'package:provider/provider.dart';
 
@@ -35,7 +34,7 @@ class DetailsPAge extends StatelessWidget {
         centerTitle: true,
         backgroundColor: green,
       ),
-      drawer:const CustomDrawer(),
+      // drawer:const CustomDrawer(),
       body: StreamBuilder<QuerySnapshot>(
           stream: context.read<UserController>().getAllSubDepartments(id, name),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {

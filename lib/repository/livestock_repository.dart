@@ -34,5 +34,4 @@ class LivestockRepostory{
   Stream<QuerySnapshot> getAllAnimalWeightSnapshots()=>firestore.collection('weight-information').orderBy("animalid", descending: false).snapshots();
   Stream<QuerySnapshot> getAllAnimalWeightSnapshotsForParticularAnimal(animalid)=>firestore.collection('weight-information').where("animalid", isEqualTo: animalid).snapshots();
   Future<void> deleteAnimalWeight(id)=>firestore.collection('weight-information').doc(id).delete();
-
 }

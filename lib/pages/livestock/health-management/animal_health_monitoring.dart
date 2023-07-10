@@ -1,3 +1,4 @@
+import 'package:easy_rich_text/easy_rich_text.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fms/controller/model/animal_health_model.dart';
@@ -25,7 +26,8 @@ class IndividualAnimalHealth extends StatefulWidget {
       required this.weight,
       required this.respiratoryRate,
       required this.status,
-      required this.id, required this.imagename});
+      required this.id,
+      required this.imagename});
 
   @override
   State<IndividualAnimalHealth> createState() => _IndividualAnimalHealthState();
@@ -49,29 +51,34 @@ class _IndividualAnimalHealthState extends State<IndividualAnimalHealth> {
             const SizedBox(
               height: 15,
             ),
+            EasyRichText(
+              'Body Temperature: ${widget.bodyTemperature}  o C',
+              patternList: [
+                EasyRichTextPattern(
+                    targetString: "o",
+                    superScript: true,
+                    style:  TextStyle(fontSize: 18, color: black)),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             Text(
-              'Body Temperature: ${widget.bodyTemperature}',
+              'Heart Rate: ${widget.heartRate} BPM',
               style: TextStyle(fontSize: 16, color: black),
             ),
             const SizedBox(
               height: 10,
             ),
             Text(
-              'Heart Rate: ${widget.heartRate}',
+              'Weight: ${widget.weight} Kgs',
               style: TextStyle(fontSize: 16, color: black),
             ),
             const SizedBox(
               height: 10,
             ),
             Text(
-              'Weight: ${widget.weight}',
-              style: TextStyle(fontSize: 16, color: black),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              'Respiratory Rate: ${widget.respiratoryRate}',
+              'Respiratory Rate: ${widget.respiratoryRate} rpm',
               style: TextStyle(fontSize: 16, color: black),
             ),
             Row(
@@ -124,8 +131,9 @@ class _IndividualAnimalHealthState extends State<IndividualAnimalHealth> {
                       color: Colors.green,
                     )),
                 IconButton(
-                    onPressed: () async{
-                      showAlertForDeletion(widget.id, widget.animalId, widget.imagename, context);
+                    onPressed: () async {
+                      showAlertForDeletion(widget.id, widget.animalId,
+                          widget.imagename, context);
                     },
                     splashColor: Colors.red[100],
                     icon: const Icon(
@@ -160,7 +168,10 @@ class _IndividualAnimalHealthState extends State<IndividualAnimalHealth> {
                   LivestockRepostory()
                       .deleteAnimalHealthInformation(id)
                       .then((value) => Navigator.pop(context))
-                      .then((value) => FirebaseStorage.instance.ref().child("livestocks/${widget.imagename}").delete())
+                      .then((value) => FirebaseStorage.instance
+                          .ref()
+                          .child("livestocks/${widget.imagename}")
+                          .delete())
                       .then((value) => ScaffoldMessenger.of(context)
                           .showSnackBar(SnackBar(
                               content:
