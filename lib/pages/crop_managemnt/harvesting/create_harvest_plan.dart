@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fms/controller/model/harvest_plan_model.dart';
 import 'package:fms/dammies/constants.dart';
-import 'package:fms/pages/crop_managemnt/harvesting/harvesting_information.dart';
 import 'package:fms/repository/harvesting_repostory.dart';
 import 'package:fms/widgets/feed_widgets/custom_form_field.dart';
+import 'package:go_router/go_router.dart';
 
 class CreateHarvestPlan extends StatefulWidget {
   const CreateHarvestPlan({super.key});
@@ -27,6 +27,9 @@ class _CreateHarvestPlanState extends State<CreateHarvestPlan> {
     Size size=MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(onPressed: (){
+          context.go('/harvesting-information');
+        }, icon:const Icon(Icons.arrow_back, color: white,)),
         backgroundColor: blueGrey,
         title: const Text("Create Harvest Plan"),
         centerTitle: true,
@@ -91,7 +94,7 @@ class _CreateHarvestPlanState extends State<CreateHarvestPlan> {
                   onPressed: (){
                   if(_formKey.currentState!.validate()){
                       HarvestingRepository().addHarvestingPlans(HarvestPlan(crop: crop.text, method: method.text, season: season.text, quantity: double.parse(quantity.text), equipment: equipment.text, labor: int.parse(labor.text), storage: storage.text, harvestingdate: harvestingdate).toJson())
-                      .then((value) =>ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Harvesting plan added successfully")))).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>const HarvestingInformation())));
+                      .then((value) =>ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Harvesting plan added successfully")))).then((value) => context.go('/harvesting-information'));
                   }
                 }, child:const Text("Create Plan")),)
               ],

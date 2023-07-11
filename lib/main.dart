@@ -8,6 +8,8 @@ import 'package:fms/dammies/constants.dart';
 import 'package:fms/pages/crop_managemnt/crop/records_growth_stages.dart';
 import 'package:fms/pages/crop_managemnt/crop/view_crop_plans.dart';
 import 'package:fms/pages/crop_managemnt/equipment/equipment_assignment_information.dart';
+import 'package:fms/pages/crop_managemnt/harvesting/harvesting_information.dart';
+import 'package:fms/pages/crop_managemnt/harvesting/harvesting_schedule_information.dart';
 import 'package:fms/pages/home.dart';
 import 'package:fms/pages/livestock/breeding/breedig-management/animal_fertility_and_reproductive_history.dart';
 import 'package:fms/pages/livestock/breeding/breedig-management/weight_management.dart';
@@ -20,6 +22,7 @@ import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'auth/login.dart';
 import 'firebase_options.dart';
+import 'pages/crop_managemnt/harvesting/workforce_or_machine_field_crop_assignment_information.dart';
 
 
 final GoRouter _router = GoRouter(
@@ -83,6 +86,24 @@ final GoRouter _router = GoRouter(
           path: 'animal-weight-management',
           builder: (BuildContext context, GoRouterState state) {
             return const AnimalWeightManagement();
+          },
+        ),
+        GoRoute(
+          path: 'workforce-machine-assignment',
+          builder: (BuildContext context, GoRouterState state) {
+            return const WorkforceMachineFieldCropAssignmentInformation();
+          },
+        ),
+         GoRoute(
+          path: 'harvesting-schedule',
+          builder: (BuildContext context, GoRouterState state) {
+            return const HarvestingScheduleInformation();
+          },
+        ),
+        GoRoute(
+          path: 'harvesting-information',
+          builder: (BuildContext context, GoRouterState state) {
+            return const HarvestingInformation();
           },
         ),
       ],

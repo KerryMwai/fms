@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fms/controller/model/harvest_plan_model.dart';
 import 'package:fms/dammies/constants.dart';
-import 'package:fms/pages/crop_managemnt/harvesting/harvesting_information.dart';
 import 'package:fms/repository/harvesting_repostory.dart';
 import 'package:fms/widgets/feed_widgets/custom_form_field.dart';
+import 'package:go_router/go_router.dart';
 
 class EditHarvestPlan extends StatefulWidget {
   final String id;
@@ -36,6 +36,9 @@ class _EditHarvestPlanState extends State<EditHarvestPlan> {
     storage.text=widget.plan.storage;
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(onPressed: (){
+          context.go('/harvesting-information');
+        }, icon:const Icon(Icons.arrow_back, color: white,)),
         backgroundColor: blueGrey,
         title: const Text("Edit Harvest Plan"),
         centerTitle: true,
@@ -100,7 +103,7 @@ class _EditHarvestPlanState extends State<EditHarvestPlan> {
                   onPressed: (){
                   if(_formKey.currentState!.validate()){
                       HarvestingRepository().updateHarvestingPlan(widget.id,HarvestPlan(crop: crop.text, method: method.text, season: season.text, quantity: double.parse(quantity.text), equipment: equipment.text, labor: int.parse(labor.text), storage: storage.text, harvestingdate: harvestingdate).toJson())
-                      .then((value) =>ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Harvesting plan update successfully")))).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>const HarvestingInformation())));
+                      .then((value) =>ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Harvesting plan update successfully")))).then((value) => context.go('/harvesting-information'));
                   }
                 }, child:const Text("Update Plan")),)
               ],

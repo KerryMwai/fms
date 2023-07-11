@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fms/controller/model/harvesting_schedule.dart';
 import 'package:fms/dammies/constants.dart';
-import 'package:fms/pages/crop_managemnt/harvesting/harvesting_schedule_information.dart';
 import 'package:fms/repository/harvesting_repostory.dart';
 import 'package:fms/widgets/feed_widgets/custom_form_field.dart';
+import 'package:go_router/go_router.dart';
 
 class CreateHarvestSchedule extends StatefulWidget {
   const CreateHarvestSchedule({super.key});
@@ -26,6 +26,9 @@ class _CreateHarvestScheduleState extends State<CreateHarvestSchedule> {
     Size size=MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(onPressed: (){
+          context.go('/harvesting-schedule');
+        }, icon:const Icon(Icons.arrow_back, color: white,)),
         backgroundColor: blueGrey,
         title: const Text("Create harvest schedule"),
         centerTitle: true,
@@ -56,7 +59,7 @@ class _CreateHarvestScheduleState extends State<CreateHarvestSchedule> {
                   ),
                   onPressed: (){
                   if(_formKey.currentState!.validate()){
-                      HarvestingRepository().addHarvestingSchedules(HarvestingSchedule(crop: cropname.text, maturitydays: int.parse(cropmaturity.text), variety: cropvariety.text, harvestinfactors: harvestinfactors.text, laborandequipmentavailability: laborandequipmentavailability.text, storage: storage.text, planadjustment: planadjustment.text).toJson()).then((value) =>ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Schedule added successfully")))).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>const HarvestingScheduleInformation())));
+                      HarvestingRepository().addHarvestingSchedules(HarvestingSchedule(crop: cropname.text, maturitydays: int.parse(cropmaturity.text), variety: cropvariety.text, harvestinfactors: harvestinfactors.text, laborandequipmentavailability: laborandequipmentavailability.text, storage: storage.text, planadjustment: planadjustment.text).toJson()).then((value) =>ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Schedule added successfully")))).then((value) => context.go('/harvesting-schedule'));
                   }
                 }, child:const Text("Create Schedule", style: TextStyle(fontSize: 18),)),)
               ],

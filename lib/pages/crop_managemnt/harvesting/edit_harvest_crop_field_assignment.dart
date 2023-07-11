@@ -1,10 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fms/controller/model/harvesting_model.dart';
 import 'package:fms/dammies/constants.dart';
-import 'package:fms/pages/crop_managemnt/harvesting/workforce_or_machine_field_crop_assignment_information.dart';
 import 'package:fms/repository/harvesting_repostory.dart';
 import 'package:fms/widgets/feed_widgets/custom_form_field.dart';
+import 'package:go_router/go_router.dart';
 
 class EditHarvestFieldCropAssignment extends StatefulWidget {
   final String id;
@@ -39,6 +38,9 @@ class _EditHarvestFieldCropAssignmentState
     skills.text=widget.harvestdata.skills;
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(onPressed: (){
+          context.go('/workforce-machine-assignment');
+        }, icon:const Icon(Icons.arrow_back, color: white,)),
         backgroundColor: blueGrey,
         title: const Text("Update Crop Field Assignment"),
         centerTitle: true,
@@ -173,11 +175,7 @@ class _EditHarvestFieldCropAssignmentState
                                     .showSnackBar( SnackBar(
                                         content:
                                             Text("Updated ${widget.harvestdata.crop} successful"))))
-                                .then((value) => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: ((context) =>
-                                            const WorkforceMachineFieldCropAssignmentInformation()))));
+                                .then((value) => context.go('/workforce-machine-assignment'));
                           }
                         },
                         child: const Text("Update Crop and Field assignment")),

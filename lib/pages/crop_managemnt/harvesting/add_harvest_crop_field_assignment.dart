@@ -1,10 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fms/controller/model/harvesting_model.dart';
 import 'package:fms/dammies/constants.dart';
-import 'package:fms/pages/crop_managemnt/harvesting/workforce_or_machine_field_crop_assignment_information.dart';
 import 'package:fms/repository/harvesting_repostory.dart';
 import 'package:fms/widgets/feed_widgets/custom_form_field.dart';
+import 'package:go_router/go_router.dart';
 
 class CreateHarvestFieldCropAssignment extends StatefulWidget {
   const CreateHarvestFieldCropAssignment({super.key});
@@ -32,6 +31,9 @@ class _CreateHarvestFieldCropAssignmentState
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(onPressed: (){
+          context.go('/workforce-machine-assignment');
+        }, icon:const Icon(Icons.arrow_back, color: white,)),
         backgroundColor: blueGrey,
         title: const Text("Create Crop Field Assignment"),
         centerTitle: true,
@@ -160,11 +162,7 @@ class _CreateHarvestFieldCropAssignmentState
                                     .showSnackBar(const SnackBar(
                                         content:
                                             Text("Assignment successful"))))
-                                .then((value) => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: ((context) =>
-                                            const WorkforceMachineFieldCropAssignmentInformation()))));
+                                .then((value) => context.go('/workforce-machine-assignment'));
                           }
                         },
                         child: const Text("Create Crop and Field assignment")),
