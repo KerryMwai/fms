@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fms/controller/model/crop_growth_model.dart';
 import 'package:fms/dammies/constants.dart';
-import 'package:fms/pages/crop_managemnt/crop/records_growth_stages.dart';
 import 'package:fms/repository/crops_repository.dart';
 import 'package:fms/widgets/feed_widgets/custom_form_field.dart';
+import 'package:go_router/go_router.dart';
 class EditCropTracking extends StatefulWidget {
   const EditCropTracking({super.key, required this.id, required this.data});
   final String id;
@@ -40,6 +40,9 @@ class EditCropTrackingState extends State<EditCropTracking> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(onPressed: (){
+          context.go('/crop-growth-records');
+        }, icon:const Icon(Icons.arrow_back, color: white,)),
         backgroundColor: blueGrey,
         title:  Text("Update Crop Growth For ${widget.data['crop']}"),
         centerTitle: true,
@@ -176,10 +179,7 @@ class EditCropTrackingState extends State<EditCropTracking> {
                           .then((value) => ScaffoldMessenger.of(context)
                               .showSnackBar(const SnackBar(
                                   content: Text("Record updated successfully"))))
-                          .then((value) => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => CropGrowthRecords())));
+                          .then((value) =>context.go('/crop-growth-records'));
                     }
                   },
                   child: const Text('Update Plant Growth Infor'),

@@ -4,6 +4,7 @@ import 'package:fms/dammies/constants.dart';
 import 'package:fms/pages/crop_managemnt/equipment/equipment_assignment_information.dart';
 import 'package:fms/repository/inventory_repository.dart';
 import 'package:fms/widgets/feed_widgets/custom_form_field.dart';
+import 'package:go_router/go_router.dart';
 
 class AssignEquipment extends StatefulWidget {
   final String id;
@@ -26,6 +27,9 @@ class _AssignEquipmentState extends State<AssignEquipment> {
     field.text=widget.equipment.field;
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(onPressed: (){
+          context.go('/equipment-assignment-information');
+        }, icon:const Icon(Icons.arrow_back, color: white,)),
         backgroundColor: blueGrey,
         title: const Text("Assign Equipment a field"),
         centerTitle: true,

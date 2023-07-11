@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fms/controller/model/crop_plan_model.dart';
 import 'package:fms/dammies/constants.dart';
-import 'package:fms/pages/crop_managemnt/crop/view_crop_plans.dart';
 import 'package:fms/repository/crops_repository.dart';
 import 'package:fms/widgets/feed_widgets/custom_form_field.dart';
+import 'package:go_router/go_router.dart';
 
 class EditCropPlan extends StatefulWidget {
   final String id;
@@ -44,7 +44,7 @@ class EditCropPlanState extends State<EditCropPlan> {
 
       CropRepostory().updateCropPlan(widget.id,CropPlan(fertilizername: fertilizername.text, fertilizertype: selectedFertilizerType, plantingDate: selectedPlantingDate, spacing: double.parse(spacing.text), crop: selectedCrop.text, pestManagementRequired: pestManagementRequired!).toJson()).then((value) => ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Plan added successfully"))
-      )).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>const CropPlansPage())));
+      )).then((value) =>context.go('/crop-plans'));
       
     }
   }
@@ -60,6 +60,9 @@ class EditCropPlanState extends State<EditCropPlan> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(onPressed: (){
+          context.go('/crop-plans');
+        }, icon:const Icon(Icons.arrow_back, color: white,)),
         backgroundColor: blueGrey,
         title:const Text('Create Crop Plan'),
         centerTitle: true,

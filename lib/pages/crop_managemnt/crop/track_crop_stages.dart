@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fms/controller/model/crop_growth_model.dart';
 import 'package:fms/dammies/constants.dart';
-import 'package:fms/pages/crop_managemnt/crop/records_growth_stages.dart';
 import 'package:fms/repository/crops_repository.dart';
 import 'package:fms/widgets/feed_widgets/custom_form_field.dart';
+import 'package:go_router/go_router.dart';
 
 class CropTracking extends StatefulWidget {
   const CropTracking({super.key});
@@ -28,6 +28,9 @@ class CropTrackingState extends State<CropTracking> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(onPressed: (){
+          context.go('/crop-growth-records');
+        }, icon:const Icon(Icons.arrow_back, color: white,)),
         backgroundColor: blueGrey,
         title: const Text('Crop Growth Tracking'),
         centerTitle: true,
@@ -181,10 +184,7 @@ class CropTrackingState extends State<CropTracking> {
                           .then((value) => ScaffoldMessenger.of(context)
                               .showSnackBar(const SnackBar(
                                   content: Text("Record added successfully"))))
-                          .then((value) => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => CropGrowthRecords())));
+                          .then((value) => context.go('/crop-growth-records'));
                     }
                   },
                   child: const Text('Record Infor'),
