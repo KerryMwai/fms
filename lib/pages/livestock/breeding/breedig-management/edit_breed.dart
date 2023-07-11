@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fms/controller/model/animal_fertility_and_reproductive_history_model.dart';
 import 'package:fms/dammies/constants.dart';
-import 'package:fms/pages/livestock/breeding/breedig-management/animal_fertility_and_reproductive_history.dart';
 import 'package:fms/repository/livestock_repository.dart';
 import 'package:fms/widgets/feed_widgets/custom_form_field.dart';
+import 'package:go_router/go_router.dart';
 
 class EditBreed extends StatefulWidget {
   final String id;
@@ -49,6 +49,9 @@ class _EditBreedState extends State<EditBreed> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(onPressed: (){
+          context.go('/animal-reproductivity-and-history');
+        }, icon:const Icon(Icons.arrow_back, color: white,)),
         backgroundColor: blueGrey,
         title: const Text("Update Breed Information"),
         centerTitle: true,
@@ -227,7 +230,7 @@ class _EditBreedState extends State<EditBreed> {
                                         content: Text(
                                             "${widget.breed.animalid} update successfully"))))
                                 .then((value) =>
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => const AnimalReproductivityAndHistory())));
+                                     context.go('/animal-reproductivity-and-history'));
                           }
                         },
                         child: const Text("Update Breed")),

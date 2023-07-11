@@ -9,6 +9,8 @@ import 'package:fms/pages/crop_managemnt/crop/records_growth_stages.dart';
 import 'package:fms/pages/crop_managemnt/crop/view_crop_plans.dart';
 import 'package:fms/pages/crop_managemnt/equipment/equipment_assignment_information.dart';
 import 'package:fms/pages/home.dart';
+import 'package:fms/pages/livestock/breeding/breedig-management/animal_fertility_and_reproductive_history.dart';
+import 'package:fms/pages/livestock/breeding/breedig-management/weight_management.dart';
 import 'package:fms/pages/livestock/feed-record/feed-livestock-management/feed_consumption_history.dart';
 import 'package:fms/pages/livestock/feed-record/feed-livestock-management/feed_schedule_information.dart';
 import 'package:fms/services/firebase-manager.dart';
@@ -72,11 +74,17 @@ final GoRouter _router = GoRouter(
           },
         ),
          GoRoute(
-          path: '',
+          path: 'animal-reproductivity-and-history',
           builder: (BuildContext context, GoRouterState state) {
-            return const CropPlansPage();
+            return const AnimalReproductivityAndHistory();
           },
-        )
+        ),
+         GoRoute(
+          path: 'animal-weight-management',
+          builder: (BuildContext context, GoRouterState state) {
+            return const AnimalWeightManagement();
+          },
+        ),
       ],
     ),
   ],

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fms/controller/model/animal_weight_model.dart';
 import 'package:fms/dammies/constants.dart';
-import 'package:fms/pages/livestock/breeding/breedig-management/weight_management.dart';
 import 'package:fms/repository/livestock_repository.dart';
 import 'package:fms/widgets/feed_widgets/custom_form_field.dart';
+import 'package:go_router/go_router.dart';
 
 class EditWeight extends StatefulWidget {
   final String id;
@@ -30,6 +30,9 @@ class _EditWeightState extends State<EditWeight> {
     remarks.text=widget.weight.remarks;
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(onPressed: (){
+          context.go('/animal-weight-management');
+        }, icon:const Icon(Icons.arrow_back, color: white,)),
         backgroundColor: blueGrey,
         title: const Text("Update animal  Weight"),
         centerTitle: true,
@@ -108,7 +111,7 @@ class _EditWeightState extends State<EditWeight> {
                                     weightdate: weightdate,
                                     weight: double.parse(weight.text),
                                     weighttype: weighttype.text,
-                                    remarks: remarks.text).toJson()).then((value) => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Weight updated successfully")))).then((value) => Navigator.push(context, MaterialPageRoute(builder: (_)=>const AnimalWeightManagement())));
+                                    remarks: remarks.text).toJson()).then((value) => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Weight updated successfully")))).then((value) =>context.go('/animal-weight-management'));
                           }
                         },
                         child: const Text("Update Weight")),
