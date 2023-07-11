@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fms/controller/model/feed_schedule_model.dart';
 import 'package:fms/dammies/constants.dart';
-import 'package:fms/pages/livestock/feed-record/feed-livestock-management/feed_schedule_information.dart';
 import 'package:fms/repository/livestock_repository.dart';
 import 'package:fms/widgets/feed_widgets/custom_form_field.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 class AddFeedingSchedule extends StatefulWidget {
@@ -28,6 +28,9 @@ class _AddFeedingScheduleState extends State<AddFeedingSchedule> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+         leading: IconButton(onPressed: (){
+          context.go('/feed-schedule-information');
+        }, icon:const Icon(Icons.arrow_back, color: white,)),
         backgroundColor: green,
         title: const Text("Schedule feeding"),
         centerTitle: true,
@@ -173,11 +176,7 @@ class _AddFeedingScheduleState extends State<AddFeedingSchedule> {
                                     .showSnackBar(const SnackBar(
                                         content: Text(
                                             "Schedule added successfully"))))
-                                .then((value) => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const FeedScheduleInformation())));
+                                .then((value) => context.go('/feed-schedule-information'));
                           }
                         },
                         child: const Text("Add Schedule")),

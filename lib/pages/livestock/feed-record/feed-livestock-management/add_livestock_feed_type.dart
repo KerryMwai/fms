@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fms/controller/model/feed_model.dart';
 import 'package:fms/dammies/constants.dart';
-import 'package:fms/pages/livestock/feed-record/feed-livestock-management/feed_consumption_history.dart';
 import 'package:fms/repository/livestock_repository.dart';
 import 'package:fms/widgets/feed_widgets/custom_form_field.dart';
+import 'package:go_router/go_router.dart';
 
 class AddLiveStockFeedType extends StatefulWidget {
   const AddLiveStockFeedType({super.key});
@@ -27,6 +27,9 @@ class _AddLiveStockFeedTypeState extends State<AddLiveStockFeedType> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(onPressed: (){
+          context.go('/feed-consumption-history');
+        }, icon:const Icon(Icons.arrow_back, color: white,)),
         backgroundColor: green,
         title: const Text("Add New Feed Consumption History"),
         centerTitle: true,
@@ -121,11 +124,7 @@ class _AddLiveStockFeedTypeState extends State<AddLiveStockFeedType> {
                                         feedingmethod: feedingmethod.text,
                                         date: date!)
                                     .toJson())
-                                .then((value) => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (contes) =>
-                                            const FeedConsumptionHistory())))
+                                .then((value) => context.go('/feed-consumption-history'))
                                 .then((value) => ScaffoldMessenger.of(context)
                                     .showSnackBar(const SnackBar(
                                         content:

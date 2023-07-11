@@ -9,6 +9,8 @@ import 'package:fms/pages/crop_managemnt/crop/records_growth_stages.dart';
 import 'package:fms/pages/crop_managemnt/crop/view_crop_plans.dart';
 import 'package:fms/pages/crop_managemnt/equipment/equipment_assignment_information.dart';
 import 'package:fms/pages/home.dart';
+import 'package:fms/pages/livestock/feed-record/feed-livestock-management/feed_consumption_history.dart';
+import 'package:fms/pages/livestock/feed-record/feed-livestock-management/feed_schedule_information.dart';
 import 'package:fms/services/firebase-manager.dart';
 import 'package:fms/services/fms-change-notifier.dart';
 import 'package:go_router/go_router.dart';
@@ -57,6 +59,24 @@ final GoRouter _router = GoRouter(
             return const EquipmentAssignmentInformation();
           },
         ),
+         GoRoute(
+          path: 'feed-schedule-information',
+          builder: (BuildContext context, GoRouterState state) {
+            return const FeedScheduleInformation();
+          },
+        ),
+         GoRoute(
+          path: 'feed-consumption-history',
+          builder: (BuildContext context, GoRouterState state) {
+            return const FeedConsumptionHistory();
+          },
+        ),
+         GoRoute(
+          path: '',
+          builder: (BuildContext context, GoRouterState state) {
+            return const CropPlansPage();
+          },
+        )
       ],
     ),
   ],
