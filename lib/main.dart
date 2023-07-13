@@ -115,14 +115,6 @@ final GoRouter _router = GoRouter(
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await FirebaseFirestore.instance.settings;
-  // FirebaseOptions firebaseOptions = const FirebaseOptions(
-  //   projectId: 'farm-management-system-548dc',
-  //   messagingSenderId: '972089465483',
-  //   appId: '1:972089465483:android:3e4fdc855e194e2e2ed28e',
-  //   apiKey: 'AIzaSyANSDz6JQau_J-jRkOg2qjuzSG1AJzv5qQ',
-  //   storageBucket: 'gs://farm-management-system-548dc.appspot.com'
-  // );
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(MultiProvider(
     providers: [
